@@ -1,9 +1,0 @@
-#popup_container{border-right:#999 5px solid;border-top:#999 5px solid;min-width:300px;font-size:12px;background:#fff;max-width:600px;border-left:#999 5px solid;color:#000;border-bottom:#999 5px solid;font-family:Arial, sans-serif;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}
-#popup_title{border-right:#fff 1px solid;padding-right:0em;border-top:#fff 1px solid;padding-left:0em;font-weight:bold;font-size:14px;background:url(i/title.gif) #ccc repeat-x 50% top;padding-bottom:0em;margin:0em;border-left:#fff 1px solid;cursor:default;color:#666;line-height:1.75em;padding-top:0em;border-bottom:#999 1px solid;text-align:center;}
-#popup_content{padding-right:1.75em;padding-left:1.75em;background:url(i/info.gif) no-repeat 16px 16px;padding-bottom:1em;margin:0em;padding-top:1em;}
-.alert#popup_content{background-image:url(i/info.gif);}
-.confirm#popup_content{background-image:url(i/important.gif);}
-.prompt#popup_content{background-image:url(i/help.gif);}
-#popup_message{padding-left:48px;}
-#popup_panel{margin:1em 0em 0em 1em;text-align:center;}
-#popup_prompt{margin:0.5em 0em;}

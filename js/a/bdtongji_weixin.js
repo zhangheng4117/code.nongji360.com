@@ -1,0 +1,2 @@
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write("<div style=\"display:none;\">"+unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Ff7b7e82f0fba82b679e6836bb067a427' type='text/javascript'%3E%3C/script%3E")+"</div>");

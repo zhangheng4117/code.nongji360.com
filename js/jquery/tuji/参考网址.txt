@@ -1,0 +1,22 @@
+http://www.nongji360.com/zt/shougouqr2014/
+
+<script src="http://code.nongji360.com/js/jquery/jquery-1.7.2.min.js" type="text/javascript"></script>
+<!--图集开始-->
+<script src="http://code.nongji360.com/js/jquery/tuji/jquery.tuji.js" language="javascript"></script>
+<link href="http://code.nongji360.com/js/jquery/tuji/tuji.css" rel="stylesheet" type="text/css" />
+<!--图集结束-->
+<div  id="tuji"></div>
+<script>
+//颁奖图集 开始
+$("#tuji").Tuji({
+		jsonurl:'json_tuji.php',
+		pic_w:1000,
+		pic_h:562,
+		showspic:0
+		});		
+//颁奖图集 结束
+<script>
+
+json 格式
+
+[{"title":"中联重科·弘毅投资 并购奇瑞重工媒体见面会现场","pic":"http://192.168.1.111:8008/upfile/xc/20141120104342719341.jpg","spic":"http://192.168.1.111:8008/upfile/xc/20141120104342719341.jpg"},{"title":"中联重科·弘毅投资 并购奇瑞重工媒体见面会现场","pic":"http://192.168.1.111:8008/upfile/xc/20141120104342719341.jpg","spic":"http://192.168.1.111:8008/upfile/xc/20141120104342719341.jpg"},{"title":"中联重科·弘毅投资 并购奇瑞重工媒体见面会现场","pic":"http://192.168.1.111:8008/upfile/xc/20141120104342719341.jpg","spic":"http://192.168.1.111:8008/upfile/xc/20141120104342719341.jpg"},{"title":"见面会现场奇瑞重工总经理王金富先生","pic":"http://192.168.1.111:8008/upfile/xc/20141120104342719341.jpg","spic":"http://192.168.1.111:8008/upfile/xc/20141120104342719341.jpg"}]

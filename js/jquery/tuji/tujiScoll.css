@@ -1,0 +1,9 @@
+.tj_now{ border-bottom:5px #FF0000 solid;}
+#tj_list{ width:100%; overflow:hidden; margin-top:6px; margin-bottom:5px; }
+#tj_list ul { padding:0; margin:0}
+#tj_list ul li{ float:left; margin-left:21px;_margin-left:21px;*margin-left:21px; border:1px solid #FFF; cursor:hand; list-style:none}
+#tj_text_line{margin-top:8px; margin-bottom:5px; height:40px;}
+#tj_nums{font-style:italic; font-weight:bold; font-size:20px; letter-spacing:1px; margin:0px 0px 0px 15px; float:left;}
+#tj_nums_l{font-size:30px; color:#c00;}
+#tj_nums_r{margin:0px 8px 0px 2px;}
+#tj_text{font-size:16px; font-family:"Î¢ÈíÑÅºÚ"; float:left; width:880px;border-left:2px #cccccc solid; padding-left:5px;  height:45px;}

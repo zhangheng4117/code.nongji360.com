@@ -1,0 +1,29 @@
+.MarT4{margin-top:4px;}
+.MarT70{margin-top:70px;}
+.MarL5{margin-left:5px;}
+
+.box190{width:190px;}
+.box200{width:200px;}
+.box245{width:245px;}
+.box290{width:290px;}
+.box295{width:295px;}
+.box340{width:340px;}
+.box300{width:300px;}
+.box395{width:395px;}
+.box400{width:400px;}
+.box495{width:495px;}
+.box500{width:500px;}
+.box520{width:520px;}
+.box600{width:600px;}
+.box605{width:605px;}
+
+.columnHead{width:100%;}
+.columnHead a{color:#000;}
+.columnHead .headNumber{width:100px;height:100px;line-height:100px;border:1px solid #ccc;font-size:72px;text-align:center;overflow:hidden;}
+.columnHead .headTitle{width:880px;height:101px;background:url(../images/line_bottom.gif) no-repeat bottom;}
+.columnHead .titleLeft{width:780px;margin-top:20px;}
+.columnHead .titleLeft h2{line-height:48px;font-size:36px;overflow:hidden;}
+.columnHead .titleLeft h2 a{color:#000;}
+.columnHead .titleLeft p{height:24px;line-height:24px;overflow:hidden;font-size: 12px;}
+.columnHead .titleLeft p a{font-size: 12px;}
+.columnHead .headTitle .more{padding-right:18px;background:url(../images/icon/more_arrow_gray.gif) no-repeat right center;}

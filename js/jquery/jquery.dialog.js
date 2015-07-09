@@ -4,11 +4,24 @@
 		window:$(window),
 		winOffset:{},
 		bodyOffset:{},
-		init:false
+		init:false,
+		position:22,
+		offset:false,
+		mask:true
 	};
 	
 	$.fn.MyDialog = $.fn.dialog = function(option){
 		config.object = this;
+		option = option || {};
+		config.position = option.position || $.jqDialog.position.MIDDLE_CENTER;
+		if ( undefined!=option.offset )
+		{
+			config.offset = option.offset;
+		}
+		if ( undefined!=option.mask )
+		{
+			config.mask = option.mask;
+		}
 		
 		if(config.ie6){
 			config.iframe = $("iframe#dialogIframe");
@@ -21,11 +34,11 @@
 			$(document).ready(function(){
 				initialize();
 			});
-			while(!config.body){continue;}
+			while(!config.body){}
 		}
 		
-		if(typeof option=="string"){config.bgColor = option;}
-		else if(option){
+		if (option)
+		{
 			config.bgColor = option.bgColor?option.bgColor:"#000000";
 			config.opacity = option.opacity?option.opacity:"0.3";
 			config.fn = 'function'==typeof(option.fn) ? option.fn : function(){};
@@ -52,9 +65,23 @@
 	};
 	
 	$.jqDialog = {
+		position:{
+			'TOP_LEFT':11,
+			'TOP_CENTER':12,
+			'TOP_RIGHT':13,
+			'MIDDLE_LEFT':21,
+			'MIDDLE_CENTER':22,
+			'MIDDLE_RIGHT':23,
+			'BOTTOM_LEFT':31,
+			'BOTTOM_CENTER':32,
+			'BOTTOM_RIGHT':33
+		},
 		/*显示对话框*/
 		show:function(){
-			config.fullScreen.show();
+			if ( true===config.mask )
+			{
+				config.fullScreen.show();
+			}
 			if(config.ie6) config.iframe.show();
 			config.object.show(1, function(){
 				setPosition();
@@ -63,7 +90,10 @@
 		},
 		hide:function(fn){
 			if(!config.object) return false;
-			config.fullScreen.hide();
+			if ( true===config.mask )
+			{
+				config.fullScreen.hide();
+			}
 			if(config.ie6) config.iframe.hide();
 			config.object.hide(fn);
 		},
@@ -87,53 +117,254 @@
 	
 	/*全屏显示透明背景*/
 	var fullScreen = function(){
-		var $full = $("#dialog-full-screen-opacity");
-		if($full.size()==0){
-			$full = $("<div id=\"dialog-full-screen-opacity\"></div>").appendTo($("body"));
+		if ( true===config.mask )
+		{
+			var $full = $("#dialog-full-screen-opacity");
+			if($full.size()==0){
+				$full = $("<div id=\"dialog-full-screen-opacity\"></div>").appendTo($("body"));
+			}
+			$full.css({
+				"width":Math.max(config.winOffset.width,config.bodyOffset.width)+"px",
+				"height":Math.max(config.winOffset.height,config.bodyOffset.height)+"px",
+				"backgroundColor":config.bgColor,
+				"position":"absolute",
+				"top":"0px","left":"0px","zIndex":"99996","opacity":config.opacity
+			});
+			config.fullScreen = $full;
 		}
-		$full.css({
-			"width":Math.max(config.winOffset.width,config.bodyOffset.width)+"px",
-			"height":Math.max(config.winOffset.height,config.bodyOffset.height)+"px",
-			"backgroundColor":config.bgColor,
-			"position":"absolute",
-			"top":"0px","left":"0px","zIndex":"99996","opacity":config.opacity
-		});
-		config.fullScreen = $full;
-	}
+	};
 	
 	/*设置当前对话框的位置，默认在屏幕中间*/
 	var setPosition = function(){
-		var coord = {
-			left:((config.winOffset.width-config.object.outerWidth())/2)+config.window.scrollLeft()+"px",
-			top:((config.winOffset.height-config.object.outerHeight())/2)+config.window.scrollTop()+"px"
-		};
-		
+		var coord = {}, flagPosition = true;
 		if(config.ie6)
 		{
 			config.iframe.css({
 				"width":config.object.outerWidth(),
 				"height":config.object.outerHeight(),
 				"position":"absolute",
-				"left":coord.left,
-				"top":coord.top,
 				"zIndex":"99996"
 			});
-			
 			config.object.css({
 				"position":"absolute",
-				"left":coord.left,
-				"top":coord.top,
 				"zIndex":"99997"
 			});
+
+			switch ( config.position )
+			{
+				case $.jqDialog.position.TOP_LEFT :
+					coord = {
+						left:config.window.scrollLeft(),
+						top:config.window.scrollTop()
+					};
+					if ( false!==config.offset )
+					{
+						coord.left += config.offset.x;
+						coord.top += config.offset.y;
+					}
+					break;
+				case  $.jqDialog.position.TOP_CENTER :
+					coord = {
+						left:((config.winOffset.width-config.object.outerWidth())/2)+config.window.scrollLeft(),
+						top:config.window.scrollTop()
+					};
+					if ( false!==config.offset )
+					{
+						coord.left += config.offset.x;
+						coord.top += config.offset.y;
+					}
+					break;
+				case $.jqDialog.position.TOP_RIGHT :
+					coord = {
+						left:config.winOffset.width-config.object.outerWidth()+config.window.scrollLeft(),
+						top:config.window.scrollTop()
+					};
+					if ( false!==config.offset )
+					{
+						coord.left -= config.offset.x;
+						coord.top += config.offset.y;
+					}
+					break;
+				case $.jqDialog.position.MIDDLE_LEFT :
+					coord = {
+						left:config.window.scrollLeft(),
+						top:((config.winOffset.height-config.object.outerHeight())/2)+config.window.scrollTop()
+					};
+					if ( false!==config.offset )
+					{
+						coord.left += config.offset.x;
+						coord.top += config.offset.y;
+					}
+					break;
+				case $.jqDialog.position.MIDDLE_CENTER :
+					coord = {
+						left:((config.winOffset.width-config.object.outerWidth())/2)+config.window.scrollLeft(),
+						top:((config.winOffset.height-config.object.outerHeight())/2)+config.window.scrollTop()
+					};
+					if ( false!==config.offset )
+					{
+						coord.left += config.offset.x;
+						coord.top += config.offset.y;
+					}
+					break;
+				case $.jqDialog.position.MIDDLE_RIGHT :
+					coord = {
+						left:config.winOffset.width-config.object.outerWidth()+config.window.scrollLeft(),
+						top:((config.winOffset.height-config.object.outerHeight())/2)+config.window.scrollTop()
+					};
+					if ( false!==config.offset )
+					{
+						coord.left -= config.offset.x;
+						coord.top += config.offset.y;
+					}
+					break;
+				case $.jqDialog.position.BOTTOM_LEFT :
+					coord = {
+						left:config.window.scrollLeft(),
+						top:config.winOffset.height-config.object.outerHeight()+config.window.scrollTop()
+					};
+					if ( false!==config.offset )
+					{
+						coord.left += config.offset.x;
+						coord.top -= config.offset.y;
+					}
+					break;
+				case $.jqDialog.position.BOTTOM_CENTER :
+					coord = {
+						left:((config.winOffset.width-config.object.outerWidth())/2)+config.window.scrollLeft(),
+						top:config.winOffset.height-config.object.outerHeight()+config.window.scrollTop()
+					};
+					if ( false!==config.offset )
+					{
+						coord.left += config.offset.x;
+						coord.top -= config.offset.y;
+					}
+					break;
+				case $.jqDialog.position.BOTTOM_RIGHT :
+					coord = {
+						left:config.winOffset.width-config.object.outerWidth()+config.window.scrollLeft(),
+						top:config.winOffset.height-config.object.outerHeight()+config.window.scrollTop()
+					};
+					if ( false!==config.offset )
+					{
+						coord.left -= config.offset.x;
+						coord.top -= config.offset.y;
+					}
+					break;
+				default :
+					flagPosition = false;
+					break;
+			}
+			if ( flagPosition )
+			{
+				config.iframe.css({"left":coord.left+'px', "top":coord.top+'px'});
+				config.object.css({"left":coord.left+'px', "top":coord.top+'px'});
+			}
 		}
 		else
 		{
-			config.object.css({
-				"position":"fixed",
-				"left":(config.winOffset.width-config.object.outerWidth())/2+"px",
-				"top":(config.winOffset.height-config.object.outerHeight())/2+"px",
-				"zIndex":"99997"
-			});
+			config.object.css({"position":"fixed", "zIndex":"99997"});
+
+			switch ( config.position )
+			{
+				case  $.jqDialog.position.TOP_LEFT :
+					coord = {left:0, top:0};
+					if ( false!==config.offset )
+					{
+						coord.left += config.offset.x;
+						coord.top += config.offset.y;
+					}
+					break;
+				case  $.jqDialog.position.TOP_CENTER :
+					coord = {left:(config.winOffset.width-config.object.outerWidth())/2, top:0};
+					if ( false!==config.offset )
+					{
+						coord.left += config.offset.x;
+						coord.top += config.offset.y;
+					}
+					break;
+				case  $.jqDialog.position.TOP_RIGHT :
+					coord = {left:config.winOffset.width-config.object.outerWidth(), top:0};
+					if ( false!==config.offset )
+					{
+						coord.left -= config.offset.x;
+						coord.top += config.offset.y;
+					}
+					break;
+				case $.jqDialog.position.MIDDLE_LEFT :
+					coord = {
+						left:0,
+						top:(config.winOffset.height-config.object.outerHeight())/2
+					};
+					if ( false!==config.offset )
+					{
+						coord.left += config.offset.x;
+						coord.top += config.offset.y;
+					}
+					break;
+				case $.jqDialog.position.MIDDLE_CENTER :
+					coord = {
+						left:(config.winOffset.width-config.object.outerWidth())/2,
+						top:(config.winOffset.height-config.object.outerHeight())/2
+					};
+					if ( false!==config.offset )
+					{
+						coord.left += config.offset.x;
+						coord.top += config.offset.y;
+					}
+					break;
+				case $.jqDialog.position.MIDDLE_RIGHT :
+					coord = {
+						left:config.winOffset.width-config.object.outerWidth(),
+						top:(config.winOffset.height-config.object.outerHeight())/2
+					};
+					if ( false!==config.offset )
+					{
+						coord.left -= config.offset.x;
+						coord.top += config.offset.y;
+					}
+					break;
+				case $.jqDialog.position.BOTTOM_LEFT :
+					coord = {
+						left:0,
+						top:config.winOffset.height-config.object.outerHeight()
+					};
+					if ( false!==config.offset )
+					{
+						coord.left += config.offset.x;
+						coord.top -= config.offset.y;
+					}
+					break;
+				case $.jqDialog.position.BOTTOM_CENTER :
+					coord = {
+						left:(config.winOffset.width-config.object.outerWidth())/2,
+						top:config.winOffset.height-config.object.outerHeight()
+					};
+					if ( false!==config.offset )
+					{
+						coord.left += config.offset.x;
+						coord.top -= config.offset.y;
+					}
+					break;
+				case $.jqDialog.position.BOTTOM_RIGHT :
+					coord = {
+						left:config.winOffset.width-config.object.outerWidth(),
+						top:config.winOffset.height-config.object.outerHeight()
+					};
+					if ( false!==config.offset )
+					{
+						coord.left -= config.offset.x;
+						coord.top -= config.offset.y;
+					}
+					break;
+				default :
+					flagPosition = false;
+					break;
+			}
+			if ( flagPosition )
+			{
+				config.object.css({"left":coord.left+'px', "top":coord.top+'px'});
+			}
 		}
 		config.init = true;
 	};

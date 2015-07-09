@@ -9,7 +9,7 @@
 	$.fn.extend({
 		'trickle':function(variable, option){
 			if ( undefined!=this.attr('data-rel-tickle') ) return this;
-			var selector = $(this), rel;
+			var selector = $(this), rel, $document = $(document);
 			if ( undefined==variable || !$.isArray(variable) || 0===variable.length ) return selector;
 
 			option = option || {};
@@ -24,7 +24,7 @@
 				option.css = '<style type="text/css">'+
 					'.trickle-ul{width:100%;background:#fff;border-top:solid #ccc 1px;display:none;position:absolute;left:0;top:'+(selector.offset().top+selector.outerHeight())+'px;}'+
 					'.trickle-ul li{height:50px;line-height:50px;padding:0 10px;border-bottom:solid #ccc 1px;}'+
-					'.trickle-ul li b{float:right;width:50px;text-align:center;}'+
+					'.trickle-ul li b{float:right;min-width:50px;text-align:center;}'+
 					'</style>';
 			}
 			else
@@ -52,6 +52,7 @@
 				sHtml += '<li data-value="['+variable[i].i+']" data-name="'+variable[i].n+'" data-child="'+!(undefined==variable[i].c || 0==variable[i].c.length)+'" data-index="['+i+']">'+
 					variable[i].n+
 					(true===option.sure ? '<b data-yes="true">选择</b>' : '')+
+					(true===option.next && variable[i].c ? '<b>下一级</b>' : '')+
 					'</li>';
 			}
 			sHtml += '</ul>';
@@ -60,7 +61,8 @@
 			var $tickle = $('#tickle-data-'+rel).data('level', 1);
 
 			selector.bind('click', function(){
-				$('[id^=tickle-data-]:not(#'+$tickle.attr('id')+')').hide();
+				$(this).data('scrollTop', $document.scrollTop());
+				$('[id^=tickle-data-]:not(#'+$tickle.attr('id')+')').slideUp();
 
 				if ( $tickle.is(':visible') )
 				{
@@ -102,7 +104,8 @@
 					{
 						sHtml += '<li data-value="['+sValue+children[i].i+']" data-name="'+name+children[i].n+'" data-child="'+!(undefined==children[i].c || 0==children[i].c.length)+'" data-index="['+sIndex+i+']">'+
 							children[i].n+
-							(true===option.sure ? '<b data-yes="true">确认</b>' : '')+
+							(true===option.sure ? '<b data-yes="true">选择</b>' : '')+
+							(true===option.next && children[i].c ? '<b>下一级</b>' : '')+
 							'</li>';
 					}
 					$tickle.html(sHtml);
@@ -122,6 +125,7 @@
 					});
 					option.onComplete($this, selector);
 				}
+				window.scrollTo(0, selector.data('scrollTop'));
 
 				if ( true!==$this.data('back') )
 				{

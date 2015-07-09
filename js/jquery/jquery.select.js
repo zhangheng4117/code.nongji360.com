@@ -258,7 +258,7 @@
 				position = position.toLowerCase();
 				if ( $.inArray(position, minus)>-1 )
 				{
-					_oOff.top -= parseInt(o.css('top')) || 0;
+					_oOff.top -= (parseInt(o.css('top')) || 0) + (parseInt(o.css('borderTopWidth')) || 0);
 					_oOff.left -= (parseInt(o.css('left')) || 0) + (parseInt(o.css('borderLeftWidth')) || 0);
 					inheritPosition = true;
 				}

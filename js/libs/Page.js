@@ -39,7 +39,7 @@ function Page(container)
 	 * @purpose 总页数
 	 * @var int
 	 */
-	this.pages = 1;
+	this.pages = 0;
 	
 	/**
 	 * @purpose 每页显示的数据条数
@@ -182,9 +182,7 @@ Page.prototype.setListenButton = function(listenButton, assignFn, callback)
 			var $document = $(document);
 			if ( $(this).height()+$document.scrollTop()>=$document.height() )
 			{
-				window.setTimeout(function(){
-					_this.listenButton.click();
-				}, 1000);
+				_this.listenButton.click();
 			}
 		});
 	}
@@ -238,7 +236,7 @@ Page.prototype.request = function(assignFn, callback)
 	{
 		_this.data.p = 1;
 	}
-	if ( _this.data.p>_this.pages )
+	if ( _this.pages && _this.pages>0 && _this.data.p>_this.pages )
 	{
 		return;
 	}

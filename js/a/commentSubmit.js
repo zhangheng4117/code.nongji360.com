@@ -147,9 +147,10 @@ function getComment(page)
     var submitUri = BASEURI+"comment/submitComment/"+origin+"/"+getCookie('NJSESSID'), //提交评论地址
         replyuri = BASEURI+"comment/reply/"+origin+"/"+getCookie('NJSESSID'),        //回复评论地址
         supporturi = BASEURI+"comment/goodAndBad"; //支持地址;
+	var callback = 'function'==typeof getCommentCallback ? getCommentCallback : function(){};
 
     page.url = BASEURI+"comment/getComment/"+objectId+'/'+origin;
-    page.request(getCommentHtml);
+    page.request(getCommentHtml, callback);
 
     commentReply();
     submitComment(submitUri);
@@ -157,7 +158,7 @@ function getComment(page)
     goodAndBad(supporturi);
 
     live('#refresh', 'click', function(){
-        page.request(getCommentHtml);
+        page.request(getCommentHtml, callback);
     });
 
 }

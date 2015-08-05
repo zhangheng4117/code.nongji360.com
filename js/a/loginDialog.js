@@ -1,7 +1,35 @@
 var currentServer;
+
+/**
+ * @purpose 设置登录按钮是否显示
+ * @author zhangheng
+ * @created 2014-12-23 17:20
+ */
+if ( 'function'!=typeof(innerLoginView) )
+{
+	var innerLoginView = function()
+	{
+		var newWebsiteUser = getCookie('newWebsiteUser'),
+			xtype = getCookie('xtype');
+		if ( ''==newWebsiteUser )
+		{
+			$('#loginBar').show();
+			$('#loginSuccess').hide();
+		}
+		else
+		{
+			var expire = 20*60,
+				domain = RegEx.ip(currentServer) ? null : currentServer.substr(currentServer.indexOf('.')+1);
+			setCookie('newWebsiteUser', newWebsiteUser, expire, '/', domain);
+			setCookie('xtype', xtype, expire, '/', domain);
+			$('#loginBar').hide();
+			$('#loginSuccess').show().children('b').html('<a href="'+HTTP_WWW+'/user/" style="margin:0 3px;">'+newWebsiteUser+'</a>');
+		}
+	}
+}
+
+
 (function(){
-	innerLoginView();
-	
 	var backUrl = location.href.replace(/\%25/gi,"%").replace(/\%3d/gi,"=").replace(/\?/g, ';;').replace(/\&/g, '.,').replace(/\#/g, '@*');
 	$("#logoutBar").attr('href', (window.BASEURI || '/')+'cross/signout?backURL='+backUrl);
 	currentServer = document.getElementsByTagName('script');
@@ -9,8 +37,8 @@ var currentServer;
 	currentServer = currentServer.substr(0, currentServer.indexOf('/', 'http://'==currentServer.substr(0, 7) ? 7 : 0));
 	
 	
-	var cssStr = '<style type="text/css">\
-		.login-box{width:620px;height:315px;border:1px solid #ff8500;padding:20px 0;position:absolute;background-color:#fff;display:none;}\
+	var cssStr = '<style type="text/css">'+
+		'.login-box{width:620px;height:315px;border:1px solid #ff8500;padding:20px 0;position:absolute;background-color:#fff;display:none;}\
 		.login-box .login_l{float:left;width:180px; margin-left:50px;text-align:center;overflow:hidden;}\
 		.login-box .login_l img:hover{margin-left:-186px;}\
 		.login-box .close_icon{position:absolute;right:0;top:0;}\
@@ -37,7 +65,7 @@ var currentServer;
 					<form id="loginForm">\
 						<div class="account"><input type="text" id="authid" name="authid" class="placeholder" /><div></div></div>\
 						<div class="account"><input type="password" id="password" name="password" class="placeholder" /><div></div></div>\
-						<div class="find_pw"><a href="'+HTTP_WWW+'/user/find/find_pwd.asp" target="_blank">忘记密码？</a></div>\
+						<div class="find_pw"><a href="'+HTTP_WWW+'/user/find/find_pwd.asp?backURL='+backUrl+'">忘记密码？</a></div>\
 						<div class="login_button">\
 							<input type="submit" value="登录" />\
 							<a href="'+HTTP_WWW+'/user/reg.asp?backURL='+backUrl+'" target="_self">会员注册</a>\
@@ -50,6 +78,7 @@ var currentServer;
 	document.writeln(cssStr + htmlStr);
 	
 	currentServer = currentServer.replace('http://', '').replace(/:[\d]+$/, '');
+	innerLoginView();
 	
 	/**
 	 * @purpose 设置文本框的占位符
@@ -89,27 +118,6 @@ var currentServer;
 
 
 /**
- * @purpose 设置登录按钮是否显示
- * @author zhangheng
- * @created 2014-12-23 17:20
- */
-function innerLoginView()
-{
-	var newWebsiteUser = getCookie('newWebsiteUser');
-	if ( ''==newWebsiteUser )
-	{
-		$('#loginBar').show();
-		$('#loginSuccess').hide();
-	}
-	else
-	{
-		$('#loginBar').hide();
-		$('#loginSuccess').show().children('b').html('<a href="'+HTTP_WWW+'/user/" style="margin:0 3px;">'+newWebsiteUser+'</a>');
-	}
-}
-
-
-/**
  * @purpose 登录验证执行函数
  * @param fn function 登录成功后回调函数
  * @author zhangheng
@@ -117,7 +125,7 @@ function innerLoginView()
  */
 function ajaxLoginDialog(fn)
 {
-	var $form=$('#loginFormDialog #loginForm'),
+	var $form=$('#loginFormDialog').find('#loginForm'),
 		$authid=$form.find('#authid'), $password=$form.find('#password'),
 		authid=$authid.val(), password=$password.val(),
 		flag=true;
@@ -206,12 +214,15 @@ function ajaxLoginDialog(fn)
 			$.jqDialog.hide();
 			if ( ''!=data.username )
 			{
-				setCookie('newWebsiteUser', data.username, 0, '/', RegEx.ip(currentServer) ? null : currentServer.substr(currentServer.indexOf('.')+1));
-			}
+				var expire = 20*60,
+					domain = RegEx.ip(currentServer) ? null : currentServer.substr(currentServer.indexOf('.')+1);
+				setCookie('newWebsiteUser', data.username, expire, '/', domain);
+				setCookie('xtype', data.xtype, expire, '/', domain);
 
-			if ( 'function'==typeof(fn) )
-			{
-				fn();
+				if ( 'function'==typeof(fn) )
+				{
+					fn(data);
+				}
 			}
 		},
 		'error':function(XMLHttpRequest, textStatus, errorThrown){}
@@ -219,7 +230,4 @@ function ajaxLoginDialog(fn)
 }
 
 
-function jsonpCallback()
-{
-
-}
+function jsonpCallback(data) {}

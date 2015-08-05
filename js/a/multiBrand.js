@@ -99,7 +99,7 @@
 	
 	
 	/**
-	 * @Purpose: 判断选择分类是否已经在选中列表中
+	 * @Purpose: 判断选择品牌是否已经在选中列表中
 	 */
 	function inBrandSelected(value)
 	{
@@ -140,3 +140,15 @@
 		setPosition();
 	});
 })();
+
+
+function getSelectedBrand()
+{
+	var brandNames = [], brandIds = [];
+	$('#brandMultiContainer').find('#selectedListBrand li').each(function(){
+		var $this = $(this);
+		brandNames.push($this.html());
+		brandIds.push($this.data('id'));
+	});
+	return {'brandNames':brandNames, 'brandIds':brandIds};
+}

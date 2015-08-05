@@ -1,10 +1,10 @@
 /**
- * @Purpose: 多选品牌
+ * @purpose 多选品牌
  			依赖关系:
 				1. 1.3.2及以上版本jQuery库文件
 				2. /js/libs/Page.js
- * @Author: zhangheng
- * @Created: 2014-10-09 21:00
+ * @author zhangheng
+ * @created 2014-10-09 21:00
  */
 
 
@@ -13,7 +13,7 @@
 	var BASEURI = window.BASEURI || '/';
 	
 	
-	var $brandOneContainer, $searchForm, $selectedListBrand, $brandResult;
+	var $brandOneContainer, $searchForm, $brandResult;
 	
 	var productCateHtml = '<style type="text/css">\
 		#selectedListBrand{display:none;}\
@@ -27,9 +27,8 @@
 		</div>';
 	document.write(productCateHtml);
 	
-	$brandOneContainer = $('#brandOneContainer'),
-	$searchForm = $brandOneContainer.find('#searchForm'),
-	$selectedListBrand = $brandOneContainer.find('#selectedListBrand'),
+	$brandOneContainer = $('#brandOneContainer');
+	$searchForm = $brandOneContainer.find('#searchForm');
 	$brandResult = $brandOneContainer.find('#searchResult');
 	
 	/**
@@ -42,7 +41,10 @@
 	}
 	formText += '</ul><input type="text" id="key" name="key" />\
 		<input type="hidden" id="pinyin" name="pinyin" value="" />\
-		<input type="button" id="btnSearchBrand" value="查 找" />';
+		<input type="button" id="btnSearchBrand" value="查 找" />\
+		<a href="javascript:void(0);" target="_self" rel="diy_brand">自定义品牌</a>\
+		<input type="text" id="diy_brand" placeholder="请输入品牌名称" class="none" data-rel="diy_brand" />\
+		<a id="diy_brand_btn" href="javascript:void(0);" target="_self" class="none" data-rel="diy_brand">确定</a>';
 	$searchForm.html(formText).find('ul a').bind('click', function(){
 		$searchForm.find('#pinyin').val($(this).html());
 		searchBrand();
@@ -109,5 +111,34 @@
 			$backend.val(value);
 			$.jqDialog.hide();
 		}
+	});
+
+
+	/**
+	 * @purpose 添加自定义品牌
+	 */
+	$searchForm.find('[rel="diy_brand"]').click(function(){
+		$(this).hide();
+		$searchForm.find('[data-rel="diy_brand"]').show();
+	});
+	/**
+	 * @purpose 确认添加自定义品牌
+	 */
+	$searchForm.find('#diy_brand_btn').click(function(){
+		var $brand = $searchForm.find('#diy_brand'), brand = $brand.val();
+		if ( ''==brand )
+		{
+			$brand.focus();
+			return false;
+		}
+		var $frontend=$brandOneContainer.data('frontend'), $backend=$brandOneContainer.data('backend');
+		if ( 'object'==typeof($frontend) && $frontend.size()>0 )
+		{
+			$frontend.val(brand);
+			$backend.val('');
+		}
+		$searchForm.find('[data-rel="diy_brand"]').hide();
+		$searchForm.find('[rel="diy_brand"]').show();
+		$.jqDialog.hide();
 	});
 })();

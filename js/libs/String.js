@@ -56,7 +56,7 @@ String.prototype.toInt = function()
 
 /**
  * @purpose 字符串转换数字(浮点型)，如果不是数字则返回0
- * @return float 字符型转浮点型
+ * @return number 字符型转浮点型
  */
 String.prototype.toFloat = function()
 {
@@ -67,6 +67,18 @@ String.prototype.toFloat = function()
 	var _float = parseFloat(this);
 	
 	return isNaN(_float) ? 0 : _float;
+};
+
+
+/**
+ * @purpose 替空字符串两边的空白字符
+ * @return string
+ * @author zhangheng
+ * @created 2015-07-31 11:21
+ */
+String.prototype.trim = String.prototype.trim || function()
+{
+	return this.toString().replace(/(^\s*)|(\s*$)/g, '');
 };
 
 

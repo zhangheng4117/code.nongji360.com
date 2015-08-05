@@ -25,7 +25,7 @@
 		};
 	
 		$.ajax({
-			'url':HTTP_ZT+'/stat?r='+(new Date().getTime()),
+			'url':HTTP_ZT+'/stat/item?r='+(new Date().getTime()),
 			'dataType':'jsonp',
 			'jsonpCallback':'jsonpCallback',
 			'data':params,

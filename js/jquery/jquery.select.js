@@ -57,7 +57,7 @@
 			return texts.join(',').replace(/<span([^>]+)>([^>]+)<\/span>/ig, '');
 		},
 		setValue:function(o, value, callback){
-			var _name = o.attr("name") || o.attr("id");
+			var _name = o.data('name') || o.attr("name") || o.attr("id");
 			if(_name==undefined || _name==""){return;}
 			var oSelect = o.next("input:hidden[name='"+_name+"']");
 			var isFlag = !(false===callback) && !(oSelect.val()==value);
@@ -95,7 +95,7 @@
 			o.attr("select-index",index);
 			g.dd.attr("id","select-option-"+index);
 			var $wrap = o.wrapInner("<div id=\"select-options-"+index+"\">");
-			config.wrap[($wrap.attr("name") || $wrap.attr("id"))+'_'+index] = $wrap;
+			config.wrap[($wrap.data('name') || $wrap.attr("name") || $wrap.attr("id"))+'_'+index] = $wrap;
 			
 			if(config.size[index]==1){
 				var $dt = o.find("dd[selected]:eq(0)");
@@ -106,7 +106,7 @@
 			}
 			g.dd.attr("backgroundColor",g.dd.css("backgroundColor"));
 			var $first = o.find("dd:first");
-			o.after("<input type=\"hidden\" name=\""+(o.attr("name") || o.attr("id"))+"\" value=\""+(undefined==$first.attr('value') ? $first.data("value") : $first.attr('value'))+"\" />");
+			o.after("<input type=\"hidden\" name=\""+(o.data('name') || o.attr("name") || o.attr("id"))+"\" value=\""+(undefined==$first.attr('value') ? $first.data("value") : $first.attr('value'))+"\" />");
 			if(o.find("dd[selected]").css("backgroundColor","#e5e5e5").size()>0)
 			{
 				_this.setValue(o, _this.getValue(o));
@@ -164,6 +164,11 @@
 		one:function(o,jObj){
 			o.find("[selected]").removeAttr("selected");
 
+			if ( 'object'!=typeof(jObj) )
+			{
+				jObj = $(o.find('[data-value="'+jObj+'"],[value="'+jObj+'"]').get(0));
+			}
+
 			jObj.attr("selected","selected");
 			var _select_index = jObj.attr("id").substr(jObj.attr("id").lastIndexOf("-")+1);
 			if(config.size[_select_index]==1){
@@ -177,6 +182,11 @@
 			jObj.css("backgroundColor",g.css.backgroundColor);
 		},
 		multi:function(o,jObj){
+			if ( 'object'!=typeof(jObj) )
+			{
+				jObj = o.find('[data-value="'+jObj+'"],[value="'+jObj+'"]');
+			}
+
 			var _attr = jObj.get(0).getAttribute("selected");
 			if(_attr=="true" || _attr=="selected"){
 				jObj.removeAttr("selected");
@@ -438,12 +448,13 @@
 	
 	$(document).unbind("click").bind("click",function(event){
 		/*点击其它区域闭合所有下拉选项*/
-		var _select_index = event.target.id.substr(event.target.id.lastIndexOf("-")+1);
+		var _select_index = event.target.id.substr(event.target.id.lastIndexOf("-")+1),
+			i;
 		switch(event.target.id){
 			case "select-options-"+_select_index :
 			case "select-option-"+_select_index :
 			case "select-selected-"+_select_index :
-				for(var i=0;i<config.o.length;i++){
+				for(i=0;i<config.o.length;i++){
 					if(_select_index!=i && config.size[i]==1)$.jqOption.up(config.o[i]);
 				}
 				break;

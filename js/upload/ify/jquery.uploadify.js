@@ -134,6 +134,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 					successTimeout	: 30,				// The number of seconds to wait for Flash to detect the server's response after the file has finished uploading
 					uploadLimit		: 0,				// The maximum number of files you can upload
 					width			: 120,				// The width of the browse button
+					queueAutoHide	: true,
 					
 					// Events
 					overrideEvents	: []				// (Array) A list of default event handlers to skip
@@ -198,7 +199,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 					upload_progress_handler      : handlers.onUploadProgress,
 					upload_start_handler         : handlers.onUploadStart,
 					upload_success_handler       : handlers.onUploadSuccess
-				}
+				};
 
 				// Merge the user-defined options with the defaults
 				if (swfUploadOptions) {
@@ -307,7 +308,6 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 
 		// Stop a file upload and remove it from the queue 
 		cancel : function(fileID, supressEvent) {
-
 			var args = arguments;
 
 			this.each(function() {
@@ -317,11 +317,12 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 					settings     = swfuploadify.settings,
 					delay        = -1;
 
+				var $queueID = $('#' + settings.queueID);
 				if (args[0]) {
 					// Clear the queue
 					if (args[0] == '*') {
 						var queueItemCount = swfuploadify.queueData.queueLength;
-						$('#' + settings.queueID).find('.uploadify-queue-item').each(function() {
+						$queueID.find('.uploadify-queue-item').each(function() {
 							delay++;
 							if (args[1] === true) {
 								swfuploadify.cancelUpload($(this).attr('id'), false);
@@ -349,7 +350,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 						}
 					}
 				} else {
-					var item = $('#' + settings.queueID).find('.uploadify-queue-item').get(0);
+					var item = $queueID.find('.uploadify-queue-item').get(0);
 					$item = $(item);
 					swfuploadify.cancelUpload($item.attr('id'));
 					$item.find('.data').removeClass('data').html(' - Cancelled');
@@ -359,12 +360,14 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 					});
 				}
 			});
-
+			if ( 0===$queueID.find('.uploadify-queue-item').size() )
+			{
+				$queueID.hide();
+			}
 		},
 
 		// Revert the DOM object back to its original state
 		destroy : function() {
-
 			this.each(function() {
 				// Create a reference to the jQuery DOM object
 				var $this        = $(this),
@@ -387,12 +390,10 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 
 				delete swfuploadify;
 			});
-
 		},
 
 		// Disable the select button
 		disable : function(isDisabled) {
-			
 			this.each(function() {
 				// Create a reference to the jQuery DOM object
 				var $this        = $(this),
@@ -507,7 +508,6 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 
 		// Stop the current uploads and requeue what is in progress
 		stop : function() {
-
 			this.each(function() {
 				// Create a reference to the jQuery DOM object
 				var $this        = $(this),
@@ -557,7 +557,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 				}
 			});
 		}
-	}
+	};
 
 	// These functions handle all the events that occur with the file uploader
 	var handlers = {
@@ -649,7 +649,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 				'instanceID' : settings.id,
 				'fileName'   : fileName,
 				'fileSize'   : fileSize
-			}
+			};
 
 			// Create the file item template
 			if (settings.itemTemplate == false) {
@@ -673,7 +673,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 				}
 
 				// Add the file item to the queue
-				$('#' + settings.queueID).append(itemHTML);
+				$('#' + settings.queueID).show().append(itemHTML);
 			}
 
 			this.queueData.queueSize += file.size;
@@ -766,10 +766,17 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 								if ($('#' + file.id)) {
 									swfuploadify.queueData.queueSize   -= file.size;
 									swfuploadify.queueData.queueLength -= 1;
-									delete swfuploadify.queueData.files[file.id]
-									$('#' + file.id).fadeOut(500, function() {
-										$(this).remove();
-									});
+									delete swfuploadify.queueData.files[file.id];
+									if ( true===settings.queueAutoHide )
+									{
+										$('#' + file.id).fadeOut(500, function() {
+											$(this).remove();
+										});
+									}
+									else
+									{
+										$('#' + file.id).find('.uploadify-progress').remove();
+									}
 								}
 							}, settings.removeTimeout * 1000);
 							break;
@@ -979,8 +986,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 			// Call the user-defined event handler
 			if (settings.onUploadSuccess) settings.onUploadSuccess.call(this, file, data, response); 
 		}
-
-	}
+	};
 
 	$.fn.uploadify = function(method) {
 		if (methods[method]) {

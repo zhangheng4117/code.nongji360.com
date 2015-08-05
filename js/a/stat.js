@@ -13,6 +13,7 @@ function statHits()
 			'screen_height':window.screen.availHeight || window.screen.height,
 			'referer':document.referrer
 		};
+	if ( 'undefined'!=typeof(terminal) ) params.terminal = terminal;
 	
 	$.post('/stat?r='+(new Date().getTime()), params, function(res){
 		/* null */

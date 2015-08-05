@@ -104,7 +104,7 @@
 						
 						$("dl[linkage-rel='"+rel+"']:gt("+linkageIndex+")").each(function(){
 							var $this = $(this);
-							$.jqOption.remove(($this.attr('id') || $this.attr('name'))+'_'+$this.attr('select-index'), 1, false);
+							$.jqOption.remove(($this.data('name') || $this.attr('name') || $this.attr('id'))+'_'+$this.attr('select-index'), 1, false);
 						});
 						
 						if ( isNaN(varIndex) )
@@ -143,7 +143,7 @@
 									var $nextOption = $("[linkage-rel='"+rel+"'][linkage-dl='"+(linkageIndex+1)+"']");
 									if ( $nextOption.size()>0 )
 									{
-										var _name = ($nextOption.attr('id') || $nextOption.attr('name'))+'_'+$nextOption.attr('select-index');
+										var _name = ($nextOption.data('name') || $nextOption.attr('name') || $nextOption.attr('id'))+'_'+$nextOption.attr('select-index');
 										var _value = undefined==$nextOption.attr('value') ? $nextOption.data('value') : $nextOption.attr('value');
 										var ddOptions = [];
 										for ( i=0; i<children.length; i++ )
@@ -170,7 +170,7 @@
 										if ( $nextOption.size()>0 )
 										{
 											children = data;
-											var _name = ($nextOption.attr('id') || $nextOption.attr('name'))+'_'+$nextOption.attr('select-index');
+											var _name = ($nextOption.data('name') || $nextOption.attr('name') || $nextOption.attr('id'))+'_'+$nextOption.attr('select-index');
 											var _value = undefined==$nextOption.attr('value') ? $nextOption.data('value') : $nextOption.attr('value');
 											var ddOptions = [];
 											for ( i=0; i<children.length; i++ )

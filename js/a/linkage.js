@@ -148,15 +148,18 @@
 										var ddOptions = [];
 										for ( i=0; i<children.length; i++ )
 										{
-											ddOptions.push({'value':children[i].i, 'text':children[i].n, 'selected':_value==children[i].i});
+											//ddOptions.push({'value':children[i].i, 'text':children[i].n, 'selected':_value==children[i].i});
+											ddOptions.push({'value':children[i].i, 'text':children[i].n});
 										}
 										
 										$nextOption.find('dd').removeAttr('selected');
 										$.jqOption.remove(_name, 1, false);
 										$.jqOption.append(_name, ddOptions, false);
+										//$.jqOption.click($nextOption, $nextOption.find('dd[data-value="'+_value+'"]'));
 										$nextOption.find('dd:gt(0)').each(function(n){
 											$(this).attr('var_index', n);
 										});
+										$.jqOption.click($nextOption, $nextOption.find('dd[data-value="'+_value+'"]'));
 									}
 								}
 								else if ( 'number'==typeof(children) && 1==children && option.ajax )
@@ -175,7 +178,7 @@
 											var ddOptions = [];
 											for ( i=0; i<children.length; i++ )
 											{
-												ddOptions.push({'value':children[i].i, 'text':children[i].n, 'selected':_value==children[i].i});
+												ddOptions.push({'value':children[i].i, 'text':children[i].n});
 											}
 											
 											$nextOption.find('dd').removeAttr('selected');
@@ -184,6 +187,7 @@
 											$nextOption.find('dd:gt(0)').each(function(n){
 												$(this).attr('var_index', n);
 											});
+											$.jqOption.click($nextOption, $nextOption.find('dd[data-value="'+_value+'"]'));
 										}
 										
 										if ( ''!=execCmd )

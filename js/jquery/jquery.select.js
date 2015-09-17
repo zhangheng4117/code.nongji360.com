@@ -149,17 +149,20 @@
 		click:function(o, $this, callback){
 			g.first = false;
 			/*下拉菜单点击选择*/
-			var _select_index = $this.attr("id").substr($this.attr("id").lastIndexOf("-")+1);
-			if(config.multiple[_select_index]){
-				if(g.ctrlKey){
-					this.multi(o, $this);
+			if ( $this.size()>0 )
+			{
+				var _select_index = $this.attr("id").substr($this.attr("id").lastIndexOf("-")+1);
+				if(config.multiple[_select_index]){
+					if(g.ctrlKey){
+						this.multi(o, $this);
+					}else{
+						this.one(o, $this);
+					}
 				}else{
 					this.one(o, $this);
 				}
-			}else{
-				this.one(o, $this);
+				this.setValue(o, this.getValue(o), callback);
 			}
-			this.setValue(o, this.getValue(o), callback);
 		},
 		one:function(o,jObj){
 			o.find("[selected]").removeAttr("selected");

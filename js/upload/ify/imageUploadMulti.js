@@ -27,7 +27,7 @@ function imageUploadMulti(options)
 		'queueAutoHide':false,
 		'itemTemplate':options.itemTemplate ? options.itemTemplate.replace('${hiddenName}', options.hiddenName+'[]') : '<div id="${fileID}" class="multi-queue-item" data-rel="multi-queue-item">\
 				<div class="multi-image">\
-					<img src='+HTTP_CODE+'/images/404_100.gif'+' data-rel="thumb" /><input type="hidden" name="'+options.hiddenName+'[]" data-rel="hidden" />\
+					<img src='+HTTP_CODE+'/images/404_100.gif'+' data-rel="thumb" /><input type="hidden" name="'+options.hiddenName+'[]" data-rel="urlHidden"'+(options.hiddenUnique ? ' data-unique="'+options.hiddenUnique+'"' : '')+' />\
 					<div class="uploadify-progress"><div class="uploadify-progress-bar"></div></div>\
 				</div>\
 			</div>',						//队列HTML模版
@@ -45,13 +45,16 @@ function imageUploadMulti(options)
 				return false;
 			}
 
+			var $url = $queueItem.find('[data-rel="url"]');
+			$url.attr('src', data.url);
+			$queueItem.find('[data-rel="urlHidden"]').val(data.url);
 			var $thumb = $queueItem.find('[data-rel="thumb"]');
-			$thumb.attr('src', data.url);
-			$queueItem.find('[data-rel="hidden"]').val(data.url);
+			$thumb.attr('src', data.thumb);
+			$queueItem.find('[data-rel="thumbHidden"]').val(data.thumb);
 
 			if ( options.shortcut )
 			{
-				$thumb.load(function(){
+				$url.load(function(){
 					shortcutRemove($queueItem);
 				});
 			}
@@ -76,7 +79,6 @@ function imageUploadMulti(options)
 			{
 				data.push(i + '=' + file[i]);
 			}
-			//alert(data.join('\n'));
 		}
 	};
 

@@ -78,7 +78,7 @@ String.prototype.toFloat = function()
  */
 String.prototype.trim = String.prototype.trim || function()
 {
-	return this.toString().replace(/(^\s*)|(\s*$)/g, '');
+	return this.toString().replace(/^(\s|\u3000)*|(\s|\u3000)*$/g, '');
 };
 
 

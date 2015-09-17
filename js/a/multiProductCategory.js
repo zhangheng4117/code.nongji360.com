@@ -54,10 +54,10 @@ var allowLevel;
 		</div>';
 	document.write(productCateHtml);
 	
-	$productCategoryMultiForm = $('#productCategoryMultiForm'),
-	$productCategoryTabs = $productCategoryMultiForm.find('#productCategoryTabs'),
-	$productCategoryCategoryHot = $productCategoryMultiForm.find('dl[name="category_hot"]'),
-	$productCategoryCategoryCascade = $productCategoryMultiForm.find('dl[name^="categoryId"]'),
+	$productCategoryMultiForm = $('#productCategoryMultiForm');
+	$productCategoryTabs = $productCategoryMultiForm.find('#productCategoryTabs');
+	$productCategoryCategoryHot = $productCategoryMultiForm.find('dl[name="category_hot"]');
+	$productCategoryCategoryCascade = $productCategoryMultiForm.find('dl[name^="categoryId"]');
 	$selectedListCategory = $productCategoryMultiForm.find('#selectedListCategory');
 	
 	
@@ -80,7 +80,7 @@ var allowLevel;
 					var $dl=self.parents('dl:eq(0)'), value=$.jqOption.getValue($dl);
 					if ( value==self.attr('value') && '0,0,0'!=value && inCategorySelected(value)<0 )
 					{
-						$('<ul><li>'+$.jqOption.getText($dl)+'</li><li class="remove">删除</li><input type="hidden" name="categorys[]" value="'+value+'" /></ul>')
+						$('<ul><li>'+$.jqOption.getText($dl)+'</li><li class="remove">删除</li><input type="hidden" name="categories[]" value="'+value+'" /></ul>')
 							.appendTo($selectedListCategory.show()).data('value', value);
 						setPosition();
 					}
@@ -90,7 +90,7 @@ var allowLevel;
 	}, function(value){
 		if ( '0,0,0'!=value && inCategorySelected(value)<0 )
 		{
-			$('<ul><li>'+$.jqOption.getText($productCategoryCategoryHot)+'</li><li class="remove">删除</li><input type="hidden" name="categorys[]" value="'+value+'" /></ul>')
+			$('<ul><li>'+$.jqOption.getText($productCategoryCategoryHot)+'</li><li class="remove">删除</li><input type="hidden" name="categories[]" value="'+value+'" /></ul>')
 				.appendTo($selectedListCategory.show()).data('value', value);
 			setPosition();
 		}
@@ -171,7 +171,7 @@ function completeProductCategory(value, self)
 	/**
 	 * @Purpose: self.data('index')表示当前选择的是第几级分类
 	 */
-	var aHtml=[], $dl, $selected, values=[0, 0, 0], value, i=0;
+	var aHtml=[], $dl, $selected, values=[0, 0, 0], i=0;
 	for ( ; i<=self.data('index'); i++ )
 	{
 		$dl = $productCategoryMultiForm.find('dl[name="categoryId'+(i+1)+'"]');
@@ -190,7 +190,7 @@ function completeProductCategory(value, self)
 	value = values.join(',');
 	if ( inCategorySelected(value)<0 )
 	{
-		$('<ul><li>'+aHtml.join(' &gt; ')+'</li><li class="remove">删除</li><input type="hidden" name="categorys[]" value="'+value+'" /></ul>')
+		$('<ul><li>'+aHtml.join(' &gt; ')+'</li><li class="remove">删除</li><input type="hidden" name="categories[]" value="'+value+'" /></ul>')
 			.appendTo($selectedListCategory.show())
 			.data('value', value);
 		setPosition();

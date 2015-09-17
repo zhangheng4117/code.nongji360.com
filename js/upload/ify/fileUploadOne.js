@@ -7,9 +7,13 @@
 function fileUploadOne(options)
 {
 	if ( 'object'!=typeof(options) ) options = {};
+	var $fileUpload = $(options.selector ? options.selector : '#fileUpload');
 	if ( !options.width ) options.width = 100;
 	if ( !options.height ) options.height = 40;
 	if ( !options.hiddenName ) options.hiddenName = 'path';
+	if ( !options.queueID ) options.queueID = 'queueList';
+	var $hidden = $fileUpload.closest('form')
+		.find('[name="'+options.hiddenName+'"]'+(options.hiddenUnique ? '[data-unique="'+options.hiddenUnique+'"]' : ''));
 	var settings = {
 		'swf':'/flash/uploadify.swf',
 		'uploader':HTTP_IMG+'/upload.php?xtype='+options.type,
@@ -22,15 +26,15 @@ function fileUploadOne(options)
 		'fileTypeExts':options.fileTypeExts || '*.jpg;*.png;*.gif;*.jpeg;*.doc;*.docx;*.xls;*.xlsx;*.rar;*.zip',
 		'fileTypeDesc':'文件',
 		'auto':true,								//选择完文件是否自动上传
-		'queueID':options.queueID || 'queueList',						//队列容器ID值
+		'queueID':options.queueID,						//队列容器ID值
 		'queueAutoHide':false,
-		'itemTemplate':'<div id="${fileID}" class="uploadify-queue-item" data-rel="uploadify-file-item">\
-				<div class="uploadify-progress">\
-					<div class="uploadify-progress-bar"></div>\
-				</div>\
+		'itemTemplate':options.itemTemplate || '<div id="${fileID}" class="uploadify-queue-item" data-rel="uploadify-file-item">\
+				<div class="fileName">${fileName} (${fileSize})</div>\
+				<div class="uploadify-progress"><div class="uploadify-progress-bar"></div></div>\
 			</div>',						//队列HTML模版
 		'onSelect':function(file){
-			$('#' + options.queueID).find('[data-rel="uploadify-file-item"]:not(#'+file.id+')').remove();
+			var $queue = $('#' + options.queueID);
+			$queue.html($queue.find('#'+file.id));
 		},
 		/**
 		 * @purpose 上传成功事件
@@ -44,11 +48,34 @@ function fileUploadOne(options)
 				return false;
 			}
 
+			var fileHtml = '';
+			if ( undefined===options.successTemplate )
+			{
+				fileHtml = '<div><span class="fileName">'+ file.name+'</span>' +
+					'<span class="uploadify-delete" data-rel="delete">删除</span>' +
+					($hidden.size()>0 ? '' : '<input type="hidden" name="'+options.hiddenName+'" value="'+data.url+'" data-rel="hidden" />') +
+					'</div>';
+			}
+			else
+			{
+				fileHtml = options.successTemplate.replace(/\$\{fileName\}/ig, file.name)
+					.replace(/\$\{fileSize\}/ig, file.size)
+					.replace(/\$\{hiddenName\}/ig, options.hiddenName)
+					.replace(/\$\{url\}/ig, data.url).replace(/\$\{thumb\}/ig, data.thumb);
+			}
+
 			var $queueItem = $('#' + file.id).html('');
-			var $file = $('<div class="uploadify-file-item" data-rel="uploadify-file-item">'+
-				file.name+'<span class="uploadify-delete" data-rel="delete">删除</span>' +
-				'<input type="hidden" name="'+options.hiddenName+'" value="'+data.url+'" data-rel="hidden" />'+
-				'</div>').appendTo($queueItem);
+			var $file = $(fileHtml).appendTo($queueItem);
+			if ( 0==$hidden.size() )
+			{
+				$hidden = $file.find('[name="'+options.hiddenName+'"]');
+				if ( 0==$hidden.size() )
+				{
+					$hidden = $('<input type="hidden" name="'+options.hiddenName+'" data-rel="hidden" />').appendTo($file);
+				}
+			}
+			$hidden.val(data.url);
+
 			$file.find('[data-rel="delete"]').bind('click', function(){
 				$file.remove();
 				if ( 0==$queueItem.sibling('[data-rel="uploadify-file-item"]').size() )
@@ -66,5 +93,5 @@ function fileUploadOne(options)
 		}
 	};
 
-	var $fileUpload = $(options.selector ? options.selector : '#fileUpload').uploadify(settings);
+	$fileUpload.uploadify(settings);
 }

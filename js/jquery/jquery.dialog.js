@@ -31,10 +31,11 @@
 		}
 		
 		if(!config.body){
-			$(document).ready(function(){
+			initialize();
+			/*$(document).ready(function(){
 				initialize();
 			});
-			while(!config.body){}
+			while(!config.body){}*/
 		}
 		
 		if (option)

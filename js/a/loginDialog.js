@@ -1,4 +1,4 @@
-var currentServer;
+var currentServer, fnLoginDialog;
 
 /**
  * @purpose 设置登录按钮是否显示
@@ -98,16 +98,22 @@ if ( 'function'!=typeof(innerLoginView) )
 			$this.next('div').html('');
 		}
 	}
-	
+
 	var $dialog=$('#loginFormDialog'), $form=$dialog.find('#loginForm');
-	
 	$form.find('.account input').bind('keyup', placeholder).bind('keypress', placeholder).bind('mouseover', placeholder);
-	
-	$('#loginBar').bind('click', function(){
+
+	fnLoginDialog = function(OAuthOnSuccess)
+	{
 		$dialog.dialog({'fn':function(){
 			$form.find('#authid').focus();
+			if ( 'function'==typeof(OAuthOnSuccess) )
+			{
+				$form.data('OAuthOnSuccess', OAuthOnSuccess);
+			}
 		}});
-	});
+	};
+	
+	$('#loginBar').bind('click', fnLoginDialog);
 	
 	$form.bind('submit', function(){
 		ajaxLoginDialog(innerLoginView);
@@ -222,6 +228,11 @@ function ajaxLoginDialog(fn)
 				if ( 'function'==typeof(fn) )
 				{
 					fn(data);
+				}
+				if ( 'function'==typeof($form.data('OAuthOnSuccess')) )
+				{
+					$form.data('OAuthOnSuccess')(data);
+					$form.removeData('OAuthOnSuccess');
 				}
 			}
 		},

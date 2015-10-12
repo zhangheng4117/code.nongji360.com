@@ -24,6 +24,9 @@
 // This plugin is dual-licensed under the GNU General Public License and the MIT License and
 // is copyright 2008 A Beautiful Site, LLC. 
 //
+
+var jAlert, jConfirm, jPrompt, jInform;
+
 (function($) {
 	$.alerts = {
 		// These properties can be read/written by accessing $.alerts.propertyName from your scripts at any time
@@ -41,7 +44,7 @@
 		
 		// Public methods
 		
-		alert: function(message, title, callback) {
+		'alert': function(message, title, callback) {
 			if ( "function"==typeof title )
 			{
 				callback = title;
@@ -53,7 +56,7 @@
 			});
 		},
 		
-		confirm: function(message, title, callback) {
+		'confirm': function(message, title, callback) {
 			if ( "function"==typeof title )
 			{
 				callback = title;
@@ -65,7 +68,7 @@
 			});
 		},
 			
-		prompt: function(message, value, title, callback) {
+		'prompt': function(message, value, title, callback) {
 			if ( "function"==typeof title )
 			{
 				callback = title;
@@ -76,11 +79,24 @@
 				if( callback ) callback(result);
 			});
 		},
+
+		'inform': function(message, title, callback) {
+			if ( "function"==typeof title )
+			{
+				callback = title;
+				title = null;
+			}
+			if( title == null ) title = '农机360网友情提示';
+			$.alerts._show(title, message, null, 'alert');
+			window.setTimeout(function(){
+				$.alerts._hide();
+				if( callback ) callback();
+			}, 2000);
+		},
 		
 		// Private methods
 		
 		_show: function(title, msg, value, type, callback) {
-			
 			$.alerts._hide();
 			$.alerts._overlay('show');
 			
@@ -122,7 +138,7 @@
 					$("#popup_message").after('<div id="popup_panel"><input type="button" value="' + $.alerts.okButton + '" id="popup_ok" /></div>');
 					$("#popup_ok").click( function() {
 						$.alerts._hide();
-						callback(true);
+						if( callback ) callback(true);
 					});
 					$("#popup_ok").focus().keypress( function(e) {
 						if( e.keyCode == 13 || e.keyCode == 27 ) $("#popup_ok").trigger('click');
@@ -231,12 +247,12 @@
 			}
 		}
 		
-	}
+	};
 	
 	// Shortuct functions
 	jAlert = function(message, title, callback) {
 		$.alerts.alert(message, title, callback);
-	}
+	};
 	
 	jConfirm = function(message, title, callback) {
 		$.alerts.confirm(message, title, callback);
@@ -244,5 +260,10 @@
 		
 	jPrompt = function(message, value, title, callback) {
 		$.alerts.prompt(message, value, title, callback);
+	};
+
+	jInform = function(message, title, callback)
+	{
+		$.alerts.inform(message, title, callback);
 	};
 })(jQuery);

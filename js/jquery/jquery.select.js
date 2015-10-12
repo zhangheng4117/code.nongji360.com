@@ -17,24 +17,30 @@
 		'o':[],
 		'height':null,
 		'maxHeight':300,
+		'borderCSS':[],
 		'fn':[],
 		'wrap':[],
-		'append':[]
+		'append':[],
+		'onTriggerChange':[]
 	};
 	var index = -1;
 	$.fn.option = function(opt,fn){
 		if ( undefined!=this.attr('select-index') ) return this;
 		
 		index++;
+		opt = opt || {};
 		g = typeof(opt)=="object" && !$.isArray(opt)?opt:{};
 		g.first = true;
 		g.css = {};
 		if(typeof(opt)=="function"){
 			config.fn[index] = opt;
+			config.onTriggerChange[index] = function(){};
 		}else{
 			config.fn[index] = typeof fn=="function"?fn:function(){};
+			config.onTriggerChange[index] = typeof opt.onTriggerChange=="function"?opt.onTriggerChange:function(){};
 		}
 		g.dd = $(this).find("dd");
+		config.borderCSS[index] = g.borderCSS || null;
 		setConfig(this);
 		return init(this);
 	};
@@ -62,13 +68,26 @@
 			var oSelect = o.next("input:hidden[name='"+_name+"']");
 			var isFlag = !(false===callback) && !(oSelect.val()==value);
 			oSelect.val(undefined==value?"":value);
-			
-			if(isFlag){
-				if(true!==g.first || g.firstCallback){
-					var _select_index = o.children("div[id^='select-options-']:first").attr("id").replace("select-options-","");
+
+			var _select_index = o.children("div[id^='select-options-']:first").attr("id").replace("select-options-","");
+			if ( isFlag )
+			{
+				if(true!==g.first || g.firstCallback)
+				{
 					if(typeof config.fn[_select_index]=="function"){config.fn[_select_index](value);}
 				}
 			}
+			if ( true===o.data('humanTrigger') )
+			{
+				/**
+				 * @purpose 在人为触发的时候的回调函数
+				 */
+				if ( 'function'==typeof(config.onTriggerChange[_select_index]) )
+				{
+					config.onTriggerChange[_select_index](value);
+				}
+			}
+			o.data('humanTrigger', false);
 			return o;
 		},
 		val:function(o,value){
@@ -122,7 +141,7 @@
 			}
 		},
 		slide:function(o,jObj){
-			if(!o || !jObj){return;}
+			if(!o || !jObj || true===o.data('disabled')){return;}
 			var _this = this;
 			jObj.bind("click",function(){
 				menuPosition(o);
@@ -254,6 +273,27 @@
 	menuPosition = function(o){
 		var $menu = o.children("div[id^='select-options-']");
 		var _oOff = o.offset();
+		var outerWidth=o.outerWidth();
+		if(config.size[index]==1){
+			/*下拉菜单*/
+			if ( 'content-box'==o.css('boxSizing') )
+			{
+				outerWidth -= (parseInt(config.borderWidth) || 0)*2;
+			}
+			$menu.css({"width":outerWidth+"px"});
+		}else{
+			if(config.size[index]<g.dd.size()){
+				if ( 'border-box'==o.css('boxSizing') )
+				{
+					var borderLeftWidth=parseInt(o.css('borderLeftWidth') || 0),
+						borderRightWidth=parseInt(o.css('borderRightWidth') || 0);
+					if ( o.outerWidth()>0 )
+					{
+						o.width(o.outerWidth()+borderLeftWidth+borderRightWidth);
+					}
+				}
+			}
+		}
 		if ( 'border-box'==o.css('boxSizing') )
 		{
 			_oOff.top -= parseInt(o.css("borderBottomWidth")) || 0;//底部边框宽度
@@ -388,15 +428,27 @@
 		}
 		o.css({"height":outerHeight+"px","margin":config.margin,"borderStyle":config.borderStyle,"borderWidth":config.borderWidth,"overflow":"hidden","cursor":"default","list-style-type":"none"});
 		g.dd.css({"height":config.height+"px","lineHeight":config.height+"px","margin":"0px","padding":config.padding,"overflow":"hidden"});
-		
+
 		var outerWidth=o.outerWidth();
 		if(config.size[index]==1){
 			/*下拉菜单*/
-			if ( 'content-box'==o.css('boxSizing') )
+			var $menu = o.children("div[id^='select-options-']");
+			$menu.css({
+				"height":"0px",
+				"backgroundColor":("transparent"==o.css("backgroundColor") || "rgba(0,0,0,0)"==o.css("backgroundColor").replace(/ /g, '')?"#fff":o.css("backgroundColor")),
+				"display":"none","position":"absolute","zIndex":"1000"
+			});
+			if ( null==config.borderCSS[index] )
 			{
-				outerWidth -= (parseInt(config.borderWidth) || 0)*2;
+				$menu.css({
+					"borderStyle":config.borderStyle,"borderWidth":config.borderWidth,
+					"borderColor":o.css("borderBottomColor")
+				});
 			}
-			o.children("div[id^='select-options-']").css({"width":outerWidth+"px","height":"0px","backgroundColor":("transparent"==o.css("backgroundColor") || "rgba(0,0,0,0)"==o.css("backgroundColor").replace(/ /g, '')?"#fff":o.css("backgroundColor")),"borderStyle":config.borderStyle,"borderWidth":config.borderWidth,"borderColor":o.css("borderBottomColor"),"display":"none","position":"absolute","zIndex":"1000"});
+			else
+			{
+				$menu.css('border', config.borderCSS[index]);
+			}
 			menuPosition(o);
 			/*改变窗口大小调正下拉箭头和下拉菜单的位置*/
 			$(window).resize(function(){
@@ -441,6 +493,7 @@
 		}
 		function ddClick()
 		{
+			o.data('humanTrigger', true);
 			$.jqOption.click(o, $(this));
 		}
 		
@@ -448,12 +501,17 @@
 		
 		return o;
 	};
-	
-	$(document).unbind("click").bind("click",function(event){
+
+
+	function documentClick(event)
+	{
 		/*点击其它区域闭合所有下拉选项*/
-		var _select_index = event.target.id.substr(event.target.id.lastIndexOf("-")+1),
+		var _tagName = event.target.tagName,
+			_tagId = 'form'==_tagName.toLocaleLowerCase() ? '' : event.target.id,
+			_select_index = _tagId.substr(_tagId.lastIndexOf("-")+1),
 			i;
-		switch(event.target.id){
+		switch ( _tagId )
+		{
 			case "select-options-"+_select_index :
 			case "select-option-"+_select_index :
 			case "select-selected-"+_select_index :
@@ -466,7 +524,9 @@
 					if(config.size[i]==1) $.jqOption.up(config.o[i]);
 				}
 		}
-	}).bind("keydown",function(event){
+	}
+	
+	$(document).unbind("click").bind("click", documentClick).bind("keydown",function(event){
 		/*判断是否按下了<Ctrl>键*/
 		g.ctrlKey = event.which===17;
 	}).bind("keyup",function(){

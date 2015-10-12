@@ -27,6 +27,11 @@ function ajaxCallback(data, formId)
 
 	if ( undefined!=data.code )
 	{
+		if ( NO_LOGIN==data.code && 'function'==typeof(ajaxLoginDialog) )
+		{
+			fnLoginDialog();
+			return false;
+		}
 		message = '错误代码：'+data.code;
 		if ( IDENTIFY==data.code )
 		{
@@ -45,7 +50,8 @@ function ajaxCallback(data, formId)
 		message = '未知错误！';
 	}
 
-	jAlert(message, function(){
+	var setFocus = function()
+	{
 		if ( null!=$field )
 		{
 			if ( 1==$field.size() )
@@ -57,7 +63,16 @@ function ajaxCallback(data, formId)
 				$($field.get(0)).focus();
 			}
 		}
-	});
+	};
+	if ( 'function'==typeof(jAlert) )
+	{
+		jAlert(message, setFocus);
+	}
+	else
+	{
+		alert(message);
+		setFocus();
+	}
 }
 
 
@@ -101,7 +116,7 @@ function live(selector, type, fn)
 	}
 	else
 	{
-		return $('html').on(type, selector, fn);
+		return $(document).on(type, selector, fn);
 	}
 }
 

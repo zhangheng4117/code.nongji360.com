@@ -220,7 +220,7 @@
 			});
 			
 			
-			return self;
+			return selector;
 		}
 	});
 })(jQuery);

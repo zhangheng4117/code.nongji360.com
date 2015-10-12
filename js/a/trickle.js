@@ -22,7 +22,7 @@
 			if ( undefined==option.css )
 			{
 				option.css = '<style type="text/css">'+
-					'.trickle-ul{width:100%;background:#fff;border-top:solid #ccc 1px;display:none;position:absolute;left:0;top:'+(selector.offset().top+selector.outerHeight())+'px;}'+
+					'.trickle-ul{width:100%;background:#fff;border-top:solid #ccc 1px;display:none;position:absolute;left:0;top:'+(undefined==option.top ? (selector.offset().top+selector.outerHeight()) : option.top)+'px;}'+
 					'.trickle-ul li{height:50px;line-height:50px;padding:0 10px;border-bottom:solid #ccc 1px;}'+
 					'.trickle-ul li b{float:right;min-width:50px;text-align:center;}'+
 					'</style>';
@@ -59,6 +59,14 @@
 
 			$('body').append(sHtml);
 			var $tickle = $('#tickle-data-'+rel).data('level', 1);
+			if ( undefined===option.top )
+			{
+				$tickle.css('top', selector.offset().top+selector.outerHeight()+'px');
+			}
+			else
+			{
+				$tickle.css('top', option.top+'px');
+			}
 
 			selector.bind('click', function(){
 				$(this).data('scrollTop', $document.scrollTop());
@@ -138,7 +146,7 @@
 			}
 			else
 			{
-				$('#tickle-data-'+rel).on('click', 'li', handleEvent);
+				$tickle.on('click', 'li', handleEvent);
 			}
 		}
 	});

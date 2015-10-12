@@ -1,6 +1,6 @@
 /**
  * @purpose 单个文件上传
- * @param options json 选项
+ * @param options object 选项
  * @author zhangheng
  * @created 2015-08-11 17:30
  */
@@ -43,9 +43,16 @@ function imageUploadOne(options)
 				return false;
 			}
 
+			var thumbUrl = data.thumb || data.url;
+
+			if ( undefined!=options.thumbSelector )
+			{
+				$(options.thumbSelector).attr('src', thumbUrl);
+			}
+
 			$hidden.val(data.url);
 			var image = new Image();
-			image.src = data.url;
+			image.src = thumbUrl;
 			image.onload = function(){
 				$imageUpload.uploadify('settings', 'buttonText', buttonText.replace('{@article}', image.src));
 				if ( 'function'==typeof(options.onUploadSuccess) )

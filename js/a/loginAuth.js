@@ -79,7 +79,7 @@ function ajaxLogin(formId)
 			}
 			else
 			{
-				ajaxCallback(data);
+				ajaxCallback(data, undefined);
 			}
 		},
 		'error':function(XMLHttpRequest, textStatus, errorThrown){}

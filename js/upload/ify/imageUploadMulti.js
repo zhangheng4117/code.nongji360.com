@@ -51,6 +51,7 @@ function imageUploadMulti(options)
 			var $thumb = $queueItem.find('[data-rel="thumb"]');
 			$thumb.attr('src', data.thumb);
 			$queueItem.find('[data-rel="thumbHidden"]').val(data.thumb);
+			$queueItem.find('[data-rel="original"]').val(data.title || data.original);
 
 			if ( options.shortcut )
 			{

@@ -9,10 +9,15 @@ var bFlagCallLogin = false;
  */
 function ajaxLogin(formId)
 {
+	var delayed = function($label, tip)
+	{
+		$label.val('').attr('placeholder', tip);
+	};
+
 	var $form=$('#'+(undefined==formId ? 'loginForm' : formId)),
 		$authid=$form.find('#authid'), $password=$form.find('#password'),
 		authid=$authid.val(), password=$password.val(),
-		flag=true;
+		flag=true, $nextAuthid, $nextPassword, tip;
 
 	/**
 	 * @purpose 如果是第一次调用登录方法则添加输入框事件
@@ -37,25 +42,60 @@ function ajaxLogin(formId)
 		bFlagCallLogin = true;
 	}
 
+	$nextAuthid = $authid.next('div');
+	/*if ( 0==$nextAuthid.size() )
+	{
+		$nextAuthid = $('<div class="next_tip"></div>').insertAfter($authid);
+	}*/
+	$nextPassword = $password.next('div');
+	/*if ( 0==$nextPassword.size() )
+	{
+		$nextPassword = $('<div class="next_tip"></div>').insertAfter($password);
+	}*/
+
 	if ( ''==authid )
 	{
 		$authid.focus();
-		$authid.next('div').html('请输入您的用户名');
+		tip = '请输入您的登录名';
+		if ( 0==$nextAuthid.size() )
+		{
+			delayed($authid, tip);
+		}
+		else
+		{
+			$nextAuthid.html(tip);
+		}
 		flag = false;
 	}
 	else if ( !/^[a-zA-Z0-9]{4,16}$/.test(authid) )
 	{
 		$authid.focus();
-		$authid.next('div').html('用户名由4~16位字母和数字混合组成');
+		tip = '用户名由4~16位字母和数字混合组成';
+		if ( 0==$nextAuthid.size() )
+		{
+			delayed($authid, tip);
+		}
+		else
+		{
+			$nextAuthid.html(tip);
+		}
 		flag = false;
 	}
 	if ( ''==password )
 	{
+		tip = '请输入登录密码';
 		if ( true===flag )
 		{
 			$password.focus();
+			if ( 0==$nextPassword.size() )
+			{
+				delayed($password, tip);
+			}
 		}
-		$password.next('div').html('请输入您的登录密码');
+		if ( $nextPassword.size()>0 )
+		{
+			$nextPassword.html(tip);
+		}
 		flag = false;
 	}
 
@@ -75,7 +115,34 @@ function ajaxLogin(formId)
 		'success':function(data){
 			if ( STATUS_SUCCESS==data.status )
 			{
-				window.location.href = (undefined==data.redirect || '.'==data.redirect) ? location.href : data.redirect;
+				if ( 'function' == typeof setCookie )
+				{
+					setCookie('NJSESSID', data.NJSESSID);
+				}
+
+				var expire = 20*60;
+				setCookie('newWebsiteUser', data.loginname, expire, '/', data.domain);
+				setCookie('xtype', data.xtype, expire, '/', data.domain);
+
+				if ( SHARE_DOMAIN && SHARE_DOMAIN.length>0 )
+				{
+					var flagN = 0;
+					for ( var i=0; i<SHARE_DOMAIN.length; i++ )
+					{
+						$.getScript(SHARE_DOMAIN[i]+'?NJSESSID='+data.NJSESSID+'&newWebsiteUser='+data.loginname+'&xtype='+data.xtype, function(){
+							if ( ++flagN>=SHARE_DOMAIN.length )
+							{
+								window.location.href = (undefined==data.redirect || '.'==data.redirect) ?
+									window.location.href : data.redirect;
+							}
+						});
+					}
+				}
+				else
+				{
+					window.location.href = (undefined==data.redirect || '.'==data.redirect) ?
+						window.location.href : data.redirect;
+				}
 			}
 			else
 			{
@@ -87,7 +154,4 @@ function ajaxLogin(formId)
 }
 
 
-function jsonpCallback()
-{
-
-}
+function jsonpCallback() {}

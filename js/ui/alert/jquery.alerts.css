@@ -6,4 +6,5 @@
 .prompt#popup_content{background-image:url(i/help.gif);}
 #popup_message{padding-left:48px;}
 #popup_panel{margin:1em 0em 0em 1em;text-align:center;}
-#popup_prompt{margin:0.5em 0em;}
+#popup_prompt{width:95%;margin:0.5em 0em;}
+#popup_close{ position:absolute; right:10px; top:10px; color:#FFFFFF}

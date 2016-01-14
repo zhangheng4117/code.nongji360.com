@@ -34,8 +34,8 @@ var jAlert, jConfirm, jPrompt, jInform;
 		verticalOffset: -75,                // vertical offset of the dialog from center screen, in pixels
 		horizontalOffset: 0,                // horizontal offset of the dialog from center screen, in pixels/
 		repositionOnResize: true,           // re-centers the dialog on window resize
-		overlayOpacity: .2,                // transparency level of overlay
-		overlayColor: '#FFF',               // base color of overlay
+		overlayOpacity: .6,                // transparency level of overlay
+		overlayColor: '#999',               // base color of overlay
 		draggable: true,                    // make the dialogs draggable (requires UI Draggables plugin)
 		okButton: '&nbsp;确定&nbsp;',         // text for the OK button
 		cancelButton: '&nbsp;取消&nbsp;', // text for the Cancel button
@@ -50,7 +50,7 @@ var jAlert, jConfirm, jPrompt, jInform;
 				callback = title;
 				title = null;
 			}
-			if( title == null ) title = '农机360网友情提示';
+			if( title == null ) title = '农机360网温馨提示';
 			$.alerts._show(title, message, null, 'alert', function(result) {
 				if( callback ) callback(result);
 			});
@@ -62,7 +62,7 @@ var jAlert, jConfirm, jPrompt, jInform;
 				callback = title;
 				title = null;
 			}
-			if( title == null ) title = '农机360网友情提示';
+			if( title == null ) title = '农机360网温馨提示';
 			$.alerts._show(title, message, null, 'confirm', function(result) {
 				if( callback ) callback(result);
 			});
@@ -74,7 +74,7 @@ var jAlert, jConfirm, jPrompt, jInform;
 				callback = title;
 				title = null;
 			}
-			if( title == null ) title = '农机360网友情提示';
+			if( title == null ) title = '农机360网温馨提示';
 			$.alerts._show(title, message, value, 'prompt', function(result) {
 				if( callback ) callback(result);
 			});
@@ -86,7 +86,7 @@ var jAlert, jConfirm, jPrompt, jInform;
 				callback = title;
 				title = null;
 			}
-			if( title == null ) title = '农机360网友情提示';
+			if( title == null ) title = '农机360网温馨提示';
 			$.alerts._show(title, message, null, 'alert');
 			window.setTimeout(function(){
 				$.alerts._hide();
@@ -162,7 +162,7 @@ var jAlert, jConfirm, jPrompt, jInform;
 				break;
 				case 'prompt':
 					$("#popup_message").append('<br /><input type="text" size="30" id="popup_prompt" />').after('<div id="popup_panel"><input type="button" value="' + $.alerts.okButton + '" id="popup_ok" /> <input type="button" value="' + $.alerts.cancelButton + '" id="popup_cancel" /></div>');
-					$("#popup_prompt").width( $("#popup_message").width() );
+					//$("#popup_prompt").width( $("#popup_message").width() );
 					$("#popup_ok").click( function() {
 						var val = $("#popup_prompt").val();
 						$.alerts._hide();
@@ -219,8 +219,8 @@ var jAlert, jConfirm, jPrompt, jInform;
 		},
 		
 		_reposition: function() {
-			var top = (($(window).height() / 2) - ($("#popup_container").outerHeight() / 2)) + $.alerts.verticalOffset;
-			var left = (($(window).width() / 2) - ($("#popup_container").outerWidth() / 2)) + $.alerts.horizontalOffset;
+			var top = (($(window).height() - $("#popup_container").outerHeight()) / 2) + $.alerts.verticalOffset;
+			var left = (($(window).width() - $("#popup_container").outerWidth()) / 2) + $.alerts.horizontalOffset;
 			if( top < 0 ) top = 0;
 			if( left < 0 ) left = 0;
 			

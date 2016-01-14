@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="code.nongji360.com" promptOnLocalOverwrite="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="code.nongji360.com" deleteMissingItems="true" createEmptyFolders="true" promptOnLocalOverwrite="false" autoUploadExternalChanges="true">
     <serverData>
       <paths name="code.nongji360.com">
         <serverdata>

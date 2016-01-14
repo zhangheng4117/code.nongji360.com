@@ -7,6 +7,12 @@
  */
 function ajaxCallback(data, formId)
 {
+	if ( undefined!=data.redirect )
+	{
+		window.location.href = data.redirect;
+		return false;
+	}
+
 	var message = '';
 	var $field = null;
 	if ( undefined!=data.field )
@@ -66,11 +72,24 @@ function ajaxCallback(data, formId)
 	};
 	if ( 'function'==typeof(jAlert) )
 	{
-		jAlert(message, setFocus);
+		jAlert(message, function(){
+			if ( data.redirect )
+			{
+				window.location.href = data.redirect;
+			}
+			else
+			{
+				setFocus();
+			}
+		});
 	}
 	else
 	{
 		alert(message);
+		if ( data.redirect )
+		{
+			window.location.href = data.redirect;
+		}
 		setFocus();
 	}
 }
@@ -116,7 +135,8 @@ function live(selector, type, fn)
 	}
 	else
 	{
-		return $(document).on(type, selector, fn);
+		$.extend($(document), $('html')).on(type, selector, fn);
+		return $(selector);
 	}
 }
 
@@ -124,8 +144,9 @@ function live(selector, type, fn)
 /**
  * @purpose 时间选择函数
  * @param selector string 时间控件选择器
+ * @param callback function 回调函数
  */
-function datePicker(selector)
+function datePicker(selector, callback)
 {
 	if ( 'string'==typeof(selector) ) selector = $(selector);
 	selector.DatePicker({
@@ -137,6 +158,11 @@ function datePicker(selector)
 		'onChange':function(formated){
 			selector.val(formated);
 			selector.DatePickerHide();
+
+			if ( 'function'==typeof(callback) )
+			{
+				callback(selector, formated);
+			}
 		}
 	});
 	return selector;

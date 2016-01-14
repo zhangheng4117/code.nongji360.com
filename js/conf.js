@@ -21,3 +21,8 @@ var HTTP_USER = 'http://192.168.0.112:8051';
 var HTTP_COMMENT = 'http://192.168.0.112:8100';
 
 var HTTP_ZT = 'http://192.168.0.112:8008';
+
+var SHARE_DOMAIN = [
+	'http://192.168.0.114:8102/cross/p3p',
+	'http://192.168.0.112:8052/cross/p3p'
+];

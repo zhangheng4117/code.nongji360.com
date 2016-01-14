@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>jQuery浮动图片广告代码 - 站长素材</title>
+
+<link type="text/css" rel="stylesheet" href="ad.css" />
+<script type="text/javascript" src="http://code.nongji360.com/js/jquery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="jquery.floatingAd.js"></script>
+<script type="text/javascript">
+$(function(){
+
+	$.floatingAd({
+		//频率
+		delay: 30,
+		//超链接后是否关闭漂浮
+		isLinkClosed: true,
+		//漂浮内容
+		ad:	[{
+			//关闭区域背景透明度(0.1-1)
+			headFilter: 0.3,
+			//图片
+			'img': 'http://jgb.nongji360.com/images/banner2.jpg',
+			//图片高度
+			//'imgHeight': 220,
+			//图片宽度
+			//'imgWidth': 176,
+			//图片链接
+			'linkUrl': 'http://nongji360.com.com/',
+			//浮动层级别
+			'z-index': 100,
+			//标题
+			'title': '度娘'
+		}],
+		//关闭事件
+		onClose: function(elem){
+			alert('关闭');
+		}
+	});
+	
+	$("#aa").floatingAd({
+		onClose:function(elem){}
+	});
+	
+});
+</script>
+</head>
+<body style="overflow:hidden;">
+</body>
+</html>

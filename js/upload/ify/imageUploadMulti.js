@@ -20,7 +20,7 @@ function imageUploadMulti(options)
 		'height':options.height,
 		'queueSizeLimit':options.queueSizeLimit || 999,				//单次最多允许上传文件数
 		'fileSizeLimit':options.size || 1024,						//单文件限制大小
-		'fileTypeExts':'*.jpg;*.png;*.gif;*.jpeg',
+		'fileTypeExts':options.fileTypeExts || '*.jpg;*.png;*.gif;*.jpeg',
 		'fileTypeDesc':'图像文件',
 		'auto':true,								//选择完文件是否自动上传
 		'queueID':options.queueID || 'queueList',						//队列容器ID值

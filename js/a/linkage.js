@@ -169,6 +169,11 @@
 									 */
 									
 									$.post(option.ajax, {'pid':val}, function(data){
+										if ( undefined!=data.redirect )
+										{
+											window.location.href = data.redirect;
+										}
+
 										var $nextOption = $("[linkage-rel='"+rel+"'][linkage-dl='"+(linkageIndex+1)+"']");
 										if ( $nextOption.size()>0 )
 										{

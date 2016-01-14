@@ -225,14 +225,38 @@ function ajaxLoginDialog(fn)
 				setCookie('newWebsiteUser', data.username, expire, '/', domain);
 				setCookie('xtype', data.xtype, expire, '/', domain);
 
-				if ( 'function'==typeof(fn) )
+				if ( SHARE_DOMAIN && SHARE_DOMAIN.length>0 )
 				{
-					fn(data);
+					var flagN = 0;
+					for ( var i=0; i<SHARE_DOMAIN.length; i++ )
+					{
+						$.getScript(SHARE_DOMAIN[i]+'?NJSESSID='+getCookie('NJSESSID')+'&newWebsiteUser='+data.username+'&xtype='+data.xtype, function(){
+							if ( ++flagN>=SHARE_DOMAIN.length )
+							{
+								if ( 'function'==typeof(fn) )
+								{
+									fn(data);
+								}
+								if ( 'function'==typeof($form.data('OAuthOnSuccess')) )
+								{
+									$form.data('OAuthOnSuccess')(data);
+									$form.removeData('OAuthOnSuccess');
+								}
+							}
+						});
+					}
 				}
-				if ( 'function'==typeof($form.data('OAuthOnSuccess')) )
+				else
 				{
-					$form.data('OAuthOnSuccess')(data);
-					$form.removeData('OAuthOnSuccess');
+					if ( 'function'==typeof(fn) )
+					{
+						fn(data);
+					}
+					if ( 'function'==typeof($form.data('OAuthOnSuccess')) )
+					{
+						$form.data('OAuthOnSuccess')(data);
+						$form.removeData('OAuthOnSuccess');
+					}
 				}
 			}
 		},

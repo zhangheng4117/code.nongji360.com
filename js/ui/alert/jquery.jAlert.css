@@ -1,0 +1,12 @@
+#popup_container{min-width:300px;max-width:600px;border:#fff 5px solid;font-size:12px;background:#fff;color:#000;font-family:'微软雅黑', Arial, sans-serif;-moz-border-radius:10px;-webkit-border-radius:10px;border-radius:10px;}
+#popup_title{line-height:2em;margin:0;padding:0;font-size:18px;color:#ff6f13;text-align:center;}
+#popup_content{margin:0;padding:1em 1.75em;}
+.alert#popup_content{}
+.confirm#popup_content{}
+.prompt#popup_content{}
+#popup_message{font-size:16px;color:#555;text-align:center;}
+#popup_panel{margin:1em 0 0 0;text-align:center;}
+#popup_prompt{width:90%;margin:0.5em 0;padding:10px;border:solid #ddd 1px;border-radius:5px;font-size:16px;}
+#popup_panel input{height:35px; line-height:35px;background:#ff6f13;border:0;border-radius:5px;font-size:17px;color:#fff;display:inline-block;}
+.alert #popup_ok{min-width:55px; padding:0px 10px;}
+.confirm #popup_ok,.confirm #popup_cancel,.prompt #popup_ok,.prompt #popup_cancel{min-width:55px; padding:0px 10px;margin:0 2%;}

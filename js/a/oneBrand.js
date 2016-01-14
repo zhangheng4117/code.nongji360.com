@@ -1,8 +1,8 @@
 /**
  * @purpose 多选品牌
- 			依赖关系:
-				1. 1.3.2及以上版本jQuery库文件
-				2. /js/libs/Page.js
+ 依赖关系:
+ 1. 1.3.2及以上版本jQuery库文件
+ 2. /js/libs/Page.js
  * @author zhangheng
  * @created 2014-10-09 21:00
  */
@@ -11,10 +11,10 @@
 
 (function(){
 	var BASEURI = window.BASEURI || '/';
-	
-	
+
+
 	var $brandOneContainer, $searchForm, $brandResult;
-	
+
 	var productCateHtml = '<style type="text/css">\
 		#selectedListBrand{display:none;}\
 		#searchResult li{float:left;width:25%;text-align:center;}\
@@ -26,11 +26,11 @@
 			<div id="searchResult" class="searchResult" data-initialize="false"></div>\
 		</div>';
 	document.write(productCateHtml);
-	
+
 	$brandOneContainer = $('#brandOneContainer');
 	$searchForm = $brandOneContainer.find('#searchForm');
 	$brandResult = $brandOneContainer.find('#searchResult');
-	
+
 	/**
 	 * @Purpose: 26个大写英文字母
 	 */
@@ -49,7 +49,7 @@
 		$searchForm.find('#pinyin').val($(this).html());
 		searchBrand();
 	});
-	
+
 	/**
 	 * @Purpose: 读取推荐品牌并追加到推荐列表
 	 */
@@ -60,14 +60,14 @@
 	}
 	popularBrands.push('<div class="clear"></div>');
 	$brandResult.html(popularBrands.join(''));
-	
-	
+
+
 	function setPosition()
 	{
 		if ( 'undefined'!=typeof($.jqDialog) ) $.jqDialog.setPosition();
 	}
-	
-	
+
+
 	function assignHtml(data)
 	{
 		var i=0, html='';
@@ -78,7 +78,7 @@
 		html += '<div class="clear"></div>';
 		return html;
 	}
-	
+
 	/**
 	 * @Purpose: 从服务器获取品牌数据
 	 */
@@ -90,15 +90,15 @@
 		page.request(assignHtml, setPosition);
 	};
 	searchBrand();
-	
+
 	/**
 	 * @Purpose: 点击查找按钮获取数据
 	 */
 	$searchForm.find('#btnSearchBrand').bind('click', function(){
 		searchBrand();
 	});
-	
-	
+
+
 	/**
 	 * @purpose 点击品牌选中
 	 */

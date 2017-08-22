@@ -1,0 +1,7 @@
+/* CSS Document */
+/*导航*/
+.Nav{background-color:#55b106;}
+.Nav .menu a:hover{background-color:#3c8200;}
+.Nav .menu .class1 > li > a,.Nav .menu .class2 a{border-bottom:1px solid #3c8200; border-top:1px solid #77dc20;background-color:#55b106;}
+.Nav .menu .class1 > li > a:hover,.Nav .menu .class2 a:hover{background-color:#3c8200;}
+/*导航 end*/

@@ -12,7 +12,7 @@ function statHits()
 		'screen_width':window.screen.availWidth || window.screen.width,
 		'screen_height':window.screen.availHeight || window.screen.height,
 		'referer':document.referrer,
-		'url':window.location.href
+		'request_uri':window.location.href
 	};
 	if ( 'undefined'!=typeof(terminal) ) params.terminal = terminal;
 	if ( 'undefined'!=typeof(statData) ) params = $.extend(params, statData);

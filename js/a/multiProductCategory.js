@@ -65,9 +65,12 @@ var allowLevel;
 	 * @Purpose: 读取常用分类并追加到常用分类下拉列表
 	 */
 	var popularCategorys = [];
-	for ( var i=0; i<popularCategory.length; i++ )
+	if ( 'undefined'!=typeof popularCategory )
 	{
-		popularCategorys.push('<dd value="'+popularCategory[i].value+'">'+popularCategory[i].name+'</dd>');
+		for ( var i=0; i<popularCategory.length; i++ )
+		{
+			popularCategorys.push('<dd value="'+popularCategory[i].value+'">'+popularCategory[i].name+'</dd>');
+		}
 	}
 	$productCategoryCategoryHot.append(popularCategorys.join('')).option({
 		'height':36,

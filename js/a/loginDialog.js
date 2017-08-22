@@ -31,6 +31,7 @@ if ( 'function'!=typeof(innerLoginView) )
 
 (function(){
 	var backUrl = location.href.replace(/\%25/gi,"%").replace(/\%3d/gi,"=").replace(/\?/g, ';;').replace(/\&/g, '.,').replace(/\#/g, '@*');
+	$('#registerBar').attr('href', HTTP_WWW+'/user/reg.asp?backURL='+backUrl);
 	$("#logoutBar").attr('href', (window.BASEURI || '/')+'cross/signout?backURL='+backUrl);
 	currentServer = document.getElementsByTagName('script');
 	currentServer = currentServer[currentServer.length-1].src;
@@ -53,7 +54,7 @@ if ( 'function'!=typeof(innerLoginView) )
 		.login-box #authid.placeholder{background:url('+currentServer+'/images/text_bg.gif) no-repeat 0 0;}\
 		.login-box #password.placeholder{background:url('+currentServer+'/images/text_pwd.gif) no-repeat 0 0;}\
 		</style>';
-		
+
 	var htmlStr = '<div class="login-box" id="loginFormDialog">\
 			<div class="close_icon"><a href="javascript:" target="_self" rel="close"><img src="'+HTTP_CODE+'/images/close_icon.gif"/></a></div>\
 			<div class="login_l">\
@@ -112,8 +113,13 @@ if ( 'function'!=typeof(innerLoginView) )
 			}
 		}});
 	};
-	
-	$('#loginBar').bind('click', fnLoginDialog);
+
+	var $loginBar = $('#loginBar');
+	if ( $loginBar.find('a').size()>0 )
+	{
+		$loginBar = $loginBar.find('a:eq(0)');
+	}
+	$loginBar.bind('click', fnLoginDialog);
 	
 	$form.bind('submit', function(){
 		ajaxLoginDialog(innerLoginView);

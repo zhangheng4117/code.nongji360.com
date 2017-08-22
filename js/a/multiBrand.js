@@ -36,6 +36,7 @@
 	 * @Purpose: 26个大写英文字母
 	 */
 	var formText='<ul>', i=65;
+	formText += '<a href="javascript:" target="_self">全部</a>';
 	for ( ; i<91; i++ )
 	{
 		formText += '<a href="javascript:" target="_self">'+String.fromCharCode(i)+'</a>';
@@ -44,7 +45,9 @@
 		<input type="hidden" id="pinyin" name="pinyin" value="" />\
 		<input type="button" id="btnSearchBrand" value="查 找" />';
 	$searchForm.html(formText).find('ul a').bind('click', function(){
-		$searchForm.find('#pinyin').val($(this).html());
+		var $this = $(this), pinyin = $this.html();
+		$this.addClass('checked').siblings('a').removeClass('checked');
+		$searchForm.find('#pinyin').val(/^[A-Z]$/.test(pinyin) ? pinyin : '');
 		searchBrand();
 	});
 	
@@ -122,8 +125,7 @@
 		var $this=$(this), value=$this.data('id'), text=$this.data('name') || $this.html();
 		if ( inBrandSelected(value)<0 )
 		{
-			$('<li>'+text+'</li>').appendTo($selectedListBrand.show())
-				.data('id', value);
+			$('<li data-id="'+value+'">'+text+'</li>').appendTo($selectedListBrand.show());
 			setPosition();
 		}
 	});

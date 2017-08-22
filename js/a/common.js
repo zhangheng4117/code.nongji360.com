@@ -194,3 +194,51 @@ function wordCount(selector, count, double)
 	
 	selector.bind('keyup', stat).bind('keypress', stat).bind('mouseover', stat).bind('focus', stat);
 }
+
+
+/**
+ * @purpose jq滚动页面至指定位置
+ * @param selector int | object
+ * @param offset int 偏移量
+ * @author zhangheng
+ * @created 2016-01-15 13:44
+ */
+function scrollToElement(selector, offset)
+{
+	var top = ('number'==typeof(selector) ? selector : selector.offset().top);
+	if ( undefined!=offset ) top += offset;
+	$('html,body').animate({"scrollTop":top+'px'}, 200);
+}
+
+/**
+ * @purpose 收藏
+ * @param parameters object
+ * @param fn function 回调函数
+ * @author zhangheng
+ * @created 2016-04-01 11:17
+ */
+function favorite(parameters, fn)
+{
+	if ( 'object'!=typeof(parameters) ) return false;
+
+	$.post((window.BASEURI || '/')+'gajax/favorite', parameters, function(res){
+		if ( 'function'==typeof(fn) )
+		{
+			fn(res);
+		}
+	}, 'json');
+}
+
+
+/**
+ * @purpose 判断是否是农机帮方法
+ * @param fn string 方法名
+ * @return bool
+ * @author zhangheng
+ * @created 2016-06-23 17:19
+ */
+function isBangFunction(fn)
+{
+	return navigator.userAgent.indexOf('NongJiBang')>-1
+		&& (undefined==fn ? true : 'function'==typeof fn);
+}

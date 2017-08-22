@@ -1,0 +1,28 @@
+@charset "utf-8";
+/*底部版权 start*/
+.shop-desc{width:1180px; margin:30px auto 0 auto;}
+.slogen{border-top:3px solid #ff5502; border-bottom:2px solid #e6e6e6; margin:0px auto; padding:40px 0px; display:block; background-color:#f3f3f3;}
+.slogen_content{width:1180px; margin:0 auto;}
+.slogen span{float:left; width:25%; display:inline-block;}
+.slogen span i{float:left; margin-right:15px;}
+.slogen span p{font-size:15px;}
+.slogen span b{display:block; font-size:19px; line-height:40px;}
+.shop-desc .desc-logo{float:left; width:184px; text-align:center;}
+.shop-desc .desc-logo img{margin:5px 0px 0px 10px;}
+.shop-desc dl{float:left; margin-left:6.5%;}
+.shop-desc dt{font-size:17px;margin-bottom:6px;color:#333;}
+.shop-desc dl dd a{display:block;line-height:27px;font-size:14px;color:#888888;}
+.shop-desc .phone-r{float:right;}
+.shop-desc .phone-r img{margin:30px 10px 0px 0px}
+.footer{margin:5px auto 15px auto;width:1180px;border-top:1px solid #e5e5e5;padding-top:12px;}
+.footer .footer-l{float:left; line-height:24px;}
+.footer .footer-l dt{float:left;}
+.footer .footer-l dd a{margin:0 10px; color:#666666;}
+.footer .footer-r{float:right;}
+.footer .footer-r img{margin-left:20px;}
+/*底部版权 end*/
+
+@media screen and (max-width:1280px){
+.slogen_content,.shop-desc,.footer{width:1000px;}
+.shop-desc dl{margin-left:4.5%;}
+}

@@ -12,7 +12,7 @@ function submitComment(baseuri)
         }
         else if($(this).siblings().find('input[name="nickname"]').val() == '')
         {
-            jAlert("请输入用户名",function(){
+            jAlert("请输入昵称",function(){
                 $("#nickname").focus();
             });
         }
@@ -60,7 +60,7 @@ function replyComment(baseuri)
         }
         else if(form.find('[name="nickname"]').val()=='')
         {
-            jAlert('请输入用户名', function(){
+            jAlert('请输入昵称', function(){
                 form.find('[name="nickname"]').focus();
             });
         }

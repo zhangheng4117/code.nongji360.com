@@ -1,0 +1,37 @@
+@charset "utf-8";
+/*top*/
+.TopNav{height:40px; background-color:#f5f5f5;}
+.TopNav .wrap{width:1180px; margin:0 auto; position:relative; line-height:40px;}
+.TopNav .left{position:absolute; left:0; background:url(/images/top/phone_icon.gif) no-repeat 0px 14px; padding-left:16px;}
+.TopNav .left a{margin-right:20px;}
+.TopNav .right{position:absolute; right:0;}
+.TopNav .right li{float:left;}
+.TopNav .right .menu-hd a{margin-right:0px; cursor:pointer;}
+.TopNav .right .service a{cursor:pointer;}
+.TopNav .right li a{margin:0px 18px;}
+.mycart,.favorite,.menu-hd,.menu-hd a,.favorite a{background:url(/images/top/icon-mini.gif) no-repeat;}
+.menu-hd{background-position:0px -120px;}
+.favorite{background-position:0px -22px;}
+.mycart{background-position:0px 11px;}
+.menu-hd a{background-position:52px -98px; padding-right:12px;}
+.favorite a{background-position:38px -98px; padding-right:12px}
+.mycart em{background-color:#ff5400; color:#fff; border-radius:2px; margin-left:4px; padding:0px 4px;}
+
+.floatLayer{-moz-border:none;background:#fff none repeat scroll 0 0;border-color:-moz-use-text-color #d6d6d6 #d6d6d6;box-shadow:0 4px 8px rgba(0, 0, 0, 0.3);left:0;line-height:19px;overflow:hidden;padding:5px 0;position:absolute;
+text-align:center;top:40px;width:100%;z-index:1000;}
+.floatLayer img{display:block;margin:0 auto;}
+#websiteLayer .floatLayer{left:-230px;padding:5px;width:500px;}
+#websiteLayer .floatLayer ul{margin-left:15px;}
+#websiteLayer .floatLayer li{display:block;	float:left;height:24px;line-height:24px;
+text-align:left;width:120px;}
+#websiteLayer .floatLayer li a{background:none;}
+#websiteLayer .floatLayer li a:hover{color:#f83d06;}
+#serviceLayer .floatLayer{left:-733px;overflow:hidden;padding:5px 0 10px 5px;width:995px;}
+#serviceLayer dl{display:block;float:left;margin-top:10px;padding-left:1%;width:24%;}
+#serviceLayer dt img, #serviceLayer dt h3{display:block;float:left;}
+#serviceLayer dt h3{color:#666;font-size:15px;line-height:20px;margin-bottom:4px;
+margin-left:5px;}
+#serviceLayer dd{float:left;width:100%;}
+#serviceLayer dd a{color:#878787;display:block;float:left;height:19px;line-height:19px;
+margin:0px 10px 0px 0px;}
+/*top end*/

@@ -97,8 +97,10 @@
 			"s6-18":"请填写6到18位字符！",
 			"p":"请填写邮政编码！",
 			"m":"请填写手机号码！",
+			"*m":"请填写正确的手机号码！",
 			"e":"邮箱地址格式不对！",
-			"url":"请填写网址！"
+			"url":"请填写网址！",
+			"t":"座机号格式不正确"
 		},
 		def:"请填写正确信息！",
 		undef:"datatype未定义！",
@@ -108,7 +110,7 @@
 		s:"请{填写|选择}{0|信息}！",
 		v:"所填信息没有经过验证，请稍后…",
 		p:"正在提交数据…"
-	}
+	};
 	$.Tipmsg=tipmsg;
 	
 	var Validform=function(forms,settings,inited){
@@ -181,7 +183,7 @@
 		if( settings.tiptype==1 || (settings.tiptype==2 || settings.tiptype==3) && settings.ajaxPost ){		
 			creatMsgbox();
 		}
-	}
+	};
 	
 	Validform.defaults={
 		tiptype:1,
@@ -189,7 +191,7 @@
 		showAllError:false,
 		postonce:false,
 		ajaxPost:false
-	}
+	};
 	
 	Validform.util={
 		dataType:{
@@ -201,8 +203,10 @@
 			"s6-18":/^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]{6,18}$/,
 			"p":/^[0-9]{6}$/,
 			"m":/^1(([3,8][0-9]{9})|(4[5,7][0-9]{8})|(5[0,1,2,3,5,6,7,8,9][0-9]{8})|(7((0[0,5,9][0-9]{7})|([6-8][0-9]{8}))))$/,
+			"*m":/^(1(([3,8][0-9]{9})|(4[5,7][0-9]{8})|(5[0,1,2,3,5,6,7,8,9][0-9]{8})|(7((0[0,5,9][0-9]{7})|([6-8][0-9]{8})))))?$/,
 			"e":/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
-			"url":/^(\w+:\/\/)?\w+(\.\w+)+.*$/
+			"url":/^(\w+:\/\/)?\w+(\.\w+)+.*$/,
+			"t":/^0[1-9][0-9]{1,2}-[1-9][0-9]{6,7}(-[0-9]{1,4})?$/
 		},
 		
 		toString:Object.prototype.toString,
@@ -222,7 +226,7 @@
 				inputval="";
 				curform.find(":checkbox[name='"+obj.attr("name")+"']:checked").each(function(){ 
 					inputval +=$(this).val()+','; 
-				})
+				});
 				inputval= inputval===undef ? "" : inputval;
 			}else{
 				inputval=obj.val();
@@ -248,7 +252,7 @@
 						$(this).parent().next().find(".Validform_checktip").remove();
 					}
 				}
-			})
+			});
 			
 			//表单元素值比较时的信息提示增强;
 			curform.find("input[recheck]").each(function(){

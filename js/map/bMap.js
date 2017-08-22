@@ -99,7 +99,7 @@ NMap.prototype.marker = function(opts)
 	}
 	
 	return _this.staticMarker[_this.staticMarkerIndex];
-}
+};
 
 
 NMap.prototype.callout = function()
@@ -116,4 +116,4 @@ NMap.prototype.callout = function()
 	_this.map.addOverlay(_this.dragMarker);
 	_this.dragMarker.enableDragging();
 	_this.dragMarker.setTitle('拖动我到您所在的地方');
-}
+};

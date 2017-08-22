@@ -28,14 +28,14 @@ function getCommentHtml(data, page)
     comment_head +=         '<div class="post_user_cont"><textarea name="content" id="content" cols="" rows="" placeholder="请输入评论内容"></textarea></div>';
     comment_head +=         '<div class="cmnt_user_cont">';
     comment_head +=             '<ul>' +
-                                        '<li class="user_login">用户名：<input name="nickname" id="nickname" type="text" /></li>' +
+                                        '<li class="user_login">昵称：<input name="nickname" id="nickname" type="text" /></li>' +
                                         '<li class="user_login">验证码：<input name="verify" value="" id="verifyCode" data-id="verifyCode"/><img src="'+verifyURI+'verify_handler/index/100/30/4/18" style="cursor:pointer;" data-id="verify"/> </li>' +
                                         '<li class="cmnt_login" id="publish">发表评论</li>' +
                                         '<input type="hidden" name="articleId" value="'+objectId+'"/> '+
                                 '</ul>' +
                                 '<div class="clear"></div>' +
                             '</div>' +
-                        '</div>' +
+                            '</div>' +
                         '</form>'+
                     ' <h3 id="flag"><span id="refresh">刷新</span>最新评论</h3>';
     if((data.length-1) > 0)
@@ -100,7 +100,7 @@ function getCommentHtml(data, page)
             comment_list +=     '<div class="post_user_cont"><textarea name="content" cols="" rows="" placeholder="请输入评论内容"></textarea></div>';
             comment_list +=         '<div class="cmnt_user_cont">';
             comment_list +=             '<ul>';
-            comment_list +=                 '<li class="user_login">用户名：<input name="nickname" data-id="nickname" type="text" /></li>';
+            comment_list +=                 '<li class="user_login">昵称：<input name="nickname" data-id="nickname" type="text" /></li>';
             comment_list +=                 '<li class="cmnt_login" data-id="'+data[i].id+'" data-rel="reply_submit">发表评论</li>';
             comment_list +=                 '<li class="user_login">验证码：<input name="verify" value="" data-id="verifyCode"/>';
             comment_list +=                     '<img src="'+verifyURI+'verify_handler/index/100/30/4/18" style="cursor:pointer;" data-id="verify"/>';
@@ -163,7 +163,7 @@ function commentSuccess(data,objectId)
     comment_list +=     '<div class="post_user_cont"><textarea name="content" cols="" rows="" placeholder="请输入评论内容"></textarea></div>';
     comment_list +=         '<div class="cmnt_user_cont">';
     comment_list +=             '<ul>' +
-        '<li class="user_login">用户名：<input name="nickname" data-id="nickname" type="text" /></li>' +
+        '<li class="user_login">昵称：<input name="nickname" data-id="nickname" type="text" /></li>' +
         '<li class="user_login">验证码：<input name="verify" value="" data-id="verifyCode"/><img src="'+verifyURI+'verify_handler/index/100/30/4/18" style="cursor:pointer;" data-id="verify"/> </li>' +
         '<li class="cmnt_login" data-id="'+data.id+'" data-rel="reply_submit">发表评论</li>' +
         '<input type="hidden" name="articleId" value="'+objectId+'"/> '+

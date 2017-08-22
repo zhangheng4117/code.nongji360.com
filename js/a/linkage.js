@@ -162,13 +162,19 @@
 										$.jqOption.click($nextOption, $nextOption.find('dd[data-value="'+_value+'"]'));
 									}
 								}
-								else if ( 'number'==typeof(children) && 1==children && option.ajax )
+								else if ( (1==children || '1'==children) && option.ajax )
 								{
 									/**
 									 * @Purpose: 子菜单为数值类型且值为1，则ajax获取子菜单
 									 */
-									
-									$.post(option.ajax, {'pid':val}, function(data){
+
+									var params = [];
+									if ( undefined!=option.form )
+									{
+										params = option.form.serializeArray();
+									}
+									params.push({"name":"pid", "value":val});
+									$.post(option.ajax, params, function(data){
 										if ( undefined!=data.redirect )
 										{
 											window.location.href = data.redirect;

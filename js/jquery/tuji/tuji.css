@@ -1,4 +1,4 @@
-.tj_now{ border-bottom:5px #FF0000 solid;}
+.tj_now{ border-bottom:3px #FF0000 solid;}
 #tj_list{ width:100%; overflow:hidden; margin-top:6px; margin-bottom:15px; }
 #tj_list ul { padding:0; margin:0}
 #tj_list ul li{ float:left; margin-left:21px;_margin-left:21px;*margin-left:21px; border:1px solid #FFF; cursor:hand; list-style:none}

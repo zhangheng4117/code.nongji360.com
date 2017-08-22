@@ -11,7 +11,7 @@
 			{
 				options = {};
 			}
-			var SHAKE_THRESHOLD = options.threshold || 5000;
+			var SHAKE_THRESHOLD = options.threshold || 4000;
 			var lastUpdate = 0;
 			var x, y, z, lastX, lastY, lastZ;
 

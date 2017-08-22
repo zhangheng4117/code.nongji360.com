@@ -22,4 +22,3 @@ switch ( $type )
 }
 
 echo $time;
-?>

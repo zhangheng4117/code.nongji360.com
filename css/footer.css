@@ -32,4 +32,17 @@
 .footer-right{float:right;width:20%;text-align:center;}
 /*footer end*/
 
+/*footer1 begin*/
+.footer1{margin:15px auto 25px auto;width:1180px;}
+.footer1 .f_l{float:left; font-size:14px; line-height:27px; text-align:center; width:70%;}
+.footer1 .f_l span{display:block;}
+.footer1 .f_l span a{color:#555;}
+.footer1 .f_r{float:right; width:30%; text-align:center;}
+.footer1 .f_r img{margin:0px 10px;}
+/*footer1 end*/
+
+@media screen and (max-width:1280px){
+.footer1{width:1000px;}
+}
+
 

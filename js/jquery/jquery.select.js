@@ -315,6 +315,12 @@
 					_oOff.left -= (parseInt(o.css('left')) || 0) + (parseInt(o.css('borderLeftWidth')) || 0);
 					inheritPosition = true;
 				}
+				else if ( 'relative'==position )
+				{
+					//_oOff.top -= (parseInt(o.css('top')) || (o.offset().top-$(window).scrollTop)) + (parseInt(o.css('borderTopWidth')) || 0);
+					//_oOff.left -= (parseInt(o.css('left')) || (o.offset().left-$(window).scrollLeft)) + (parseInt(o.css('borderLeftWidth')) || 0);
+					//inheritPosition = true;
+				}
 			}
 			o = o.parent();
 		}

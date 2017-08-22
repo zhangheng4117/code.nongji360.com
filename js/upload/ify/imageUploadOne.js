@@ -14,7 +14,7 @@ function imageUploadOne(options)
 	var $hidden = $imageUpload.closest('form')
 		.find('[name="'+options.hiddenName+'"]'+(options.hiddenUnique ? '[data-unique="'+options.hiddenUnique+'"]' : ''));
 	options.image = options.image || $hidden.val() || HTTP_CODE+'/images/404_100.gif';
-	var buttonText = options.buttonText || '<table style="width:100%;border-collapse:separate;border-spacing:0;"><tr><td style="height:'+options.height+'px;"><img src="{@article}" style="vertical-align:middle;" /></td></tr></table>';
+	var buttonText = options.buttonText || '<table style="width:100%;border-collapse:separate;border-spacing:0;"><tr><td style="height:'+options.height+'px;"><img src="{@article}" style="max-width:'+options.width+'px;max-height:'+options.height+'px;vertical-align:middle;" /></td></tr></table>';
 	var settings = {
 		'swf':'/flash/uploadify.swf',
 		'uploader':HTTP_IMG+'/upload.php?xtype='+options.type,

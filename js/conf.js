@@ -10,7 +10,7 @@ var HTTP_VIDEO = 'http://192.168.0.112:8103';
 
 var HTTP_IMAGE = 'http://192.168.0.112:8102';
 
-var HTTP_CODE = 'http://192.168.0.111:8075';
+var HTTP_CODE = 'http://192.168.0.114:8075';
 
 var HTTP_IMG = 'http://192.168.0.112:4117';
 

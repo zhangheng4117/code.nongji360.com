@@ -178,13 +178,22 @@ Page.prototype.setListenButton = function(listenButton, assignFn, callback)
 	 */
 	if ( true===_this.autoLoad )
 	{
+		var $document = $(document);
 		$(window).scroll(function(){
-			var $document = $(document);
 			if ( $(this).height()+$document.scrollTop()>=$document.height() )
 			{
 				_this.listenButton.click();
 			}
 		});
+	}
+	var pages = _this.listenButton.data('pages');
+	if ( pages )
+	{
+		_this.pages = pages;
+		if ( pages<=1 )
+		{
+			_this.listenButton.hide();
+		}
 	}
 };
 
@@ -251,7 +260,7 @@ Page.prototype.request = function(assignFn, callback)
 		_this.pages = data.pages;
 		_this.setPageNumber();
 		
-		var html = assignFn(data.items, _this);
+		var html = assignFn(undefined==data.items ? data : data.items, _this);
 		if ( ''!=html ) html += _this.def();
 		
 		if ( false===_this.object.data('initialize') )
@@ -329,7 +338,7 @@ Page.prototype.loading = function(assignFn, callback)
 		_this.count = data.count;
 		_this.pages = data.pages;
 
-		var html = assignFn(data.items, _this);
+		var html = assignFn(undefined==data.items ? data : data.items, _this);
 		if ( 1===_this.data.p )
 		{
 			_this.object.html(html);
@@ -353,6 +362,12 @@ Page.prototype.loading = function(assignFn, callback)
 		if ( null!=_this.listenButton )
 		{
 			_this.listenButton.data('p', _this.page=_this.data.p);
+		}
+
+		if ( _this.data.p>=_this.pages )
+		{
+			_this.data.p = _this.pages;
+			_this.listenButton.hide();
 		}
 
 		/**

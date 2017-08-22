@@ -1,0 +1,10 @@
+.header{height:40px;line-height:40px; background-color:#fff; font-size:14px;}
+.header a{color:#494949;font-size:13px; margin-left:15px;}
+.header .welcome{background:url(/images/member/phone_icon.gif) no-repeat left;padding-left:14px;}
+.header .welcome span{color:#f60;}
+.header .buycar,.header .collect,.header .map,.header .service{background:url(../../images/member/map_icon.gif) no-repeat right; padding-right:13px;}
+.header .buycar i{background:url(../../images/member/car_icon.gif) no-repeat;margin-top:14px; width:18px;}
+.header .collect i{background:url(../../images/member/sc_icon.gif) no-repeat 0 -17px; margin-top:11px; width:14px;}
+.header .buycar i,.header .collect i{margin-right:2px; display:inline-block; vertical-align:top; height:17px;}
+.header .collect i:hover{background:url(../../images/member/sc_icon.gif) no-repeat 0 0;}
+.header .buycar span{background-color:#ff7300; border-radius:2px; color:#fff; padding:0 5px; margin-left:3px;}

@@ -12,6 +12,7 @@
 	$.fn.tabs=function(option,fn){
 		opt.fn = fn;
 		opt.o = this;
+		this.data('fn', fn);
 		/*传递的参数*/
 		opt.option=option || {};
 		/*是否允许扩展选项卡*/
@@ -80,6 +81,8 @@
 			opt.animated = false;
 			$(opt.option.href).fadeIn(opt.option.speed, function(){
 				opt.animated = true;
+				var thisFn = $this.closest('[nj_tabs_html]').data('fn');
+				if("function"==typeof(thisFn)){thisFn($this);}
 			});
 			
 			_.each(function(){
@@ -368,9 +371,8 @@
 				}
 			}
 
-			$.jqTabs.getHref($tabl, $(this));
-			$.jqTabs.each($tabl, $(this));
-			if("function"==typeof(opt.fn)){opt.fn(this);}
+			$.jqTabs.getHref($tabl, $this);
+			$.jqTabs.each($tabl, $this);
 		});
 		return opt.o;
 	}

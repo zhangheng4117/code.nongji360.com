@@ -15,7 +15,7 @@
 		
 		opts.main.width(opts.elemWidth*$elems.size());
 		
-		opts.loop = true===opts.loop;
+		opts.loop = true===opts.loop ? true : false;
 		$this.data("opts", opts);
 		
 		/* 向左移动 */
@@ -27,7 +27,7 @@
 			moveHorizontal($this, opts.elemWidth);
 		});
 		return $this;
-	};
+	}
 	
 	/* 左右移动 */
 	var moveHorizontal=function($this, ml){

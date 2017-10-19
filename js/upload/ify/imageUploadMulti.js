@@ -13,7 +13,7 @@ function imageUploadMulti(options)
 	if ( undefined==options.shortcut ) options.shortcut = true;
 	var settings = {
 		'swf':'/flash/uploadify.swf',
-		'uploader':HTTP_IMG+'/upload.php?xtype='+options.type,
+		'uploader':!!options.uploader ? options.uploader : HTTP_IMG+'/upload.php?xtype='+options.type,
 		'dataType':'json',							//上传成功返回数据的格式
 		'buttonText':options.buttonText || '上传图片',	//按钮文本
 		'width':options.width,
@@ -38,19 +38,44 @@ function imageUploadMulti(options)
 		 */
 		'onUploadSuccess':function(file, data){
 			var $queueItem = $('#' + file.id);
-			if ( 'SUCCESS'!=data.state )
+			
+			if ( 'used'==data.origin )
+			{				
+				if ( !data.success )
+				{
+					$queueItem.remove();
+					jAlert(data.success);
+					return false;
+				}
+			}
+			else
 			{
-				$queueItem.remove();
-				jAlert(data.state);
-				return false;
+				if ( "SUCCESS"!=data.state )
+				{
+					$queueItem.remove();
+					jAlert(data.state);
+					return false;
+				}
 			}
 
 			var $url = $queueItem.find('[data-rel="url"]');
 			$url.attr('src', data.url);
-			$queueItem.find('[data-rel="urlHidden"]').val(data.url);
-			var $thumb = $queueItem.find('[data-rel="thumb"]');
-			$thumb.attr('src', data.thumb);
-			$queueItem.find('[data-rel="thumbHidden"]').val(data.thumb);
+			if ( 'used'==data.origin )
+			{
+				$queueItem.find('[data-rel="urlHidden"]').val(data.fileId);
+				var $thumb = $queueItem.find('[data-rel="thumb"]');
+				$thumb.attr('src', data.url);
+				$queueItem.find('[data-rel="thumbHidden"]').val(data.url);
+			}
+			else
+			{
+				$queueItem.find('[data-rel="urlHidden"]').val(data.url);
+				var $thumb = $queueItem.find('[data-rel="thumb"]');
+				$thumb.attr('src', data.thumb);
+				$queueItem.find('[data-rel="thumbHidden"]').val(data.thumb);
+			}
+			
+			
 			$queueItem.find('[data-rel="original"]').val(data.title || data.original);
 
 			if ( options.shortcut )

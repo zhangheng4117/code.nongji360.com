@@ -17,7 +17,8 @@ $.fn.Tuji = function(options) {
 	spic_w:100,
 	showspic:1,//1 是显示缩略图 0是不显示缩略图
 	showmsg:1,//1 是显示简介 0是不显示简介
-	spic_count:8//默认的缩略图一行显示几个	
+	spic_count:8,//默认的缩略图一行显示几个	
+	fun:function(){}
   };     
 //设置默认的参数e
 var opts = $.extend(defaults, options);  
@@ -58,6 +59,7 @@ var opts = $.extend(defaults, options);
 	 $this.append($text);
 	 //开始运行代码
 	 scollF(opts);	
+	 opts.fun();
 	  
 }); 
       

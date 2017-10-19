@@ -38,7 +38,8 @@ function ajaxLogin(formId)
 			}
 		};
 
-		$form.find('#authid,#password').bind('keyup', placeholder).bind('keypress', placeholder).bind('mouseover', placeholder);
+		$form.find('#authid,#password').bind('keyup', placeholder).bind('keypress', placeholder)
+			.bind('mouseover', placeholder);
 		bFlagCallLogin = true;
 	}
 
@@ -117,12 +118,11 @@ function ajaxLogin(formId)
 			{
 				if ( 'function' == typeof setCookie )
 				{
-					setCookie('NJSESSID', data.NJSESSID);
+					setCookie('NJSESSID', data.NJSESSID, 0, '/', data.domain);
+					var expire = 20*60;
+					setCookie('newWebsiteUser', data.loginname, expire, '/', data.domain);
+					setCookie('xtype', data.xtype, expire, '/', data.domain);
 				}
-
-				var expire = 20*60;
-				setCookie('newWebsiteUser', data.loginname, expire, '/', data.domain);
-				setCookie('xtype', data.xtype, expire, '/', data.domain);
 
 				if ( SHARE_DOMAIN && SHARE_DOMAIN.length>0 )
 				{
@@ -130,6 +130,7 @@ function ajaxLogin(formId)
 					for ( var i=0; i<SHARE_DOMAIN.length; i++ )
 					{
 						$.getScript(SHARE_DOMAIN[i]+'?NJSESSID='+data.NJSESSID+'&newWebsiteUser='+data.loginname+'&xtype='+data.xtype, function(){
+
 							if ( ++flagN>=SHARE_DOMAIN.length )
 							{
 								window.location.href = (undefined==data.redirect || '.'==data.redirect) ?

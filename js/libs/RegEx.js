@@ -75,7 +75,7 @@ var RegEx = {
 	mobile:function(string)
 	{
 		//return /^1[3,4,5,8][0-9]{9}$/.test(string);
-		return /^1(([3,8][0-9]{9})|(4[5,7][0-9]{8})|(5[0,1,2,3,5,6,7,8,9][0-9]{8})|(7((0[0,5,9][0-9]{7})|([3,6,7,8][0-9]{8}))))$/.test(string);
+		return /^1(([3,8][0-9]{9})|(4[5,7][0-9]{8})|(5[0,1,2,3,5,6,7,8,9][0-9]{8})|(7((0[0,5,9][0-9]{7})|([1,3,6,7,8][0-9]{8}))))$/.test(string);
 	},
 	
 	/**
@@ -140,6 +140,18 @@ var RegEx = {
 	time:function(string)
 	{
 		return /^(([0-9])|([0-1][0-9])|(2[0-3])):(([0-9])|([0-5][0-9])):(([0-9])|([0-5][0-9]))$/.test(string);
+	},
+
+	/**
+	 * @purpose 匹配是否是url
+	 * @param string string 要匹配的字符串
+	 * @return boolean
+	 * @author zhangheng
+	 * @created 2016-10-18 16:47
+	 */
+	url:function(string)
+	{
+		return /^((http(s)?:\/\/)([\w-]+\.)+)|((file:\/\/\/)[\w-]+)/.test(string);
 	},
 	
 	/**

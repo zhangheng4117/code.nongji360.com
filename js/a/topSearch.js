@@ -108,8 +108,20 @@ $topSearchForm.bind('submit', function(){
 	}
 
 	var $select = $topSearchForm.find('select').removeAttr('name');
+	$topSearchForm.find('[name="t"]').remove();
 	switch ( $select.val() )
-	{
+	{		
+		case 'product' :
+			$topSearchForm.attr('action', HTTP_O2O+'/search');
+			break;
+		case 'company' :
+			$topSearchForm.append('<input type="hidden" name="t" value="20" />');
+			$topSearchForm.attr('action', HTTP_O2O+'/shop/search');			
+			break;		
+		case 'dealer' :
+			$topSearchForm.append('<input type="hidden" name="t" value="30" />');
+			$topSearchForm.attr('action', HTTP_O2O+'/shop/search');			
+			break;			
 		case 'news' :
 			$topSearchForm.attr('action', HTTP_NEWS+'/list');
 			break;

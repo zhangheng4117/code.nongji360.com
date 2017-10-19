@@ -15,32 +15,35 @@ function ajaxLogin(formId, fn)
 	};
 
 	var $form=$('#'+(undefined==formId ? 'loginForm' : formId)),
-		$authid=$form.find('#authid'), $password=$form.find('#password'),
-		authid=$authid.val(), password=$password.val(),
+		$authid=$form.find('#authid'), $password=$form.find('#password'), $uniqueCode=$form.find('#unique_code'),
+		authid=$authid.val(), password=$password.val(), uniqueCode=$uniqueCode.val(),
 		flag=true, tip;
 
-	if ( ''==authid )
+	if ( ''==uniqueCode )
 	{
-		$authid.focus();
-		tip = '请输入您的登录名';
-        inform(tip);
-		flag = false;
-	}
-	else if ( !/^[a-zA-Z0-9]{4,16}$/.test(authid) )
-	{
-		$authid.focus();
-		tip = '用户名由4~16位字母和数字混合组成';
-        inform(tip);
-		flag = false;
-	}
-	if ( ''==password )
-	{
-		tip = '请输入登录密码';
-		if ( true===flag )
+		if ( ''==authid )
 		{
-            inform(tip);
+			$authid.focus();
+			tip = '请输入您的登录名';
+			inform(tip);
+			flag = false;
 		}
-		flag = false;
+		else if ( !/^[a-zA-Z0-9]{4,16}$/.test(authid) && !RegEx.mobile(authid))
+		{
+			$authid.focus();
+			tip = '用户名格式不正确';
+			inform(tip);
+			flag = false;
+		}
+		if ( ''==password )
+		{
+			tip = '请输入登录密码';
+			if ( true===flag )
+			{
+				inform(tip);
+			}
+			flag = false;
+		}
 	}
 
 	if ( false===flag )
@@ -61,7 +64,7 @@ function ajaxLogin(formId, fn)
 			{
                 if('function' == typeof fn )
                 {
-                    fn();
+                    fn(data);
                 }
 				if ( 'function' == typeof setCookie )
 				{
@@ -80,16 +83,22 @@ function ajaxLogin(formId, fn)
 						$.getScript(SHARE_DOMAIN[i]+'?NJSESSID='+data.NJSESSID+'&newWebsiteUser='+data.loginname+'&xtype='+data.xtype, function(){
 							if ( ++flagN>=SHARE_DOMAIN.length )
 							{
-								window.location.href = (undefined==data.redirect || '.'==data.redirect) ?
-									window.location.href : data.redirect;
+								if ( 'no-jump'!==data.redirect )
+								{
+									window.location.href = (undefined==data.redirect || '.'==data.redirect) ?
+										window.location.href : data.redirect;
+								}
 							}
 						});
 					}
 				}
 				else
 				{
-					window.location.href = (undefined==data.redirect || '.'==data.redirect) ?
-						window.location.href : data.redirect;
+					if ( 'no-jump'!==data.redirect )
+					{
+						window.location.href = (undefined==data.redirect || '.'==data.redirect) ?
+							window.location.href : data.redirect;
+					}
 				}
 			}
 			else

@@ -1,0 +1,35 @@
+/* CSS Document */
+.datian-service{padding:20px 0px 15px 0px;background-color:#f9f9f9; border-top:1px solid #ededed;}
+.service-con,.copyright dl{width:1180px; margin:0 auto;}
+.datian-service .service-con > dl{float:left; width:15%;}
+.datian-service .contact{float:right;}
+.datian-service .service-con > dl > dt{font-weight:bold; font-size:15px; color:#333;}
+.datian-service dl dd a{display:block; width:100%; line-height:27px; font-size:15px; color:#666;}
+.datian-service .contact li{height:48px; margin:1.5em 0px;}
+.datian-service .contact img{margin-right:10px;float:left;}
+.datian-service .contact span{float:left; font-size:17px; line-height:24px;}
+.datian-service .contact em{color:#f77a1c; font-size:28px; font-weight:bold;}
+.copyright{margin:15px auto 0 auto; padding-top:20px; border-top:1px solid #e8e8e8; width:1180px;}
+.copyright dl{width:1180px; margin:0 auto;}
+.copyright dt{float:left; line-height:25px;}
+.copyright dt img{background-color:#fff; border:1px solid #d2d2d2; padding:5px 6px; margin:8px 12px 0px 0px;}
+.copyright dd{float:right;}
+.copyright dd div{width:90px; float:left; margin-left:8px;}
+.copyright dd div img{width:78px; padding:5px; border:1px solid #f2f2f2; background-color:#fff;}
+.copyright dd div span{display:block; text-align:center;}
+
+.ershou_ad{position:fixed; left:0; top:120px;width:80px; height:240px; z-index:999;}
+.ershou_ad span{cursor:pointer; background-color:#f58202; display:block; text-align:center; padding:3px 0 8px 0;}
+.ershou_ad a{display:inline-block;}
+.zt_ad{position:fixed; right:0; top:120px; width:60px; height:240px; z-index:999;}
+.zt_ad span{cursor:pointer; background-color:#50ad00; display:block; text-align:center; padding:3px 0 0 0;}
+
+@media screen and (max-width:1280px){
+.service-con,.copyright dl{width:1000px;}
+.datian-service .service-con > dl{width:14.5%;}
+.copyright dd div{width:72px; margin-left:7px;}
+.copyright dd div img{width:70px; padding:3px;}
+.copyright dd div span{font-size:12px;}
+.copyright dt{font-size:13px;}
+.zt_ad{display:none;}
+}

@@ -1,9 +1,9 @@
 @charset "utf-8";
-/*底部版权 start*/
+/*电商底部版权 start*/
 .shop-desc{width:1180px; margin:30px auto 0 auto;}
-.slogen{border-top:3px solid #ff5502; border-bottom:2px solid #e6e6e6; margin:0px auto; padding:40px 0px; display:block; background-color:#f3f3f3;}
+.slogen{border-top:3px solid #ff5502; border-bottom:2px solid #e6e6e6; margin:0px auto; padding:30px 0px; display:block; background-color:#f3f3f3;}
 .slogen_content{width:1180px; margin:0 auto;}
-.slogen span{float:left; width:25%; display:inline-block;}
+.slogen_content span{float:left; width:25%; display:inline-block;}
 .slogen span i{float:left; margin-right:15px;}
 .slogen span p{font-size:15px;}
 .slogen span b{display:block; font-size:19px; line-height:40px;}
@@ -15,14 +15,67 @@
 .shop-desc .phone-r{float:right;}
 .shop-desc .phone-r img{margin:30px 10px 0px 0px}
 .footer{margin:5px auto 15px auto;width:1180px;border-top:1px solid #e5e5e5;padding-top:12px;}
-.footer .footer-l{float:left; line-height:24px;}
+.footer .footer-l{float:left; line-height:24px; width:55%; font-size:14px; color:#666666;}
 .footer .footer-l dt{float:left;}
-.footer .footer-l dd a{margin:0 10px; color:#666666;}
+.footer .footer-l dd a{margin:0 10px; color:#666666; font-size:14px;}
 .footer .footer-r{float:right;}
 .footer .footer-r img{margin-left:20px;}
 /*底部版权 end*/
 
+/*网站foote
+.footer_h{width:1180px; margin:10px auto 0px auto; color:#444444;}
+.footer_h a{color:#444444;}
+.footer_h a:hover{color:#ff8400;}
+.footer_h .f-left{float:left;}
+.footer_h .f-left ul{float:left; margin-right:70px;}
+.footer_h .f-left li{line-height:27px;}
+.footer_h .f-right{float:right;}
+.footer_h .f-right div{width:85px; float:left; margin-left:40px; text-align:center;}
+.footer_h .f-main{margin:12px 0px 16px 0px; border-top:2px solid #f1f1f1; padding-top:10px; line-height:25px;}
+.footer_h .f-main dt{float:left;}
+.footer_h .f-main div{line-height:27px; display:block; margin-bottom:4px;}
+.footer_h .f-main div em{font-style:normal;margin:0px 12px; font-size:13px;}
+.footer_h .f-main dd{ float:right;}
+.footer_h .f-main img{margin-left:12px;}
+.ad_bottom_img{position:fixed; right:0; bottom:0; display:none;}
+.ad_bottom > img{position:absolute; top:0; right:0; z-index:999; cursor:pointer;}
+footer end*/
+
+
+.datian-service{background-color:#f7f7f7; padding:20px 0px 15px 0px;}
+.service-con{width:1200px; margin:0 auto;}
+.datian-service .service-con > dl{float:left; width:15%;}
+.datian-service .contact{float:right;}
+.datian-service .service-con > dl > dt{font-weight:bold; font-size:16px; color:#333;}
+.datian-service dl dd a{display:block; width:100%; line-height:27px; font-size:14px; color:#666;}
+.datian-service .contact li{height:48px; margin:1.5em 0px;}
+.datian-service .contact img{margin-right:10px;float:left;}
+.datian-service .contact span{float:left; font-size:17px; line-height:24px;}
+.datian-service .contact em{color:#f77a1c; font-size:28px; font-weight:bold;}
+.copyright{padding-top:20px; border-top:1px solid #e8e8e8; width:1200px; margin:15px auto 0px auto;}
+.copyright dt{float:left; line-height:25px; font-size:14px;}
+.copyright dt img{background-color:#fff; border:1px solid #d2d2d2; padding:5px 6px; margin:8px 12px 0px 0px;}
+.copyright dd{float:right;}
+.copyright dd div{width:90px; float:left; margin-left:8px;}
+.copyright dd div img{width:78px; padding:5px; border:1px solid #f2f2f2; background-color:#fff;}
+.copyright dd div span{display:block; text-align:center; font-size:14px;}
+
+.ershou_ad{position:fixed; left:0; top:120px;width:80px; height:240px; z-index:999;}
+.ershou_ad span{cursor:pointer; background-color:#f58202; display:block; text-align:center; padding:3px 0 8px 0;}
+.ershou_ad a{display:inline-block;}
+.zt_ad{position:fixed; right:0; top:120px; width:60px; height:240px; z-index:999;}
+.zt_ad span{cursor:pointer; background-color:#50ad00; display:block; text-align:center; padding:3px 0 0 0;}
+
+
+
 @media screen and (max-width:1280px){
-.slogen_content,.shop-desc,.footer{width:1000px;}
+.slogen_content,.shop-desc,.footer,.footer_h{width:1000px;}
 .shop-desc dl{margin-left:4.5%;}
+.footer_h .f-left ul{margin-right:60px;}
+.service-con,.copyright{width:1000px;}
+.datian-service .service-con > dl{width:14%;}
+.copyright dd div{width:72px; margin-left:4px;}
+.copyright dd div img{width:66px; padding:2px;}
+.copyright dd div span{font-size:12px;}
+.copyright dt{line-height:19px; font-size:12px;}
 }

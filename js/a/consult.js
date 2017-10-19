@@ -23,50 +23,38 @@
 		//设置默认的参数s
 		var defaults = {
 			product_id: '0',
-			product_name : ''
+			user_id: '0',
+			terminal: '10',
+			product_name : '',
+			consult_type : 10 //10是全部 20是经销商产品
 		};
 		//设置默认的参数e
 		var opts = $.extend(defaults, options);
 		/*添加询价模板*/
 		getConsultHtml($(this),opts);		
 		/*根据产品id添加对应商铺下的所有产品*/
-		$.post('/consult_common/getConsultInfo','product_id='+opts.product_id,function(data){
+		$.post('/consult_common/getConsultInfo','product_id='+opts.product_id+'&user_id='+opts.user_id,function(data){
 			if( STATUS_FAILURE == data.status )
 			{
 				jAlert(data.message);
 			}
 			/*产品类别及选择功能实现*/
-			//$("body").append('<script type="text/javascript" src="http://my.nongji360.com/js/cate/cate'+data.info.user_id+'.js"></script>');
-			$("body").append('<script type="text/javascript" src="http://192.168.0.112:8051/js/cate/cate'+data.info.user_id+'.js"></script>');
 			$("#fullname").val(data.info.fullname);
 			$("#mobile").val(data.info.mobile);
-			$(".consultRegion").html('		<dl name="r1" data-value="1" style="display:none">'+
+			$(".consultRegion").html('		<dl name="region_id1" data-value="1" style="display:none">'+
 					'			<dd value="0" >国家</dd>'+
 					'		</dl>'+
-					'		<dl name="r2" data-value="'+data.info.r2+'">'+
+					'		<dl name="region_id2" data-value="'+data.info.r2+'">'+
 					'			<dd data-value="0">省份</dd>'+
 					'		</dl>'+
-					'		<dl name="r3" data-value="'+data.info.r3+'">'+
+					'		<dl name="region_id3" data-value="'+data.info.r3+'">'+
 					'			<dd data-value="0">地级市</dd>'+
 					'		</dl>'+
-					'		<dl name="r4" data-value="'+data.info.r4+'">'+
+					'		<dl name="region_id4" data-value="'+data.info.r4+'">'+
 					'			<dd data-value="0">县级市</dd>'+
-					'		</dl>'+
-					'		<dl name="r5" data-value="" style="display:none">'+
-					'			<dd data-value="0">乡镇</dd>'+
-					'		</dl>'+
-					'		<dl name="r6" data-value="" style="display:none">'+
-					'			<dd data-value="0">村庄</dd>'+
-					'		</dl>'
+					'		</dl>'					
 				);
-			$('.consultContent dl[name^="r"]').linkage(regionsSeatLibs);
-			$("#product_id").click(function()
-				{
-					$("#consult_product_form [name=\"user_id\"]").val(data.info.user_id);
-					$("#consult_dialog").dialog();
-					$("dl[id^='class_id']").linkage(cateLibs , {"height":27});			
-				}
-			);
+			$('.consultContent dl[name^="region"]').linkage(regionsSeatLibs);			
 			/*接听电话时间*/
 			var answerTimeHtml = '';
 			$.each(data.answerTime,function(index,item){
@@ -75,21 +63,6 @@
 			$("#answer_time").html(answerTimeHtml);
 			$("#answer_time").option({'height':'30'});
 		},'json');
-		/*选择产品功能*/
-		var page = new Page($("#consult_product_box"));
-		$('#consult_search').bind('click', function(){
-			page.page = 1;
-			page.url = '/Gajax/companyProducts';
-			page.setData($('#consult_product_form').serializeArray());
-			page.request(assignHtml, $.jqDialog.setPosition);
-			return false;
-		});
-		$("html").on('click','.consult_list',function(){
-			var $this = $(this);
-			$("#consult_product_name").html($this.html());
-			$("#consult_product_id").html($this.data('id'));
-			$.jqDialog.hide();
-		});		
 		/*选择计划采购时间*/
 		var date = new Date(),planTimeHtml = '';
 		var ym = date.getFullYear()+"-"+date.getMonth();
@@ -98,10 +71,32 @@
 			planTimeHtml += addMonth(ym,i);
 		}
 		$("#plan_time").html(planTimeHtml);
-		$("#plan_time").option({'height':'30'});
-		$("#prompt").option({'height':'30'},function(val){
-			$("#consultContent").text(val);
+		$("#plan_time").option({'height':'30'});		
+		
+		/*选择经销公司身份的时候转换为代理字段*/
+		$(".consultCompany [type='radio']").click(function(){
+			if ( 30==$(this).val() )
+			{
+				$(".consultShow").addClass('none');
+				$("[name='cate']").val(20);
+				$("#consultContent").text("我想代理贵公司产品，代理条件是什么？");
+			}
+			else
+			{
+				$(".consultShow").removeClass('none');
+				$("[name='cate']").val(10);
+				$("#consultContent").text("我想咨询该产品的价格和介绍。");
+			}
+			if ( 10==$(this).val() )
+			{
+				$("[name='company']").hide();
+			}
+			else
+			{
+				$("[name='company']").show();
+			}
 		});
+		
 		$(this).find("#consultSubmit").click(function(){
 			$.post('/consult_common/submitConsult',$("#consultForm").serialize(),function(data){
 				jAlert(data.message);
@@ -113,14 +108,6 @@
 	{
 		var cssHtml = html = consultHead = consultEnd = consultList = '';
 		csshtml ='<style type="text/css">\
-	#consult_dialog{background-color:#fff; min-height:180px; padding:8px 15px 15px 15px; border-radius:8px; width:600px;}\
-	#consult_dialog h3{height:35px; line-height:35px; border-bottom:2px solid #e5e5e5; font-weight:normal; margin-bottom:15px; cursor:pointer;}\
-	#consult_dialog h3 span{float:right; font-size:16px;}\
-	#consult_dialog .category dl{margin-right:10px; width:150px; background-position-x:130px; margin-bottom:15px;}\
-	#consult_dialog dt{cursor:pointer;}\
-	#consult_dialog .key_text{height:28px; border:1px solid #e8e8e8; outline:none; padding-left:5px;}\
-	#consult_product_box{margin-top:15px;}\
-	#consult_product_box .consult_list{float:left; display:inline-block; margin-right:10px; cursor:pointer; line-height:25px; border:1px solid #e5e5e5; padding:0px 5px; margin-bottom:8px;}\
 	#consultTemplate{width:900px; margin:0 auto;}\
 	.clear{clear:both;}\
 	.consultTitle span{color:#f00; font-weight:bold; margin-right:3px;}\
@@ -159,7 +146,8 @@
 				'<form id="consultForm" class="consultForm">';
 		/*默认产品*/
 		defaultPro = '<dd><div id="consult_product_name" >'+proInfo.product_name+'</div>'+
-					 '<input type="hidden" id="consult_product_id" name="product_id" value="'+proInfo.product_id+'">'
+					 '<input type="hidden" id="consult_product_id" name="product_id" value="'+proInfo.product_id+'">'+
+					 '<input type="hidden"  name="user_id" value="'+proInfo.user_id+'">'
 					 '</dd>';
 		consultList = 	'<div class="consultItem">'+
 				'	<div class="consultTitle">'+
@@ -168,10 +156,11 @@
 				'	<div class="consultContent">'+		
 				'		<dl id="product_id" name="product_id">'+defaultPro+				
 				'		</dl>'+
-				'	</div>'+
-				'</div>';
-		consultList +=	'<div class="consultItem">'+
-				'	<div class="consultTitle MarLeft">'+
+				'	</div>'+				
+				'</div>'+
+				'<div class="clear"></div>';
+		consultList +=	'<div class="consultItem consultShow">'+
+				'	<div class="consultTitle">'+
 				'		计划采购时间：'+
 				'	</div>'+
 				'	<div class="consultContent">'+
@@ -179,16 +168,17 @@
 				'		</dl>'+
 				'	</div>'+
 				'</div>';
-		consultList += 	'<div class="consultItem">'+
+		consultList += 	'<div class="consultItem consultShow">'+
 				'	<div class="consultTitle">'+
 				'		计划采购数量：'+
 				'	</div>'+
 				'	<div class="consultContent">'+
 				'		<input type="text" id="plan_number" name="plan_number" value="1" /><em>台</em>'+
 				'	</div>'+
-				'</div>';
+				'</div>'+
+				'<div class="clear"></div>';
 		consultList +=	'<div class="consultItem">'+
-				'	<div class="consultTitle MarLeft">'+
+				'	<div class="consultTitle">'+
 				'		<span>*</span>您的姓名：'+
 				'	</div>'+
 				'	<div class="consultContent">'+
@@ -198,7 +188,8 @@
 				'			<input name="gender" type="radio" value="20" /><span>女</span>'+
 				'		</div>'+
 				'	</div>'+
-				'</div>';
+				'</div>'+
+				'<div class="clear"></div>';
 		consultList +=	'<div class="clear"></div><div class="consultItem">'+
 				'	<div class="consultTitle">'+
 				'		<span>*</span>手机号：'+
@@ -218,79 +209,71 @@
 				'</div>';
 		consultList +=	'<div class="clear"></div><div class="consultItem1">'+
 				'	<div class="consultTitle">'+
-				'		咨询内容：'+
+				'		<span>*</span>所在地区：'+
 				'	</div>'+
-				'	<div class="consultContent">'+
-				'		<dl id="prompt">'+
-				'			<dd data-value="选择常见问题">选择常见问题</dd>'+
-				'			<dd data-value="我对贵公司的产品非常感兴趣，能否发一些详细资料给我参考？">我对贵公司的产品非常感兴趣，能否发一些详细资料给我参考？</dd>'+
-				'			<dd data-value="请问贵公司产品是否可以代理？代理条件是什么？可否提供产品报价和详细介绍？">请问贵公司产品是否可以代理？代理条件是什么？可否提供产品报价和详细介绍？</dd>'+
-				'			<dd data-value="我有意购买此产品，可否提供此产品的报价单？">我有意购买此产品，可否提供此产品的报价单？</dd>'+
-				'			<dd data-value="贵公司在我公司所在地有经销点/代理商吗?我的地址是:">贵公司在我公司所在地有经销点/代理商吗?我的地址是:</dd>'+
-				'		</dl>'+
-				'		<div class="clear"></div><div class="ts_text">我们已经为您归纳了常见问题，您可以点击上面的内容框，选择常见问题。在此基础上修改您的留言。</div>'+
-				'		<textarea id="consultContent" name="content"></textarea>'+
-				'		<div class="ts_text">提示：留言内容不要超过300个字，请不要在该留言框内发送无关信息。</div>'+
+				'	<div class="consultContent consultRegion">'+			
 				'	</div>'+
 				'</div>';
 		consultList +=	'<div class="clear"></div><div class="consultItem1">'+
 				'	<div class="consultTitle">'+
-				'		所在地区：'+
+				'		咨询人单位：'+
 				'	</div>'+
-				'	<div class="consultContent consultRegion">'+
-				'		<dl name="r1" data-value="1" style="display:none">'+
-				'			<dd value="0" >国家</dd>'+
-				'		</dl>'+
-				'		<dl name="r2" data-value="">'+
-				'			<dd data-value="0">省份</dd>'+
-				'		</dl>'+
-				'		<dl name="r3" data-value="">'+
-				'			<dd data-value="0">地级市</dd>'+
-				'		</dl>'+
-				'		<dl name="r4" data-value="">'+
-				'			<dd data-value="0">县级市</dd>'+
-				'		</dl>'+
-				'		<dl name="r5" data-value="" style="display:none">'+
-				'			<dd data-value="0">乡镇</dd>'+
-				'		</dl>'+
-				'		<dl name="r6" data-value="" style="display:none">'+
-				'			<dd data-value="0">村庄</dd>'+
-				'		</dl>'+
+				'	<div class="consultContent consultCompany">'+			
+				'	<input type="radio" name="type" value="10" checked ><span>个人</span>'+			
+				'	<input type="radio" name="type" value="40"><span>合作社</span>'+			
+				'	<input type="radio" name="type" value="80"><span>家庭农场</span>'+			
+				'	<input type="radio" name="type" value="85"><span>种植大户</span>';
+		if( proInfo.consult_type == 10 )
+		{
+			consultList +='	<input type="radio" name="type" value="30"><span>经销公司</span>';	
+		}
+		consultList +=	'<input class="none" type="text" name="company" value="">'+			
 				'	</div>'+
 				'</div>';
+		consultList +=	'<div class="clear"></div><div class="consultItem1 consultShow">'+
+				'	<div class="consultTitle">'+
+				'		贷款购机：'+
+				'	</div>'+
+				'	<div class="consultContent">'+			
+				'	<input type="radio" name="loan" value="10" checked ><span>需要</span>'+			
+				'	<input type="radio" name="loan" value="-10"><span>不需要</span>'+
+				'	</div>'+
+				'</div>';
+		consultList +=	'<div class="clear"></div><div class="consultItem1 consultShow">'+
+				'	<div class="consultTitle">'+
+				'		农机保险：'+
+				'	</div>'+
+				'	<div class="consultContent">'+			
+				'	<input type="radio" name="insurance" value="10" checked ><span>需要</span>'+			
+				'	<input type="radio" name="insurance" value="-10"><span>不需要</span>'+
+				'	</div>'+
+				'</div>';					
+		consultList +=	'<div class="clear"></div><div class="consultItem1">'+
+				'	<div class="consultTitle">'+
+				'		咨询内容：'+
+				'	</div>'+
+				'	<div class="consultContent">'+
+				'		<input type="hidden" name="cate" value="10">'+			
+				'		<textarea id="consultContent" name="content">我想咨询该产品的价格和介绍。</textarea>'+
+				'		<div class="ts_text">提示：留言内容不要超过300个字，请不要在该留言框内发送无关信息。</div>'+
+				'	</div>'+
+				'</div>';
+		
 		consultList +=	'<div class="clear"></div><div class="consultItem">'+
 				'	<div class="consultTitle">'+
-				'		所在地区：'+
+				'		其它品牌：'+
 				'	</div>'+
 				'	<div class="consultContent">'+
 				'		<input name="other_brand" type="radio" value="10" checked/><span>同时咨询其他品牌</span>'+
-				'		<input name="other_brand" type="radio" value="20"/><span>只询价此品牌</span>'+
+				'		<input name="other_brand" type="radio" value="20"/><span>只咨询此品牌</span>'+
 				'	</div>'+
 				'</div>';
 
 		consultEnd =	'<div class="clear"></div><div class="button">'+
+				'<input type="hidden" name="terminal" value="'+proInfo.terminal+'" />'+
 				'<input type="button" id="consultSubmit" value="咨询价格" />'+
 				'</div>'+
 				'</form>'+
-				'<div id="consult_dialog" style="display:none;">'+
-				'	<form id="consult_product_form">'+
-				'		<h3><span data-rel="close" class="close">关闭</span>选择产品</h3>'+
-				'		<div class="category">'+
-				'			<dl id="class_id1">'+
-				'				<dd data-value="0">一级分类</dd>'+
-				'			</dl>'+
-				'			<dl id="class_id2">'+
-				'				<dd data-value="0">二级分类</dd>'+
-				'			</dl>'+
-				'			<dl id="class_id3">'+
-				'				<dd data-value="0">三级分类</dd>'+
-				'			</dl>'+
-				'			<div><input type="text" name="k" value="" class="key_text"/><input type="button" id="consult_search" value="搜索"></div>'+
-				'			<input type="hidden" name="user_id" value="" />'+
-				'			<div id="consult_product_box"></div>'+
-				'		</div>'+
-				'	</form>'+
-				'</div>'+
 				'</div>';
 		html = csshtml+consultHead+consultList+consultEnd;
 		$this.html(html);

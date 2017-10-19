@@ -24,6 +24,9 @@
 // This plugin is dual-licensed under the GNU General Public License and the MIT License and
 // is copyright 2008 A Beautiful Site, LLC. 
 //
+
+var jAlert, jConfirm, jPrompt;
+
 (function($) {
 	$.alerts = {
 		// These properties can be read/written by accessing $.alerts.propertyName from your scripts at any time
@@ -243,12 +246,12 @@
 			}
 		}
 		
-	}
+	};
 	
 	// Shortuct functions
 	jAlert = function(message, title, callback) {
 		$.alerts.alert(message, title, callback);
-	}
+	};
 	
 	jConfirm = function(message, title, callback) {
 		$.alerts.confirm(message, title, callback);

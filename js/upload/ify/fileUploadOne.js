@@ -16,7 +16,7 @@ function fileUploadOne(options)
 		.find('[name="'+options.hiddenName+'"]'+(options.hiddenUnique ? '[data-unique="'+options.hiddenUnique+'"]' : ''));
 	var settings = {
 		'swf':'/flash/uploadify.swf',
-		'uploader':HTTP_IMG+'/upload.php?xtype='+options.type,
+		'uploader':!!options.uploader ? options.uploader : HTTP_IMG+'/upload.php?xtype='+options.type,
 		'dataType':'json',							//上传成功返回数据的格式
 		'buttonText':options.buttonText || '上传文件',	//按钮文本
 		'width':options.width,

@@ -64,7 +64,7 @@
 		}
 		else
 		{
-			_cssText += "."+_labelClass+"{position:fixed;top:0px;}";
+			_cssText += "."+_labelClass+"{position:fixed;top:0px;"+(!!opt.css ? opt.css : "")+"}";
 		}
 		_cssText += "</style>";
 		_this.before(_cssText);

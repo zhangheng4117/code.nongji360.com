@@ -25,6 +25,7 @@
 	};
 	var index = -1;
 	$.fn.option = function(opt,fn){
+		if ( $(this).size()<1 ) return this;
 		if ( undefined!=this.attr('select-index') ) return this;
 		
 		index++;
@@ -149,7 +150,7 @@
 			});
 		},
 		down:function(o){
-			var _height = o.find("dd").size()*config.height,
+			var _height = o.find("dd").size()*(o.data("height") || config.height),
 				oWrap = o.children("div[id^='select-options-']");
 			_height = _height>config.maxHeight?config.maxHeight:_height;
 			oWrap.css({"display":"block","overflow-y":"hidden","overflow-x":"hidden"}).animate({"height":_height+"px"},300,function(){
@@ -347,6 +348,7 @@
 		{
 			config.height = parseInt(o.css('height')) || 22;
 		}
+		o.data('height', config.height);
 		if(g.maxHeight){config.maxHeight=g.maxHeight;}
 		if(!config.maxHeight){config.maxHeight=300;}
 		if(g.margin)

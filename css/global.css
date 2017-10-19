@@ -1,17 +1,18 @@
 @charset "utf-8";
 *{margin:0;padding:0;font-family:"Lucida Grande","Microsoft YaHei","宋体","Verdana","Lucida","Arial","Helvetica","sans-serif";}
-html{overflow-x:auto;overflow-y:auto;}
+html{}
 body{margin:auto;font-size:12px;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;}
-img{border:0;vertical-align:middle;}
+img{border:0;vertical-align:top;}
 ul,li,form,th,td,p,div,dl,dt,dd,h1,h2,h3,input{margin:0;padding:0;list-style:none;}
 textarea{resize:none;}
 a:link,a:visited{text-decoration:none;}
-.clear{height:0;margin:0;padding:0;overflow:hidden;clear:both;}
+.clear{float:none !important;height:0;margin:0;padding:0;overflow:hidden;clear:both;}
 .none{display:none;}
 .hand{cursor:pointer;}
 .left{float:left;}
-.right{float:right;}
+.right{float:right !important;}
 
+.MarAuto{margin-left:auto;margin-right:auto;}
 .MarT5{margin-top:5px;}
 .MarT8{margin-top:8px;}
 .MarT10{margin-top:10px;}

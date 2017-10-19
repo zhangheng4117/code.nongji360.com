@@ -17,7 +17,7 @@ function imageUploadOne(options)
 	var buttonText = options.buttonText || '<table style="width:100%;border-collapse:separate;border-spacing:0;"><tr><td style="height:'+options.height+'px;"><img src="{@article}" style="max-width:'+options.width+'px;max-height:'+options.height+'px;vertical-align:middle;" /></td></tr></table>';
 	var settings = {
 		'swf':'/flash/uploadify.swf',
-		'uploader':HTTP_IMG+'/upload.php?xtype='+options.type,
+		'uploader':!!options.uploader ? options.uploader : HTTP_IMG+'/upload.php?xtype='+options.type,
 		'dataType':'json',							//上传成功返回数据的格式
 		'buttonText':buttonText.replace('{@article}', options.image),	//按钮文本
 		'width':options.width,
@@ -37,10 +37,21 @@ function imageUploadOne(options)
 		 * @param data json 执行上传文件返回的信息
 		 */
 		'onUploadSuccess':function(file, data){
-			if ( 'SUCCESS'!=data.state )
+			if ( 'used'==data.origin )
+			{				
+				if ( !data.success )
+				{
+					jAlert(data.success);
+					return false;
+				}
+			}
+			else
 			{
-				jAlert(data.state);
-				return false;
+				if ( "SUCCESS"!=data.state )
+				{
+					jAlert(data.state);
+					return false;
+				}
 			}
 
 			var thumbUrl = data.thumb || data.url;
@@ -50,7 +61,7 @@ function imageUploadOne(options)
 				$(options.thumbSelector).attr('src', thumbUrl);
 			}
 
-			$hidden.val(data.url);
+			$hidden.val(undefined==data.fileId?data.url:data.fileId);
 			var image = new Image();
 			image.src = thumbUrl;
 			image.onload = function(){

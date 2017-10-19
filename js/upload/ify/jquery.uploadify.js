@@ -980,6 +980,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 			
 			if ( "json"==settings.dataType )
 			{
+				//console.log(data);
 				eval("data="+data);
 			}
 

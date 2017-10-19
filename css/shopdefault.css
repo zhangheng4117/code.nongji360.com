@@ -33,8 +33,21 @@
 .topheader .compant-title{float:left;}
 .topheader .collection-cen{float:right; margin-right:15px;}
 .topheader .compant-title h3{font-size:24px; display:block; margin:5px 0px 15px 0px; color:#333;}
-.topheader .view_box,.compant-title .hynx,.topheader .view_box li{float:left; margin-right:15px;}
+.topheader .view_box,.compant-title .hynx,.topheader .view_box li{float:left; margin-right:13px;}
 .topheader .search{float:right; margin-top:15px;}
+
+.search_box #select-options-0{border:2px solid #f00;}
+.search_box{border:2px solid #ff4400; height:32px; float:left; width:360px; background-color:#fff;}
+.search ul img{float:left; margin:12px 10px 0px 12px;}
+.search ul .s_text{float:left; width:180px; height:24px; margin:4px 0px 0px 5px; padding-left:5px; font-size:15px; line-height:24px; outline:none; border-left:1px solid #e8e8e8;}
+.search ul .s_button{color:#fff; height:32px; padding:0px 17px; font-size:16px; float:right; margin:0px;background-color:#f83d06; cursor:pointer; outline:none;}
+.search .button{float:right;}
+.search .button input{height:42px; padding:0px 20px; font-size:16px; background-color:#fff3e0; border-radius:5px; border:1px solid #ffcd7f; color:#ff9c00;}
+.search #searchCate{float:left; border:1px solid #fff; padding-right:10px; background:url(../images/shop/chouse_icon.gif) no-repeat right; height:30px; overflow:hidden; line-height:30px;}
+.search #searchCate dt{cursor:pointer;}
+.search #searchCate dd{cursor:pointer; text-align:center; margin-left:-1px;}
+
+
 .left-con{float:right;}
 .compant-title .hynx img{float:left; margin:3px 3px 0px 0px;}
 .left-con .l_menu{margin-bottom:20px;}
@@ -297,7 +310,7 @@ background-color:#f0fcff;}
 .wrap{width:1000px; margin:0 auto;}
 .TopNav .wrap,.content,.pro-con,.topheader{width:1000px;}
 .compant-title dl{margin-right:34px;}
-.search ul{width:300px;}
+.search ul{width:285px;}
 .search ul .s_text{width:135px;}
 .content .right-cen{width:730px;}
 .con-1 .pro_list{margin:0px 17px 17px 0px;}
@@ -319,4 +332,5 @@ background-color:#f0fcff;}
 .cxscroll .box{overflow:hidden;margin:15px auto 0px auto; width:680px;}
 #BMapContainer{width:480px; height:320px;}
 .inquiry,.rightcon{width:730px;}
+.search_box{width:285px;}
 }

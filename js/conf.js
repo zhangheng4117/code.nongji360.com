@@ -1,8 +1,8 @@
 var BAIDU_LBS_AK = 'X3DHGwacZnlP5QfTsyGO72nC';
 
-var HTTP_WWW = 'http://192.168.0.111:360';
+var HTTP_WWW = 'http://www.nongji360.mobi';
 
-var HTTP_AUTH = 'http://192.168.0.112:8052';
+var HTTP_AUTH = 'http://auth.nongji360.mobi';
 
 var HTTP_NEWS = 'http://192.168.0.112:8101';
 
@@ -10,19 +10,28 @@ var HTTP_VIDEO = 'http://192.168.0.112:8103';
 
 var HTTP_IMAGE = 'http://192.168.0.112:8102';
 
-var HTTP_CODE = 'http://192.168.0.114:8075';
+var HTTP_CODE = 'http://code.nongji360.mobi';
 
-var HTTP_IMG = 'http://192.168.0.112:4117';
+var HTTP_IMG = 'http://img2.nongji360.mobi';
 
-var HTTP_VIDEO_FILE = 'http://192.168.0.111:4118';
+var HTTP_VIDEO_FILE = 'http://datasp1.nongji360.mobi';
 
-var HTTP_USER = 'http://192.168.0.112:8051';
+var HTTP_USER = 'http://my.nongji360.mobi';
 
-var HTTP_COMMENT = 'http://192.168.0.112:8100';
+var HTTP_MOBILE_USER = 'http://m.my.nongji360.mobi';
 
-var HTTP_ZT = 'http://192.168.0.112:8008';
+var HTTP_COMMENT = 'http://comment.nongji360.mobi';
+
+var HTTP_ZT = 'http://zt.nongji360.mobi';
+
+var HTTP_WD = 'http://wd.nongji360.mobi';
+
+var HTTP_API = 'http://api.nongji360.mobi';
+
+var HTTP_O2O = 'http://o2o.nongji360.mobi';
 
 var SHARE_DOMAIN = [
-	'http://192.168.0.114:8102/cross/p3p',
-	'http://192.168.0.112:8052/cross/p3p'
+	HTTP_AUTH+'/cross/p3p',
+	'http://dudu.nongjibang.net/cross/p3p',
+	'http://jgb.datian360.net/cross/p3p'
 ];

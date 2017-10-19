@@ -34,7 +34,7 @@
 
 /*footer1 begin*/
 .footer1{margin:15px auto 25px auto;width:1180px;}
-.footer1 .f_l{float:left; font-size:14px; line-height:27px; text-align:center; width:70%;}
+.footer1 .f_l{float:left; font-size:14px; line-height:27px; text-align:center; width:70%; color:#555;}
 .footer1 .f_l span{display:block;}
 .footer1 .f_l span a{color:#555;}
 .footer1 .f_r{float:right; width:30%; text-align:center;}
@@ -43,6 +43,11 @@
 
 @media screen and (max-width:1280px){
 .footer1{width:1000px;}
+.service-con{ width:1000px;}
+.datian-service .service-con > dl{width:14.5%;}
+.copyright dd div{width:72px; margin-left:7px;}
+.copyright dd div img{width:70px; padding:3px;}
+.copyright dd div span{font-size:12px;}
 }
 
 

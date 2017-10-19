@@ -6,14 +6,21 @@
 		bodyOffset:{},
 		init:false,
 		position:22,
+		fix:"fixed",
 		offset:false,
-		mask:true
+		mask:true,
+		draggable:false,
+		handle:null
 	};
-	
+
 	$.fn.MyDialog = $.fn.dialog = function(option){
 		config.object = this;
 		option = option || {};
 		config.position = option.position || $.jqDialog.position.MIDDLE_CENTER;
+		if ( undefined!=option.fix )
+		{
+			config.fix = option.fix;
+		}
 		if ( undefined!=option.offset )
 		{
 			config.offset = option.offset;
@@ -22,14 +29,20 @@
 		{
 			config.mask = option.mask;
 		}
-		
-		if(config.ie6){
+		if ( undefined!=option.draggable )
+		{
+			config.draggable = !!option.draggable;
+			config.handle = option.handle || null;
+		}
+
+		if ( config.ie6 )
+		{
 			config.iframe = $("iframe#dialogIframe");
 			if(0==config.iframe.size()){
 				config.iframe = $("<iframe id=\"dialogIframe\" frameborder=\"0\" scrolling=\"no\" style=\"display:none;\"></iframe>").appendTo("body");
 			}
 		}
-		
+
 		if(!config.body){
 			initialize();
 			/*$(document).ready(function(){
@@ -37,7 +50,7 @@
 			});
 			while(!config.body){}*/
 		}
-		
+
 		if (option)
 		{
 			config.bgColor = option.bgColor?option.bgColor:"#000000";
@@ -47,24 +60,41 @@
 			config.bgColor = "#000000";
 			config.opacity = "0.3";
 		}
-		
+
 		if(!config.init){
 			fullScreen();
 		}
 		$.jqDialog.show();
-		
-		config.window.unbind('scroll', realTime).bind('scroll', realTime)
-			.unbind('resize', realTime).bind('resize', realTime);
-		
+
+		config.window.unbind('scroll', realTime).unbind('resize', realTime);
+		if ( 'fixed'==config.fix )
+		{
+			config.window.bind('scroll', realTime).bind('resize', realTime);
+		}
+
 		config.object.find("[rel='close'],[data-rel='close']").one("click",function(){
 			$.jqDialog.hide();
 		});
-		
+
 		config.object.focus();
 		$.jqDialog.setPosition();
+
+		if ( config.draggable && 'function'==typeof config.object.draggable )
+		{
+			config.object.draggable({
+				'handle':config.handle,
+				'stop':function(event){
+					config.position = $.jqDialog.DRAGGABLE;
+				}
+			});
+			if ( null!==config.handle )
+			{
+				config.handle.css('cursor', 'move');
+			}
+		}
 		return config.object;
 	};
-	
+
 	$.jqDialog = {
 		position:{
 			'TOP_LEFT':11,
@@ -75,7 +105,8 @@
 			'MIDDLE_RIGHT':23,
 			'BOTTOM_LEFT':31,
 			'BOTTOM_CENTER':32,
-			'BOTTOM_RIGHT':33
+			'BOTTOM_RIGHT':33,
+			'DRAGGABLE':-10
 		},
 		/*显示对话框*/
 		show:function(){
@@ -105,8 +136,8 @@
 			}
 		}
 	};
-	
-	
+
+
 	var initialize = function(){
 		config.body = $("html");
 		config.winOffset.width = config.window.width();
@@ -114,15 +145,15 @@
 		config.bodyOffset.width = config.body.get(0).scrollWidth;
 		config.bodyOffset.height = config.body.get(0).scrollHeight;
 	};
-	
-	
+
+
 	/*全屏显示透明背景*/
 	var fullScreen = function(){
 		if ( true===config.mask )
 		{
 			var $full = $("#dialog-full-screen-opacity");
 			if($full.size()==0){
-				$full = $("<div id=\"dialog-full-screen-opacity\"></div>").appendTo($("body"));
+				$full = $("<div id=\"dialog-full-screen-opacity\" style='width:0;height:0;position:absolute;top:0;left:0;'></div>").appendTo($("body"));
 			}
 			$full.css({
 				"width":Math.max(config.winOffset.width,config.bodyOffset.width)+"px",
@@ -134,7 +165,7 @@
 			config.fullScreen = $full;
 		}
 	};
-	
+
 	/*设置当前对话框的位置，默认在屏幕中间*/
 	var setPosition = function(){
 		var coord = {}, flagPosition = true;
@@ -264,7 +295,7 @@
 		}
 		else
 		{
-			config.object.css({"position":"fixed", "zIndex":"99997"});
+			config.object.css({"position":config.fix, "zIndex":"99997"});
 
 			switch ( config.position )
 			{
@@ -369,8 +400,8 @@
 		}
 		config.init = true;
 	};
-	
-	
+
+
 	var realTime = function(){
 		initialize();
 		fullScreen();

@@ -35,7 +35,7 @@ function ajaxCallback(data, formId)
 	{
 		if ( NO_LOGIN==data.code && 'function'==typeof(ajaxLoginDialog) )
 		{
-			fnLoginDialog();
+			fnLoginDialog('function'==typeof(data.loginCallback) ? data.loginCallback : undefined);
 			return false;
 		}
 		message = '错误代码：'+data.code;

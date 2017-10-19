@@ -44,4 +44,61 @@ Fn.prototype.random=function(min, max)
 };
 
 
+/**
+ * @purpose 计算时长（多久以前）
+ * @param time string | int
+ * @return string
+ * @author zhangheng
+ * @created 2017-09-20 19:04
+ */
+Fn.prototype.timeLong = function(time)
+{
+	var now = Math.floor(new Date().getTime()/1000), long, date;
+	if ( RegEx.date(time) || RegEx.datetime(time) )
+	{
+		date = new Date(time.replace(/-/g, "/"));
+		time = Math.floor(date.getTime()/1000);
+	}
+	else if ( RegEx.number(time) )
+	{
+		date = new Date(time*1000);
+	}
+	else
+	{
+		return '';
+	}
+	if ( time>now )
+	{
+		return '';
+	}
+
+	var differ = now - time;
+	if ( differ<60 )
+	{
+		long = differ + '秒前';
+	}
+	else if ( differ<60*60 )
+	{
+		long = Math.floor(differ/60) + '分钟前';
+	}
+	else if ( differ<60*60*24 )
+	{
+		long = Math.floor(differ/60/60) + '小时前';
+	}
+	else if ( differ<60*60*24*30 )
+	{
+		long = Math.floor(differ/60/60/24) + '天前';
+	}
+	else if ( differ<60*60*24*365 )
+	{
+		long = Math.floor(differ/60/60/24/30) + '月前';
+	}
+	else
+	{
+		long = Math.floor(differ/60/60/24/365) + '年前';
+	}
+	return long;
+};
+
+
 var fn = new Fn();

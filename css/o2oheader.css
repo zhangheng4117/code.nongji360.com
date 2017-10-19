@@ -1,0 +1,23 @@
+/*header*/
+.headerCon,.w,.s-w{width:1160px;margin:0 auto;padding:15px 10px 0 10px;background-color:#fff;}
+.mallLogo,.mallSearch{float:left;}
+.mallLogo,.headerPhone{margin-top:16px;}
+.mallLogo span{margin-left:20px;border-left:1px solid #dddddd;padding-left:20px;display:inline-block;}
+.headerPhone{float:right;}
+.mallSearch li a{float:left;padding-bottom:8px;margin:0 16px 0 3px;display:inline-block;font-size:14px;color:#666;}
+.mallSearch li .current{background:url(../images/icon_c.gif) no-repeat center bottom;color:#ed7400;}
+.mallSearch{margin-left:60px;}
+.search_con{border:1px solid #ffa902;border-radius:4px;height:38px;background:url(../images/search_icon.gif) no-repeat 4px 8px;padding-left:30px;}
+.search_con .s_input{height:24px;margin:5px 5px 0 0;width:300px;line-height:24px;font-size:15px;outline:none;border:1px solid #fff;}
+.search_con .s_button{background-color:#ed7400;color:#fff;font-size:15px;height:38px;border:0;padding:0 20px;border-radius:0 3px 3px 0;}
+/*header end*/
+
+/*nav*/
+.mall-nav{background-color:#ed7400;height:45px;width:1180px;margin:16px auto 0 auto;}
+.menu-box{width:1180px;margin:0 auto;}
+.menu-box a{color:#fff;font-size:16px;line-height:45px;padding:0 21px 0 20px;}
+.menu-box a:hover{background-color:#d36700;display:inline-block;}
+/*nav end*/
+@media screen and (max-width:1280px){
+	.headerCon,.w,.s-w,.menu-box,.mall-nav{width:1000px;}
+}

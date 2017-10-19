@@ -46,6 +46,11 @@ function Page(container)
 	 * @var int
 	 */
 	this.size = 0;
+
+	/**
+	 * @purpose 页面是否显示首尾页
+	 */
+	this.firstLast = true;
 	
 	/**
 	 * @purpose 显示页码数
@@ -203,7 +208,7 @@ Page.prototype.setListenButton = function(listenButton, assignFn, callback)
  */
 Page.prototype.setPageNumber = function()
 {
-	var interNumber=Math.ceil(this.number/2), iSp, iEp;
+	var interNumber = Math.ceil(this.number/2), iSp, iEp;
 	if ( this.page<=interNumber )
 	{
 		iSp = 1;
@@ -329,6 +334,7 @@ Page.prototype.loading = function(assignFn, callback)
 		}
 	}
 
+	//alert(_this.data.p);
 	$.post(_this.url, _this.data, function(data, status){
 		if ( 'success'!=status )
 		{
@@ -415,25 +421,28 @@ Page.prototype.def = function()
 		
 		if ( this.page>1 )
 		{
-			pageHtml += '<a href="javascript:" target="_self" rel="page" data-page="1">首页</a>\
-				<a href="javascript:" target="_self" rel="page" data-page="'+(this.page-1)+'">上一页</a>';
+			pageHtml += (this.firstLast ? '<a href="javascript:" target="_self" rel="page" data-page="1">首页</a>' : '')+
+				'<a href="javascript:" target="_self" rel="page" data-page="'+(this.page-1)+'">上一页</a>';
 		}
-		for ( var i=this.startNumber; i<=this.endNumber; i++ )
+		if ( this.number>0 )
 		{
-			if ( i!=this.page )
+			for ( var i=this.startNumber; i<=this.endNumber; i++ )
 			{
-				pageHtml += '<a href="javascript:" target="_self" rel="page" data-page="'+i+'">'+i+'</a>';
-			}
-			else
-			{
-				pageHtml += '<b>'+i+'</b>';
+				if ( i!=this.page )
+				{
+					pageHtml += '<a href="javascript:" target="_self" rel="page" data-page="'+i+'">'+i+'</a>';
+				}
+				else
+				{
+					pageHtml += '<b>'+i+'</b>';
+				}
 			}
 		}
 		
 		if ( this.page<this.pages )
 		{
-			pageHtml += '<a href="javascript:" target="_self" rel="page" data-page="'+(this.page+1)+'">下一页</a>\
-				<a href="javascript:" target="_self" rel="page" data-page="'+this.pages+'">尾页</a>';
+			pageHtml += '<a href="javascript:" target="_self" rel="page" data-page="'+(this.page+1)+'">下一页</a>'+
+				(this.firstLast ? '<a href="javascript:" target="_self" rel="page" data-page="'+this.pages+'">尾页</a>' : '');
 		}
 		pageHtml += '</div>';
 	}

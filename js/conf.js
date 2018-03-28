@@ -4,7 +4,7 @@ var HTTP_WWW = 'http://www.nongji360.mobi';
 
 var HTTP_AUTH = 'http://auth.nongji360.mobi';
 
-var HTTP_NEWS = 'http://192.168.0.112:8101';
+var HTTP_NEWS = 'http://news.nongji360.mobi';
 
 var HTTP_VIDEO = 'http://192.168.0.112:8103';
 
@@ -30,8 +30,12 @@ var HTTP_API = 'http://api.nongji360.mobi';
 
 var HTTP_O2O = 'http://o2o.nongji360.mobi';
 
+var HTTP_SHEQU = 'http://shequ.nongji360.mobi';
+
+var HTTP_SHEQU_MOBILE = 'http://m.shequ.nongji360.mobi';
+
 var SHARE_DOMAIN = [
-	HTTP_AUTH+'/cross/p3p',
+		HTTP_AUTH+'/cross/p3p',
 	'http://dudu.nongjibang.net/cross/p3p',
 	'http://jgb.datian360.net/cross/p3p'
 ];

@@ -14,18 +14,18 @@
  * @Type: array
  */
 var themeInform = [
-	'<div style="height:40px;line-height:40px;padding:0 10px;background:#feff99;border:solid #ffba43 1px;font-size:16px;text-align:center;">{message}</div>',
+	'<div style="line-height:26px;padding:5px 10px;background:#feff99;border:solid #ffba43 1px;font-size:16px;text-align:center;">{message}</div>',
 	'<div data-rel-inform="true" style="width:65%;min-height:50px;background:rgba(0,0,0,0.5);border-radius:30px;color:#fff;text-align:center;position:relative;"><div style="left:10%;width:80%;font-size:1.05em;font-weight:500;line-height:1.5em;top:50%;position:absolute;top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);">{message}</div></div>'
 ];
 
 
 /**
- * @Purpose: 提示消息自动隐藏
- * @Param: string message 提示消息
- * @Param: function 消息框隐藏回调函数
- * @Param: int | string 主题模版，数字则调用预置主题模版，字符串即自定义主题模版
- * @Author: zhangheng
- * @Created: 2014-07-09 15:17
+ * @purpose 提示消息自动隐藏
+ * @param message string 提示消息
+ * @param fn function 消息框隐藏回调函数
+ * @param theme int | string 主题模版，数字则调用预置主题模版，字符串即自定义主题模版
+ * @author zhangheng
+ * @created 2014-07-09 15:17
  */
 function inform(message, fn, theme)
 {
@@ -41,7 +41,7 @@ function inform(message, fn, theme)
 		marginVertical=($window.height()-boxHeight)/2;
 
 	/**
-	 * @Purpose: 设置消息框位置
+	 * @purpose 设置消息框位置
 	 */
 	var _ie6 = $.browser ? ( $.browser.msie && $.browser.version<7 ) : ( window['Browser'] && Browser.msie && Browser.version<7 );
 	if ( _ie6 )
@@ -54,9 +54,112 @@ function inform(message, fn, theme)
 	}
 
 	window.setTimeout(function(){
-		$box.fadeOut(1000, function(){
+		$box.fadeOut(500, function(){
 			$box.remove();
 			if ( 'function'==typeof(fn) ) fn();
 		});
-	}, 2000);
+	}, 1500);
+}
+
+
+/**
+ * @purpose 提示消息自动隐藏
+ * @param data object 提示消息
+ * @param formId string form表单ID
+ * @author zhangheng
+ * @created 2017-12-05 10:28
+ */
+function informCallback(data, formId)
+{
+	var theme = themeInform[0],
+		message = '', $field = null;
+
+	if ( undefined!=data.field )
+	{
+		if ( undefined==formId )
+		{
+			$field = $('[name="'+data.field+'"]');
+		}
+		else if ( 'object'==typeof(formId) )
+		{
+			$field = formId.find('[name="'+data.field+'"]');
+		}
+		else
+		{
+			$field = $('#'+formId+' [name="'+data.field+'"]');
+		}
+	}
+
+	if ( undefined!=data.code )
+	{
+		message = '错误代码：'+data.code;
+		if ( IDENTIFY==data.code )
+		{
+			if ( null!=$field )
+			{
+				$field.val('');
+			}
+		}
+	}
+	if ( undefined!=data.message )
+	{
+		message = data.message;
+	}
+	else
+	{
+		message = '未知错误';
+	}
+	theme = theme.replace('{message}', message);
+
+	var $box=$(theme).appendTo($('body')), $window=$(window);
+	$box.css({'position':'fixed', 'zIndex':99999});
+	var boxWidth=$box.outerWidth(), boxHeight=$box.outerHeight(),
+		marginHorizontal=($window.width()-boxWidth)/2,
+		marginVertical=($window.height()-boxHeight)/2;
+
+	$box.css({'top':marginVertical+'px', 'left':marginHorizontal+'px'});
+
+	var setFocus = function()
+	{
+		if ( null!=$field )
+		{
+			if ( 1==$field.size() )
+			{
+				$field.focus();
+			}
+			else
+			{
+				$($field.get(0)).focus();
+			}
+		}
+	};
+
+	window.setTimeout(function(){
+		$box.fadeOut(500, function(){
+			$box.remove();
+			if ( undefined!=data.redirect )
+			{
+				window.location.href = data.redirect;
+			}
+			else
+			{
+				if ( undefined!=data.code && NO_LOGIN==data.code )
+				{
+					if ( 'function'==typeof(data.loginCallback) )
+					{
+						data.loginCallback(data);
+					}
+					else
+					{
+						var cryptUrl = window.CRYPT_URL ? window.CRYPT_URL :
+							(data.REQUEST_URI ? data.REQUEST_URI.cryptUrl : '');
+						window.location.href = HTTP_MOBILE_USER + '/auth/signin'+
+							(cryptUrl ? '?uri='+cryptUrl : '');
+					}
+					return false;
+				}
+				setFocus();
+			}
+		});
+	}, 1000);
 }

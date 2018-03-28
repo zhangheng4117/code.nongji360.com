@@ -1,6 +1,6 @@
 @charset "utf-8";
 /*我们的服务 begin*/
-#service{width:1000px; margin:12px auto 0px auto}
+#service{width:1000px; margin:12px auto 0px auto; display:none;}
 .serviceBox{float:left;margin-right:8px;background-color:#fff6ec;padding:10px;margin-top:12px;height:220px;}
 .Service120{width:105px;}
 .Service175{width:175px;}
@@ -11,7 +11,7 @@
 /*我们的服务 end*/
 
 /*友情链接 begin*/
-.friendLink{width:1000px;margin:12px auto 0px auto}
+.friendLink{width:1000px;margin:12px auto 0px auto; display:none;}
 .friendLink ul{font-size:19px;font-weight:normal;height:40px;margin-bottom:12px;}
 .friendLink ul li{background:url(/images/foot/footer_bg.gif) repeat-x;height:38px;line-height:38px;float:left;border:1px solid #f5cfc2;padding:0 10px;margin-right:8px;}
 .friendLink ul li.current{background-color:#ff8400;background-image:none;border:1px solid #ff8400;color:#FFF;}

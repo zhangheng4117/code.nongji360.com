@@ -25,9 +25,11 @@ function imageUploadMulti(options)
 		'auto':true,								//选择完文件是否自动上传
 		'queueID':options.queueID || 'queueList',						//队列容器ID值
 		'queueAutoHide':false,
-		'itemTemplate':options.itemTemplate ? options.itemTemplate.replace('${hiddenName}', options.hiddenName+'[]') : '<div id="${fileID}" class="multi-queue-item" data-rel="multi-queue-item">\
+		'itemTemplate':options.itemTemplate ? options.itemTemplate.replace('${hiddenName}', options.hiddenName+'[]') :
+			'<div id="${fileID}" class="multi-queue-item" data-rel="multi-queue-item">\
 				<div class="multi-image">\
-					<img src='+HTTP_CODE+'/images/404_100.gif'+' data-rel="thumb" /><input type="hidden" name="'+options.hiddenName+'[]" data-rel="urlHidden"'+(options.hiddenUnique ? ' data-unique="'+options.hiddenUnique+'"' : '')+' />\
+					<img src='+HTTP_CODE+'/images/404_100.gif'+' data-rel="thumb" />\
+					<input type="hidden" name="'+options.hiddenName+'[]" data-rel="urlHidden"'+(options.hiddenUnique ? ' data-unique="'+options.hiddenUnique+'"' : '')+' />\
 					<div class="uploadify-progress"><div class="uploadify-progress-bar"></div></div>\
 				</div>\
 			</div>',						//队列HTML模版

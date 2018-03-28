@@ -10,37 +10,37 @@
 function Page(container)
 {
 	this.object = 'string'==typeof(container) ? $(container) : container;
-	
+
 	/**
 	 * @purpose 数据体
 	 * @var JSON
 	 */
 	this.data = {};
-	
+
 	/**
 	 * @purpose 请求URL
 	 * @var string
 	 */
 	this.url = '';
-	
+
 	/**
 	 * @purpose 数据总条数
 	 * @var int
 	 */
 	this.count = 0;
-	
+
 	/**
 	 * @purpose 当前页数
 	 * @var int
 	 */
 	this.page = 1;
-	
+
 	/**
 	 * @purpose 总页数
 	 * @var int
 	 */
 	this.pages = 0;
-	
+
 	/**
 	 * @purpose 每页显示的数据条数
 	 * @var int
@@ -51,25 +51,25 @@ function Page(container)
 	 * @purpose 页面是否显示首尾页
 	 */
 	this.firstLast = true;
-	
+
 	/**
 	 * @purpose 显示页码数
 	 * @var int
 	 */
 	this.number = 10;
-	
+
 	/**
 	 * @purpose 开始页码
 	 * @var int
 	 */
 	this.startNumber = 1;
-	
+
 	/**
 	 * @purpose 截止页码
 	 * @var int
 	 */
 	this.endNumber = 1;
-	
+
 	/**
 	 * @purpose 页码CSS样式
 	 * @var string
@@ -260,14 +260,18 @@ Page.prototype.request = function(assignFn, callback)
 		{
 			return;
 		}
+		if ( 'undefined'!=typeof(STATUS_FAILURE) && undefined!=data.status && STATUS_FAILURE==data.status )
+		{
+			return;
+		}
 
 		_this.count = data.count;
 		_this.pages = data.pages;
 		_this.setPageNumber();
-		
+
 		var html = assignFn(undefined==data.items ? data : data.items, _this);
 		if ( ''!=html ) html += _this.def();
-		
+
 		if ( false===_this.object.data('initialize') )
 		{
 			_this.object.append(html).data('initialize', true);
@@ -276,7 +280,7 @@ Page.prototype.request = function(assignFn, callback)
 		{
 			_this.object.html(html);
 		}
-		
+
 		/**
 		 * @purpose 监听页码点击事件
 		 */
@@ -285,7 +289,7 @@ Page.prototype.request = function(assignFn, callback)
 			_this.data.p = _this.page = $this.data('page');
 			_this.request(assignFn, callback);
 		});
-		
+
 		/**
 		 * @purpose 执行回调函数
 		 */
@@ -337,6 +341,10 @@ Page.prototype.loading = function(assignFn, callback)
 	//alert(_this.data.p);
 	$.post(_this.url, _this.data, function(data, status){
 		if ( 'success'!=status )
+		{
+			return;
+		}
+		if ( 'undefined'!=typeof(STATUS_FAILURE) && undefined!=data.status && STATUS_FAILURE==data.status )
 		{
 			return;
 		}
@@ -418,7 +426,7 @@ Page.prototype.def = function()
 			pageHtml += this.pageNumberCss;
 		}
 		pageHtml += '<div id="js-page-container">';
-		
+
 		if ( this.page>1 )
 		{
 			pageHtml += (this.firstLast ? '<a href="javascript:" target="_self" rel="page" data-page="1">首页</a>' : '')+
@@ -438,7 +446,7 @@ Page.prototype.def = function()
 				}
 			}
 		}
-		
+
 		if ( this.page<this.pages )
 		{
 			pageHtml += '<a href="javascript:" target="_self" rel="page" data-page="'+(this.page+1)+'">下一页</a>'+

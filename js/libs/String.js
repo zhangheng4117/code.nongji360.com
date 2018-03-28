@@ -114,3 +114,21 @@ String.prototype.lastAppend = function(string, separate)
 	if ( lastIndex<0 ) return this;
 	return this.substr(0, lastIndex+separate.length) + string + this.substr(lastIndex+separate.length);
 };
+
+
+/**
+ * @purpose 识别内容中的URL并加上链接
+ * @param target string 链接打开方式
+ * @return string
+ * @author zhangheng
+ * @created 2017-11-15 11:45
+ */
+String.prototype.replaceUrl = function(target)
+{
+	if ( undefined==target )
+	{
+		target = '_blank';
+	}
+	return this.replace(new RegExp("\\b(http(s)?:\/\/)(([a-z0-9\-]+\.)+)([a-z0-9]+\\b)(\/?[\\w\.\%\&\?\=\-]*)", "gi"),
+			'<a href="$1$3$5$6" target="'+target+'">$1$3$5$6</a>');
+};

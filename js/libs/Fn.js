@@ -45,6 +45,63 @@ Fn.prototype.random=function(min, max)
 
 
 /**
+ * @purpose 格式化时间
+ * @param format string
+ * @param time int | string
+ * @return string
+ * @author zhangheng
+ * @created 2017-11-20 15:41
+ */
+Fn.prototype.date = function(format, time)
+{
+	var date;
+	if ( RegEx.number(time) )
+	{
+		date = new Date(time*1000);
+	}
+	else if ( RegEx.datetime(time) )
+	{
+		date = new Date(time.replace(/-/g, "/"));
+	}
+	else if ( RegEx.date(time) )
+	{
+		date = new Date(time.replace(/-/g, "/") + " 00:00:00");
+	}
+	else
+	{
+		date = new Date();
+	}
+	var tmpStr, datetime;
+
+	datetime	= format.replace("Y", date.getFullYear());
+	datetime	= datetime.replace("y", (""+date.getFullYear()).substr(2,2));
+	tmpStr		= "0"+(date.getMonth()+1);
+	datetime	= datetime.replace("m", tmpStr.substr(tmpStr.length-2,2));
+	datetime	= datetime.replace("n", "" + (date.getMonth()+1));
+	tmpStr		= "0"+date.getDate();
+	datetime	= datetime.replace("d", tmpStr.substr(tmpStr.length-2,2));
+	tmpStr		= "0"+date.getHours();
+	datetime	= datetime.replace("H", tmpStr.substr(tmpStr.length-2,2));
+	tmpStr		= "0"+(date.getHours()%12);
+	datetime	= datetime.replace("h", tmpStr.substr(tmpStr.length-2,2));
+	tmpStr		= "0"+date.getMinutes();
+	datetime	= datetime.replace("i", tmpStr.substr(tmpStr.length-2,2));
+	tmpStr		= "0"+date.getSeconds();
+	datetime	= datetime.replace("s", tmpStr.substr(tmpStr.length-2,2));
+	if ( date.getHours()<12 )
+	{
+		datetime= datetime.replace("a", "am").replace("A", "AM");
+	}
+	else
+	{
+		datetime= datetime.replace("a", "pm").replace("A", "PM");
+	}
+
+	return datetime;
+};
+
+
+/**
  * @purpose 计算时长（多久以前）
  * @param time string | int
  * @return string

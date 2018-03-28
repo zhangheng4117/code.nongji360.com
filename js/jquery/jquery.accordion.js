@@ -29,14 +29,14 @@
 		opt.option.type = opt.option.type ? opt.option.type : 'click';
 		
 		return a();
-	}
+	};
 	
 	$.jqAccordion = {
 		each:function(jObject){
 			/*初始化遍历标签并根据条件判断是显示或隐藏*/
 			
 			jObject = null===jObject ? opt.label : jObject.parent().find('[data-href]'+(undefined!=jObject.data('group') ? '[data-group="'+jObject.data('group')+'"]' : ''));
-			return jObject.each(function(n){
+			return jObject.each(function(){
 				var _this = $(this);
 				var href = _this.data('href');
 				var $href = $(href);

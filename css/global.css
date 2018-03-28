@@ -18,4 +18,7 @@ a:link,a:visited{text-decoration:none;}
 .MarT10{margin-top:10px;}
 .MarT15{margin-top:15px;}
 
-#wrap,.wrap{width:1000px;margin-left:auto;margin-right:auto;}
+#wrap,.wrap{width:1180px;margin-left:auto;margin-right:auto;}
+@media screen and (max-width:1280px){
+#wrap,.wrap{width:1000px;}
+}

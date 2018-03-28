@@ -60,10 +60,10 @@ footer end*/
 .copyright dd div img{width:78px; padding:5px; border:1px solid #f2f2f2; background-color:#fff;}
 .copyright dd div span{display:block; text-align:center; font-size:14px;}
 
-.ershou_ad{position:fixed; left:0; top:120px;width:80px; height:240px; z-index:999;}
-.ershou_ad span{cursor:pointer; background-color:#f58202; display:block; text-align:center; padding:3px 0 8px 0;}
+.ershou_ad{position:fixed; left:0; top:120px;width:80px;  z-index:999; background-color:#f58202;}
+.ershou_ad span{cursor:pointer; background-color:#f58202; display:block; text-align:center; padding:3px 0 0 0;}
 .ershou_ad a{display:inline-block;}
-.zt_ad{position:fixed; right:0; top:120px; width:60px; height:240px; z-index:999;}
+.zt_ad{position:fixed; right:0; top:120px; width:60px; z-index:999;}
 .zt_ad span{cursor:pointer; background-color:#50ad00; display:block; text-align:center; padding:3px 0 0 0;}
 
 

@@ -76,8 +76,9 @@ function videoUpload(options)
 			title:'视频文件',
 			extensions:options.fileTypeExts || 'mp4,wmv,avi,mov,mpeg,mpg,3gp,mkv,flv',
 			mimeTypes:undefined==options.mimeTypes ?
-				'video/mp4,video/x-ms-wmv,video/x-msvideo,video/quicktime,video/mpeg,video/3gpp' :
+				'video/*' :
 				(false===options.mimeTypes ? '' : options.mimeTypes)
+			//video/mp4,video/x-ms-wmv,video/x-msvideo,video/quicktime,video/mpeg,video/3gpp
 		},
 		runtimeOrder:options.runtimeOrder || 'html5,flash',
 		swf:'/images/uploader.swf',//swf文件路径

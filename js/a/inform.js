@@ -15,7 +15,7 @@
  */
 var themeInform = [
 	'<div style="line-height:26px;padding:5px 10px;background:#feff99;border:solid #ffba43 1px;font-size:16px;text-align:center;">{message}</div>',
-	'<div data-rel-inform="true" style="width:65%;min-height:50px;background:rgba(0,0,0,0.5);border-radius:30px;color:#fff;text-align:center;position:relative;"><div style="left:10%;width:80%;font-size:1.05em;font-weight:500;line-height:1.5em;top:50%;position:absolute;top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);">{message}</div></div>'
+	'<div data-rel-inform="true" style="width:auto;max-width:65%;padding:10px 20px;background:rgba(0,0,0,0.7);border-radius:30px;color:#fff;text-align:center;font-size:1.3em;font-weight:500;line-height:1.5em;">{message}</div>'
 ];
 
 
@@ -30,6 +30,10 @@ var themeInform = [
 function inform(message, fn, theme)
 {
 	if ( undefined==message ) message = '设置成功';
+	if ( undefined!=fn && 'function'!=typeof(fn) && undefined==theme )
+	{
+		theme = fn;
+	}
 	if ( undefined==theme ) theme = 0;
 	if ( /^[\d]+$/.test(theme) ) theme = themeInform[parseInt(theme)];
 	theme = theme.replace('{message}', message);
@@ -43,10 +47,14 @@ function inform(message, fn, theme)
 	/**
 	 * @purpose 设置消息框位置
 	 */
-	var _ie6 = $.browser ? ( $.browser.msie && $.browser.version<7 ) : ( window['Browser'] && Browser.msie && Browser.version<7 );
+	var _ie6 = $.browser ? ( $.browser.msie && $.browser.version<7 ) :
+		( window['Browser'] && Browser.msie && Browser.version<7 );
 	if ( _ie6 )
 	{
-		$box.css({'position':'absolute', 'top':marginVertical+$window.scrollTop()+'px', 'left':marginHorizontal+$window.scrollLeft()+'px'});
+		$box.css({
+			'position':'absolute', 'top':marginVertical+$window.scrollTop()+'px',
+			'left':marginHorizontal+$window.scrollLeft()+'px'
+		});
 	}
 	else
 	{

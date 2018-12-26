@@ -230,42 +230,44 @@
 				self.one("click",function(){
 					_this.unbind();
 					var $parent = self.parent("li");
+
+					/*
+					 ** 如果关闭的选项卡是当前显示的选项卡则执行执行相应功能
+					 ** 如果当前选项卡的下一个选项卡存在则使下一个选项卡至于显示状态
+					 ** 如果当前选项卡的下一个选项卡不存在则使上一个选项卡至于显示状态
+					 */
+					var _href = $parent.attr("href");
+					/*当前选项卡的下一个选项卡的JQ对象*/
+					var $next = $parent.next("li");
+					/*当前选项卡的上一个选项卡的JQ对象*/
+					var $prev = $parent.prev("li");
+					if(opt.option.href==_href){
+						if($next.size()>0){
+							opt.option.href = $next.attr("href");
+							opt.o.tabs(opt.option,opt.fn);
+							/*使下一个选项卡至于可见区域*/
+							_this.move(_this.getTabIndex($next.attr("href"))+1);
+						}else if($prev.size()>0){
+							opt.option.href = $prev.attr("href");
+							opt.o.tabs(opt.option,opt.fn);
+							/*使上一个选项卡至于可见区域*/
+							_this.move(_this.getTabIndex($prev.attr("href"))+1);
+						}
+					}else{
+						opt.o.tabs(opt.option,opt.fn);
+						_this.move(_this.getTabIndex(opt.option.href)+1);
+					}
+
 					$parent.animate({width:"0px",opacity:"0"},300,function(){
 						/*等待选项卡最小化过程执行结束后回调函数*/
 						
 						/*当前选项卡对应的href属性值*/
 						var _href = $parent.attr("href");
-						/*当前选项卡的下一个选项卡的JQ对象*/
-						var $next = $parent.next("li");
-						/*当前选项卡的上一个选项卡的JQ对象*/
-						var $prev = $parent.prev("li");
 						
 						/*移除当前选项卡*/
 						$parent.remove();
 						/*移除当前对应的内容对象*/
 						$(_href).remove();
-						
-						/*
-						** 如果关闭的选项卡是当前显示的选项卡则执行执行相应功能
-						** 如果当前选项卡的下一个选项卡存在则使下一个选项卡至于显示状态
-						** 如果当前选项卡的下一个选项卡不存在则使上一个选项卡至于显示状态
-						*/
-						if(opt.option.href==_href){
-							if($next.size()>0){
-								opt.option.href = $next.attr("href");
-								opt.o.tabs(opt.option,opt.fn);
-								/*使下一个选项卡至于可见区域*/
-								_this.move(_this.getTabIndex($next.attr("href"))+1);
-							}else if($prev.size()>0){
-								opt.option.href = $prev.attr("href");
-								opt.o.tabs(opt.option,opt.fn);
-								/*使上一个选项卡至于可见区域*/
-								_this.move(_this.getTabIndex($prev.attr("href"))+1);
-							}
-						}else{
-							opt.o.tabs(opt.option,opt.fn);
-							_this.move(_this.getTabIndex(opt.option.href)+1);
-						}
 					});
 				});
 			});

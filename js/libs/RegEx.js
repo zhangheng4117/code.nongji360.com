@@ -10,9 +10,21 @@
 
 var RegEx = {
 	/**
+	 * @purpose 匹配是否为银行卡号
+	 * @param string string 要匹配的字符串
+	 * @return bool
+	 * @author zhangheng
+	 * @created 2018-05-08 20:16
+	 */
+	bankCard:function(string)
+	{
+		return /^[1-9][0-9]{15,18}$/.test(string);
+	},
+
+	/**
 	 * @purpose 匹配是否为身份证号
 	 * @param string string 要匹配的字符串
-	 * @return boolean
+	 * @return bool
 	 * @author zhangheng
 	 * @created 2015-06-19 15:36
 	 */
@@ -24,7 +36,7 @@ var RegEx = {
 	/**
 	 * @purpose 匹配是否为日期格式
 	 * @param string string 要匹配的字符串
-	 * @return boolean
+	 * @return bool
 	 * @author zhangheng
 	 * @created 2014-06-28 16:30
 	 */
@@ -36,7 +48,7 @@ var RegEx = {
 	/**
 	 * @purpose 匹配是否为日期加时间格式
 	 * @param string string 要匹配的字符串
-	 * @return boolean
+	 * @return bool
 	 * @author zhangheng
 	 * @created 2014-06-28 16:34
 	 */
@@ -75,7 +87,7 @@ var RegEx = {
 	mobile:function(string)
 	{
 		//return /^1[3,4,5,8][0-9]{9}$/.test(string);
-		return /^1(([3,8][0-9]{9})|(4[5,7][0-9]{8})|(5[0,1,2,3,5,6,7,8,9][0-9]{8})|(7((0[0,5,9][0-9]{7})|([1,3,6,7,8][0-9]{8}))))$/.test(string);
+		return /^1(([3,8][0-9]{9})|(4[5,7][0-9]{8})|(5[0,1,2,3,5,6,7,8,9][0-9]{8})|(7((0[0,5,9][0-9]{7})|([1,3,6,7,8][0-9]{8})))|(99[0-9]{8}))$/.test(string);
 	},
 	
 	/**
@@ -97,7 +109,7 @@ var RegEx = {
 	/**
 	 * @purpose 匹配是否为邮政编码
 	 * @param string string 要匹配的字符串
-	 * @return boolean
+	 * @return bool
 	 * @author zhangheng
 	 * @created 2014-06-28 16:36
 	 */
@@ -133,7 +145,7 @@ var RegEx = {
 	/**
 	 * @purpose 匹配是否为时间格式
 	 * @param string string 要匹配的字符串
-	 * @return boolean
+	 * @return bool
 	 * @author zhangheng
 	 * @created 2014-06-28 16:37
 	 */
@@ -145,7 +157,7 @@ var RegEx = {
 	/**
 	 * @purpose 匹配是否是url
 	 * @param string string 要匹配的字符串
-	 * @return boolean
+	 * @return bool
 	 * @author zhangheng
 	 * @created 2016-10-18 16:47
 	 */
@@ -156,6 +168,7 @@ var RegEx = {
 	
 	/**
 	 * @purpose 匹配是否符合用户名规则
+	 * @return bool
 	 * @author zhangheng
 	 * @created 2014-06-16 17:25
 	 */

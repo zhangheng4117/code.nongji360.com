@@ -37,6 +37,7 @@ var jAlert, jConfirm, jPrompt, jInform;
 		overlayOpacity: .5,                // transparency level of overlay
 		overlayColor: '#000',               // base color of overlay
 		draggable: true,                    // make the dialogs draggable (requires UI Draggables plugin)
+		_title:'大田农社温馨提示',
 		okButton: '&nbsp;确定&nbsp;',         // text for the OK button
 		cancelButton: '&nbsp;取消&nbsp;', // text for the Cancel button
 		dialogClass: null,                  // if specified, this class will be applied to all dialogs
@@ -50,7 +51,7 @@ var jAlert, jConfirm, jPrompt, jInform;
 				callback = title;
 				title = null;
 			}
-			if( title == null ) title = '农机360网温馨提示';
+			if( title == null ) title = $.alerts._title;
 			$.alerts._show(title, message, null, 'alert', function(result) {
 				if( callback ) callback(result);
 			});
@@ -62,7 +63,7 @@ var jAlert, jConfirm, jPrompt, jInform;
 				callback = title;
 				title = null;
 			}
-			if( title == null ) title = '农机360网温馨提示';
+			if( title == null ) title = $.alerts._title;
 			$.alerts._show(title, message, null, 'confirm', function(result) {
 				if( callback ) callback(result);
 			});
@@ -74,7 +75,7 @@ var jAlert, jConfirm, jPrompt, jInform;
 				callback = title;
 				title = null;
 			}
-			if( title == null ) title = '农机360网温馨提示';
+			if( title == null ) title = $.alerts._title;
 			$.alerts._show(title, message, value, 'prompt', function(result) {
 				if( callback ) callback(result);
 			});
@@ -86,7 +87,7 @@ var jAlert, jConfirm, jPrompt, jInform;
 				callback = title;
 				title = null;
 			}
-			if( title == null ) title = '农机360网温馨提示';
+			if( title == null ) title = $.alerts._title;
 			$.alerts._show(title, message, null, 'alert');
 			window.setTimeout(function(){
 				$.alerts._hide();

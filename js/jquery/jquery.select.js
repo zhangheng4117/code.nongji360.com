@@ -18,6 +18,7 @@
 		'height':null,
 		'maxHeight':300,
 		'borderCSS':[],
+		'zIndex':[],
 		'fn':[],
 		'wrap':[],
 		'append':[],
@@ -42,6 +43,7 @@
 		}
 		g.dd = $(this).find("dd");
 		config.borderCSS[index] = g.borderCSS || null;
+		config.zIndex[index] = g.zIndex || 1000;
 		setConfig(this);
 		return init(this);
 	};
@@ -444,7 +446,7 @@
 			$menu.css({
 				"height":"0px",
 				"backgroundColor":("transparent"==o.css("backgroundColor") || "rgba(0,0,0,0)"==o.css("backgroundColor").replace(/ /g, '')?"#fff":o.css("backgroundColor")),
-				"display":"none","position":"absolute","zIndex":"1000"
+				"display":"none","position":"absolute","zIndex":config.zIndex[index]
 			});
 			if ( null==config.borderCSS[index] )
 			{

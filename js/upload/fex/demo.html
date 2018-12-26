@@ -1,4 +1,8 @@
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1" />
 <link rel="stylesheet" type="text/css" href="webuploader.css" />
+<script type="text/javascript" src="http://code.nongji360.mobi/js/jquery/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="webuploader.js"></script>
 
 <div id="uploader" class="wu-example">
@@ -8,7 +12,7 @@
 			<p>或将照片拖到这里，单次最多可选300张</p>
 		</div>
 	</div>
-	<div class="statusBar" style="display:none;">
+	<div class="statusBar">
 		<div class="progress">
 			<span class="text">0%</span>
 			<span class="percentage"></span>
@@ -47,6 +51,8 @@ jQuery(function() {
 			s = null;
 			return r;
 		})(),
+		chunkSize = 4*1024*1024,
+		token = 'krGrwk5tp-bxURfU3gNrHe5NLG9MhN1oG647Jo7H:5RXwWq9seAy5aYJ-RfkizBGfDXk=:eyJwZXJzaXN0ZW50T3BzIjoiYXZ0aHVtYlwvbXA0XC9yXC8yNVwvdmNvZGVjXC9saWJ4MjY0XC9hY29kZWNcL2xpYmZka19hYWN8c2F2ZWFzXC9ZMjB0YzJobGNYVXRkbWxrWlc4Nk1qQXhPQzh4TVM4eU9ESXhNRGsxT1RVek9ETXpPVjkyYjJRdWJYQTA7dmZyYW1lXC9wbmdcL29mZnNldFwvMXxzYXZlYXNcL1kyMHRjMmhsY1hVdGRtbGtaVzh0ZGpveU1ERTRMekV4THpJNE1qRXdPVFU1TlRNNE16TTVMbkJ1Wnc9PSIsInBlcnNpc3RlbnRQaXBlbGluZSI6ImNtLXNoZXF1LXZpZGVvIiwicGVyc2lzdGVudE5vdGlmeVVybCI6Imh0dHBzOlwvXC9jbS1hcGkuZGF0aWFuMzYwLmNvbVwvemh1YW50aVwvdmlkZW9cL25vdGlmeSIsInNjb3BlIjoiY20tc2hlcXUtdmlkZW8iLCJkZWFkbGluZSI6MTU0MzQxNDE5OX0=',
 		uploader;// WebUploader实例
 
 	if ( !WebUploader.Uploader.support() ) {
@@ -65,18 +71,23 @@ jQuery(function() {
 
 		accept: {
 			title: 'Images',
-			extensions: 'gif,jpg,jpeg,bmp,png',
-			mimeTypes: 'image/*'
+			extensions: 'gif,jpg,jpeg,bmp,png,flv,mp4',
+			mimeTypes: '*/*'
 		},
 
 		swf: 'uploader.swf',// swf文件路径
 		disableGlobalDnd: true,
 		chunked: true,
-		// server: 'http://webuploader.duapp.com/server/fileupload.php',
-		server: 'http://2betop.net/fileupload.php',
+		chunkSize:chunkSize,
+		//server: 'http://webuploader.duapp.com/server/fileupload.php',
+		//server: 'http://2betop.net/fileupload.php',
+		server: 'http://upload-z1.qiniup.com/mkblk/'+chunkSize,
 		fileNumLimit: 300,
-		fileSizeLimit: 5 * 1024 * 1024,    // 200 M
-		fileSingleSizeLimit: 1 * 1024 * 1024    // 50 M
+		fileSizeLimit: 50 * 1024 * 1024,    // 200 M
+		fileSingleSizeLimit: 50 * 1024 * 1024,    // 50 M,
+		formData:{
+			//token:token
+		}
 	});
 
 	// 添加“添加文件”的按钮
@@ -382,7 +393,10 @@ jQuery(function() {
 
 		removeFile( file );
 		updateTotalProgress();
+	};
 
+	uploader.onUploadSuccess = function( file, response ) {
+		console.log(response);
 	};
 
 	uploader.on( 'all', function( type ) {
@@ -399,12 +413,17 @@ jQuery(function() {
 			case 'stopUpload':
 				setState( 'paused' );
 				break;
-
 		}
 	});
 
 	uploader.onError = function( code ) {
 		alert( 'Eroor: ' + code );
+	};
+
+	uploader.onUploadBeforeSend = function( object, data, headers ) {
+		headers.Authorization = 'UpToken '+token;
+		headers['Content-Type'] = 'text/plain';
+		//console.log(headers);
 	};
 
 	$upload.on('click', function() {

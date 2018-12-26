@@ -262,6 +262,11 @@ Page.prototype.request = function(assignFn, callback)
 		}
 		if ( 'undefined'!=typeof(STATUS_FAILURE) && undefined!=data.status && STATUS_FAILURE==data.status )
 		{
+			if ( undefined!=data.redirect )
+			{
+				window.location.href = data.redirect;
+				return;
+			}
 			return;
 		}
 
@@ -346,6 +351,11 @@ Page.prototype.loading = function(assignFn, callback)
 		}
 		if ( 'undefined'!=typeof(STATUS_FAILURE) && undefined!=data.status && STATUS_FAILURE==data.status )
 		{
+			if ( undefined!=data.redirect )
+			{
+				window.location.href = data.redirect;
+				return;
+			}
 			return;
 		}
 

@@ -68,7 +68,7 @@ function ajaxLogin(formId, fn)
                 }
 				if ( 'function' == typeof setCookie )
 				{
-					setCookie('NJSESSID', data.NJSESSID);
+					setCookie('NJSESSID', data.NJSESSID, 0, '/', data.domain);
 				}
 
 				var expire = 20*60;
@@ -80,7 +80,10 @@ function ajaxLogin(formId, fn)
 					var flagN = 0;
 					for ( var i=0; i<SHARE_DOMAIN.length; i++ )
 					{
-						$.getScript(SHARE_DOMAIN[i]+'?NJSESSID='+data.NJSESSID+'&newWebsiteUser='+data.loginname+'&xtype='+data.xtype, function(){
+						$.getScript(SHARE_DOMAIN[i] +
+							'?NJSESSID='+data.NJSESSID+'&newWebsiteUser='+data.loginname+'&xtype='+data.xtype +
+							'&saveAuthid='+getCookie('saveAuthid')+'&autoLoginStatus='+getCookie('autoLoginStatus') +
+							'&autoLoginTime='+getCookie('autoLoginTime'), function(){
 							if ( ++flagN>=SHARE_DOMAIN.length )
 							{
 								if ( 'no-jump'!==data.redirect )

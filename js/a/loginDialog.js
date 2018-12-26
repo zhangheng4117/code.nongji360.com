@@ -183,6 +183,11 @@ function ajaxLoginDialog(fn)
 		'processData':true,
 		'type':'get',
 		'success':function(data){
+			if ( undefined==data.status )
+			{
+				alert("系统异常");
+				return false;
+			}
 			if ( 100000==data.status )
 			{
 				alert(undefined!=data.message && ""!=data.message ? data.message : "登录失败");
@@ -205,7 +210,10 @@ function ajaxLoginDialog(fn)
 					var flagN = 0;
 					for ( var i=0; i<SHARE_DOMAIN.length; i++ )
 					{
-						$.getScript(SHARE_DOMAIN[i]+'?NJSESSID='+getCookie('NJSESSID')+'&newWebsiteUser='+authid+'&xtype='+data.xtype, function(){
+						$.getScript(SHARE_DOMAIN[i] +
+							'?NJSESSID='+data.NJSESSID+'&newWebsiteUser='+data.loginname+'&xtype='+data.xtype +
+							'&saveAuthid='+getCookie('saveAuthid')+'&autoLoginStatus='+getCookie('autoLoginStatus') +
+							'&autoLoginTime='+getCookie('autoLoginTime'), function(){
 							if ( ++flagN>=SHARE_DOMAIN.length )
 							{
 								if ( undefined!=$.jqDialog ) $.jqDialog.hide();

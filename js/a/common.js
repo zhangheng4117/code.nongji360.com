@@ -15,6 +15,10 @@ function ajaxCallback(data, formId)
 
 	var message = '';
 	var $field = null;
+	if ( undefined==data.field && undefined!=data.error_type )
+	{
+		data.field = data.error_type;
+	}
 	if ( undefined!=data.field )
 	{
 		if ( undefined==formId )

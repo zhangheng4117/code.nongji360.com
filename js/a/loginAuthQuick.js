@@ -129,7 +129,10 @@ function ajaxLoginQuick(formId, fn)
 					var flagN = 0;
 					for ( var i=0; i<SHARE_DOMAIN.length; i++ )
 					{
-						$.getScript(SHARE_DOMAIN[i]+'?NJSESSID='+data.NJSESSID+'&newWebsiteUser='+data.loginname+'&xtype='+data.xtype, function(){
+						$.getScript(SHARE_DOMAIN[i] +
+							'?NJSESSID='+data.NJSESSID+'&newWebsiteUser='+data.loginname+'&xtype='+data.xtype +
+							'&saveAuthid='+getCookie('saveAuthid')+'&autoLoginStatus='+getCookie('autoLoginStatus') +
+							'&autoLoginTime='+getCookie('autoLoginTime'), function(){
 
 							if ( ++flagN>=SHARE_DOMAIN.length )
 							{
